@@ -9,27 +9,21 @@ public class TorchPuzzle : InteractionParent
     GameObject playerCamera;                // required references
     InteractionManager interactionTarget;
 
-    public float distanceAbove = 0.5f;
+    public float distanceAbove = 0.5f;      // position of the flame about the torch
 
-    public bool initiated;
-    public float timeInitiated;
+    public GameObject correctFlame;         // the correct flame to reference
 
-    public GameObject correctFlame;
-
-    public GameObject puzzleMaster;
+    public GameObject puzzleMaster;         // target master script to communicate with
     BottomFloorPuzzle targetScript;
 
-        // target objects to receive from puzzle master
-    public GameObject amethystTorch;
-    public GameObject dragonsEyeTorch;
-    public GameObject emeraldTorch;
-    public GameObject sapphireTorch;
-    public GameObject topazTorch;
-    public GameObject jasperTorch;
+    /*
+    public float timeActivated = -2;        // flame fizz up mechanic time
+    public float maxTimeActive = 2f;  
+    */
 
-    public float timeActivated = -2;
-    public float maxTimeActive = 2f;
-
+    bool torchActive;                   
+    bool torchInitiated;
+    public float timeInitiated;
 
 
     // Start is called before the first frame update
@@ -41,17 +35,13 @@ public class TorchPuzzle : InteractionParent
         alternateMessage = "I need a flame!";
         defaultMessage = "E - Interact";
 
-        correctFlame.SetActive(false);
+        correctFlame.SetActive(false);              // set the correct flame inactive
 
-        targetScript = puzzleMaster.GetComponent<BottomFloorPuzzle>();
-        /*
-        amethystTorch = targetScript.amethystTorch;
-        dragonsEyeTorch = targetScript.dragonsEyeTorch;
-        emeraldTorch = targetScript.emeraldTorch;
-        sapphireTorch = targetScript.sapphireTorch;
-        topazTorch = targetScript.topazTorch;
-        jasperTorch = targetScript.jasperTorch;
-        */
+        targetScript = puzzleMaster.GetComponent<BottomFloorPuzzle>();      // reference the puzzle master script
+
+        Vector3 current = transform.position;           // calculate the flame position
+        current.y += distanceAbove;
+        correctFlame.transform.position = current;
 
     }
 
@@ -63,42 +53,48 @@ public class TorchPuzzle : InteractionParent
             firstMessage = "E - Light the torch";
             alternateMessage = "Fire!";
         }
-
-        //reset the torch flame
-  //      if(Time.time <)
-
     }
 
-    public override List<int> Activate(List<int> playerItems)
+    public override string Communicate()
     {
+        if(torchActive)
+        {
+            if(interactionTarget.itemIDs.Contains(requiredItemId))
+            {
+                gameObject.layer = 0;
+            }
+        }
+        return defaultMessage;
+    }
+
+    public override List<int> Activate(List<int> playerItems)   //dedicated to interacting with the object
+    {                                                           // if player contains any flames in the inventory...
         if(playerItems.Contains(1) || playerItems.Contains(2) || playerItems.Contains(3) || playerItems.Contains(4) || playerItems.Contains(5) || playerItems.Contains(6))
         {
-            gameObject.tag = "Undefined";
-            initiated = true;
-            timeInitiated = Time.time;
-
-            if(playerItems.Contains(requiredItemId))
+            if (playerItems.Contains(requiredItemId))    // if player contains the correct flame...
             {
-                Vector3 current = transform.position;
-                current.y += distanceAbove;
-                correctFlame.transform.position = current;
+                torchActive = true;
                 correctFlame.SetActive(true);
             }
-            else
+            else                                                    // otherwise...
             {
-                Vector3 current = transform.position;
+                torchInitiated = true;
+                timeInitiated = Time.time;
+
+                Vector3 current = transform.position;           // calculate the flame position
                 current.y += distanceAbove;
-                GameObject flame = targetScript.currentSelectedFlame;
+                GameObject flame = targetScript.currentSelectedFlame;       // reference the correct temporary flame
                 flame.transform.position = current;
-                flame.SetActive(true);
-                timeActivated = Time.time;
+                flame.SetActive(true);                                      // set active
+                
             }
 
         }
         else
-        {
-            defaultMessage = alternateMessage;
+        {                               // when no flames in inventory
+            defaultMessage = alternateMessage;     // set the UI message
         }
+
         return playerItems;
     }
 

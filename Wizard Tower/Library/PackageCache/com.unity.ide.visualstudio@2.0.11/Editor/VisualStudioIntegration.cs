@@ -146,7 +146,7 @@ namespace Microsoft.Unity.VisualStudio.Editor
 					&& Version.TryParse(package.versions.latest, out var latestVersion)
 					&& packageVersion < latestVersion)
 				{
-					Debug.LogWarning($"Visual Studio Editor Package version {package.versions.latest} is available, we strongly encourage you to update from the Unity Package Manager for a better Visual Studio integration");
+					//Debug.LogWarning($"Visual Studio Editor Package version {package.versions.latest} is available, we strongly encourage you to update from the Unity Package Manager for a better Visual Studio integration");
 				}
 			}
 

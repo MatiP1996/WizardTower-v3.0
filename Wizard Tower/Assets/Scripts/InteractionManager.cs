@@ -46,7 +46,7 @@ public class InteractionManager : MonoBehaviour
     {
         if (!candleActive)
         {
-            if (itemIDs.Count > 0)            // if so enable candle object
+            if (itemIDs.Contains(0))            // if so enable candle object
             {
                 candleActive = true;
                 playerCandle.SetActive(true);

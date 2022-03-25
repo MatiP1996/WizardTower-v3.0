@@ -31,7 +31,7 @@ public class InteractionParent : MonoBehaviour
         //  CurrentClip = AudioClip;
     }
 
-    public string Communicate()
+    public virtual string Communicate()
     {
         return defaultMessage;
     }

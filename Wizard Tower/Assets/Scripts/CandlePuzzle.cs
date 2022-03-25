@@ -14,10 +14,10 @@ public class CandlePuzzle : InteractionParent
     public GameObject setFlameInactive4;
     public GameObject setFlameInactive5;
 
-    public int itemId;
+    public int itemId;                     // item id of the candle flame (to pass to player inventory)
 
-    public BottomFloorPuzzle puzzleScript;
-    public GameObject temporaryFlame;
+    public BottomFloorPuzzle puzzleScript;     // puzzle master script to reference  
+    public GameObject temporaryFlame;           // flame for player to reference after activation
 
     // Start is called before the first frame update
     void Start()
@@ -29,43 +29,55 @@ public class CandlePuzzle : InteractionParent
         alternateMessage = "This could be useful!";
         defaultMessage = "E - Interact";
 
-        puzzleScript = GameObject.Find("GameMaster").GetComponent<BottomFloorPuzzle>();
+        puzzleScript = GameObject.Find("GameMaster").GetComponent<BottomFloorPuzzle>();     // set the reference
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(interactionTarget.candleActive)
+        if (interactionTarget.itemIDs.Contains(itemId))      // check if player contains the flame of candle  
         {
-            firstMessage = "E - Light the candle";
-            alternateMessage = "";
+            gameObject.layer = 0;                           // switch the layer mask (disable interaction)
         }
+        else
+        {
+            gameObject.layer = 3;                           // otherwise reset layer mask
+
+            if (interactionTarget.candleActive)             // if player has a candle  >>  change the default message
+            {
+                firstMessage = "E - Light the candle";
+            }
+        }
+
     }
 
-    public override List<int> Activate(List<int> playerItems)
+    public override List<int> Activate(List<int> playerItems)       // activate function (overrides the parent class)
     {
-        defaultMessage = alternateMessage;
+        defaultMessage = alternateMessage;                          // change the UI message
 
-        if (interactionTarget.candleActive)
+        if (interactionTarget.candleActive)                         // if player has candle...
         {
-
-            if (playerItems.Contains(1) || playerItems.Contains(2) || playerItems.Contains(3) || playerItems.Contains(4) || playerItems.Contains(5) || playerItems.Contains(6))
+            // if player contains any flames....
+            if (playerItems.Count == 2)
             {
-                playerItems.RemoveAt(1);
+                playerItems.RemoveAt(1);                            // remove the recent flame
+
             }
+ 
+            puzzleScript.SubmitFlame(temporaryFlame);               // pass the temp flame reference
 
-            playerItems.Add(itemId);
-
-            puzzleScript.SubmitFlame(temporaryFlame);
-
-            setFlameActive.SetActive(true);
+            setFlameActive.SetActive(true);                         // reset temp flames in the scene
             setFlameInactive.SetActive(false);
             setFlameInactive2.SetActive(false);
             setFlameInactive3.SetActive(false);
             setFlameInactive4.SetActive(false);
             setFlameInactive5.SetActive(false);
+
+            playerItems.Add(itemId);                            // add a new flame
+
         }
 
         return playerItems;
     }
 }
+
