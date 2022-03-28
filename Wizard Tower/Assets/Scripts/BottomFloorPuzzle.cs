@@ -6,7 +6,7 @@ public class BottomFloorPuzzle : MonoBehaviour
 {
     // amethyst  dragonseye emerald sapphire topaz
     public int counter = 0;
-    public List<string> gems = new List<string> { "amethyst", "dragonseye", "emerald", "sapphire", "topaz", "jasper" };
+    public List<int> gemsOrder = new List<int> {1,2,3,4,5,6};
 
     public bool puzzleAccomplished;
 
@@ -17,6 +17,11 @@ public class BottomFloorPuzzle : MonoBehaviour
     public GameObject sapphireFlame;
     public GameObject topazFlame;
     public GameObject jasperFlame;
+
+    List<GameObject> tempFlames = new List<GameObject>();
+
+  //  public List<GameObject> correctFlames;
+    public List<GameObject> torches;
 
 
     public GameObject playerCamera;                 // reference target camera to get interaction manager script
@@ -33,6 +38,13 @@ public class BottomFloorPuzzle : MonoBehaviour
 
     void Start()
     {
+        tempFlames.Add(amethystFlame);
+        tempFlames.Add(dragonsEyeFlame);
+        tempFlames.Add(emeraldFlame);
+        tempFlames.Add(sapphireFlame);
+        tempFlames.Add(topazFlame);
+        tempFlames.Add(jasperFlame);
+
         playerTargetScript = playerCamera.GetComponent<InteractionManager>();
 
         amethystFlame.SetActive(false);             // set all the temporary flames inactive
@@ -49,5 +61,40 @@ public class BottomFloorPuzzle : MonoBehaviour
       //  currentSelectedFlame.SetActive(false);
         currentSelectedFlame = temporaryFlame;
         //temporaryFlame.SetActive(true);
+    }
+
+    public void SubmitTorch(int itemId)
+    {
+        Debug.Log("submit");
+        
+        if(gemsOrder[counter] == itemId)
+        {
+            Debug.Log(counter);
+            counter += 1;
+            if(counter == 5)
+            {
+                puzzleAccomplished = true;
+            }
+        }
+
+        else
+        {
+            for(int i = 0; i < 6; i++)
+            {
+                Debug.Log(i);
+                //correctFlames[i].SetActive(false);
+                torches[i].GetComponent<TorchPuzzle>().ResetTorch();
+                counter = 0;
+
+            }
+        }
+    }
+
+    public void ResetTempFlames()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            tempFlames[i].SetActive(false);
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TorchPuzzle : InteractionParent
 {
-    public int requiredItemId = 0;      // player candle needed               
+    public int requiredItemId;   // player candle needed               
 
     GameObject playerCamera;                // required references
     InteractionManager interactionTarget;
@@ -18,12 +18,14 @@ public class TorchPuzzle : InteractionParent
 
     /*
     public float timeActivated = -2;        // flame fizz up mechanic time
-    public float maxTimeActive = 2f;  
+      
     */
 
+    public float maxTimeActive = 2f;
     bool torchActive;                   
     bool torchInitiated;
     public float timeInitiated;
+    bool communicateWithMaster;
 
 
     // Start is called before the first frame update
@@ -48,47 +50,72 @@ public class TorchPuzzle : InteractionParent
     // Update is called once per frame
     void Update()
     {
-        if(interactionTarget.flameActive)              // once player candle is available...
+        if (interactionTarget.flameActive)              // once player candle is available...
         {                                                           // alter messages
             firstMessage = "E - Light the torch";
             alternateMessage = "Fire!";
         }
-    }
 
-    public override string Communicate()
-    {
-        if(torchActive)
+        if (!torchActive)                            // while torch is activated  >>  make it unavailable
         {
-            if(interactionTarget.itemIDs.Contains(requiredItemId))
+            gameObject.layer = 3;
+        }
+        else
+        {
+            gameObject.layer = 0;
+
+            if (torchInitiated)
             {
-                gameObject.layer = 0;
+                float currentTime = Time.time;
+                if (currentTime >= timeInitiated + maxTimeActive)
+                {
+                    torchInitiated = false;
+                    Debug.Log("Yo");
+                    if (communicateWithMaster)
+                    {
+                        Debug.Log("Yo1");
+                        targetScript.SubmitTorch(requiredItemId);
+                        communicateWithMaster = false;
+                    }
+                    else
+                    {
+                        Debug.Log("Yo2");
+                        targetScript.ResetTempFlames();
+                        torchActive = false;
+                    }
+                }
             }
         }
-        return defaultMessage;
     }
+
 
     public override List<int> Activate(List<int> playerItems)   //dedicated to interacting with the object
     {                                                           // if player contains any flames in the inventory...
         if(playerItems.Contains(1) || playerItems.Contains(2) || playerItems.Contains(3) || playerItems.Contains(4) || playerItems.Contains(5) || playerItems.Contains(6))
         {
+            torchActive = true;
+            timeInitiated = Time.time;
+            torchInitiated = true;
+
             if (playerItems.Contains(requiredItemId))    // if player contains the correct flame...
             {
-                torchActive = true;
+                
                 correctFlame.SetActive(true);
+                communicateWithMaster = true;
+
+                
             }
             else                                                    // otherwise...
             {
-                torchInitiated = true;
+            //    torchInitiated = true;
                 timeInitiated = Time.time;
 
                 Vector3 current = transform.position;           // calculate the flame position
                 current.y += distanceAbove;
                 GameObject flame = targetScript.currentSelectedFlame;       // reference the correct temporary flame
                 flame.transform.position = current;
-                flame.SetActive(true);                                      // set active
-                
+                flame.SetActive(true);                                      // set active            
             }
-
         }
         else
         {                               // when no flames in inventory
@@ -98,5 +125,9 @@ public class TorchPuzzle : InteractionParent
         return playerItems;
     }
 
-
+    public void ResetTorch()
+    {
+        torchActive = false;
+        correctFlame.SetActive(false);
+    }
 }

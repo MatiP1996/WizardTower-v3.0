@@ -2229,12 +2229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counter: 0
-  gems:
-  - amethyst
-  - dragonseye
-  - emerald
-  - sapphire
-  - topaz
+  gemsOrder: 010000000200000003000000040000000500000006000000
   puzzleAccomplished: 0
   amethystFlame: {fileID: 1330466129}
   dragonsEyeFlame: {fileID: 136100757}
@@ -2242,6 +2237,13 @@ MonoBehaviour:
   sapphireFlame: {fileID: 378171049}
   topazFlame: {fileID: 615275782}
   jasperFlame: {fileID: 661651156}
+  torches:
+  - {fileID: 222013808}
+  - {fileID: 709140135}
+  - {fileID: 494159126}
+  - {fileID: 1453669487}
+  - {fileID: 1607120916}
+  - {fileID: 1344786912}
   playerCamera: {fileID: 981106723}
   currentSelectedFlame: {fileID: 0}
 --- !u!4 &784542801
