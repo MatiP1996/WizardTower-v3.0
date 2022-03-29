@@ -41,9 +41,7 @@ public class TorchPuzzle : InteractionParent
 
         targetScript = puzzleMaster.GetComponent<BottomFloorPuzzle>();      // reference the puzzle master script
 
-        Vector3 current = transform.position;           // calculate the flame position
-        current.y += distanceAbove;
-        correctFlame.transform.position = current;
+
 
     }
 
@@ -91,7 +89,7 @@ public class TorchPuzzle : InteractionParent
 
     public override List<int> Activate(List<int> playerItems)   //dedicated to interacting with the object
     {                                                           // if player contains any flames in the inventory...
-        if(playerItems.Contains(1) || playerItems.Contains(2) || playerItems.Contains(3) || playerItems.Contains(4) || playerItems.Contains(5) || playerItems.Contains(6))
+        if(playerItems.Contains(0) || playerItems.Contains(1) || playerItems.Contains(2) || playerItems.Contains(3) || playerItems.Contains(4) || playerItems.Contains(5))
         {
             torchActive = true;
             timeInitiated = Time.time;
@@ -99,7 +97,11 @@ public class TorchPuzzle : InteractionParent
 
             if (playerItems.Contains(requiredItemId))    // if player contains the correct flame...
             {
-                
+
+                Vector3 current = transform.position;           // calculate the flame position
+                current.y += distanceAbove;
+                correctFlame.transform.position = current;
+
                 correctFlame.SetActive(true);
                 communicateWithMaster = true;
 
