@@ -35,20 +35,18 @@ public class CandlePuzzle : InteractionParent
     // Update is called once per frame
     void Update()
     {
-        if (interactionTarget.itemIDs.Contains(itemId))      // check if player contains the flame of candle  
+        if(interactionTarget.itemIDs.Contains(itemId))
         {
             gameObject.layer = 0;                           // switch the layer mask (disable interaction)
         }
         else
         {
             gameObject.layer = 3;                           // otherwise reset layer mask
-
-            if (interactionTarget.candleActive)             // if player has a candle  >>  change the default message
+            if (interactionTarget.itemIDs.Contains(-1))
             {
-                firstMessage = "E - Light the candle";
+                defaultMessage = "E - Light the candle";
             }
         }
-
     }
 
     public override List<int> Activate(List<int> playerItems)       // activate function (overrides the parent class)

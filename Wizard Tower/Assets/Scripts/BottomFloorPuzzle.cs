@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class BottomFloorPuzzle : MonoBehaviour
 {
-    // amethyst  dragonseye emerald sapphire topaz
-    // Amethyst - Dragon's Eye - Emerald - Jasper - Sapphire - Topaz
     public int counter = 0;
-    public List<int> gemsOrder = new List<int> { 1, 2, 3, 4, 5, 6 };
-    public List<string> riddleSentences = new List<string> { "Lavender Amethyst", "Chocolate Dragons Eye", "Grass Emerald", "Strawberry Jasper", "Ocean Sapphire", "Lemon Topaz" };
+    public List<int> gemsOrder = new List<int> { 1, 2, 3, 4, 5, 6 };        // gem ids list             //  riddle text list
+    public List<string> riddleSentences = new List<string> { "Lavender Amethyst", "Chocolate Dragons Eye", "Grass Emerald", "Strawberry Jasper", "Ocean Sapphire", "Lemon Topaz" };  
     
-    public GameObject targetNote;
+    public GameObject targetNote;           // note to contain the riddle
 
-
-    public bool puzzleAccomplished;
+    public bool puzzleAccomplished;         // boolean whether puzzle has been finished
 
 
     public GameObject amethystFlame;            // reference all the temporary flames
@@ -23,14 +20,12 @@ public class BottomFloorPuzzle : MonoBehaviour
     public GameObject topazFlame;
     public GameObject jasperFlame;
 
-    List<GameObject> tempFlames = new List<GameObject>();
-
-    //  public List<GameObject> correctFlames;
+    List<GameObject> tempFlames = new List<GameObject>();       // list of all temporary flames
     public List<GameObject> torches;
 
 
     public GameObject playerCamera;                 // reference target camera to get interaction manager script
-  //  InteractionManager playerTargetScript;
+
 
     public GameObject currentSelectedFlame;                 // to reference current temporary flame#
 
@@ -39,70 +34,54 @@ public class BottomFloorPuzzle : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     void Start()
-    {
-        ShuffleCandleLocations(candleLocations);
+    {               // randomization of the puzzle...
         ShuffleTorchLocations(torchLocations);
+        ShuffleCandleLocations(candleLocations);            
         RandomizeRiddle(riddleSentences, gemsOrder);
 
-        tempFlames.Add(amethystFlame);
+        tempFlames.Add(amethystFlame);              // prepare temporary flames the list  >>  append all items
         tempFlames.Add(dragonsEyeFlame);
         tempFlames.Add(emeraldFlame);
         tempFlames.Add(sapphireFlame);
         tempFlames.Add(topazFlame);
         tempFlames.Add(jasperFlame);
 
-        amethystFlame.SetActive(false);             // set all the temporary flames inactive
-        dragonsEyeFlame.SetActive(false);
-        emeraldFlame.SetActive(false);
-        sapphireFlame.SetActive(false);
-        topazFlame.SetActive(false);
-        jasperFlame.SetActive(false);
+        ResetTempFlames();          // set all the temporary flames inactive
+
     }
 
-    public void SubmitFlame(GameObject temporaryFlame)
+    public void SubmitFlame(GameObject temporaryFlame)          
     {
-
-        //  currentSelectedFlame.SetActive(false);
         currentSelectedFlame = temporaryFlame;
-        //temporaryFlame.SetActive(true);
     }
 
-    public void SubmitTorch(int itemId)
+    public void SubmitTorch(int itemId)         // function to let activated torches pass the flame id
     {
-        Debug.Log("submit");
 
-        if (gemsOrder[counter] == itemId)
+        if (gemsOrder[counter] == itemId)           // if correct flame is activated  >>  proceed to next stage of puzzle...
         {
-            Debug.Log(counter);
-            counter += 1;
-            if (counter == 5)
+            counter += 1;                           // increment
+            if (counter == 5)                       // final increment  >>  puzzle successful
             {
                 puzzleAccomplished = true;
             }
         }
 
-        else
+        else                                      // otherwise  >>  reset the puzzle
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < torches.Count; i++)             // iterate through torches
             {
-                Debug.Log(i);
-                //correctFlames[i].SetActive(false);
-                torches[i].GetComponent<TorchPuzzle>().ResetTorch();
-                counter = 0;
-
+                torches[i].GetComponent<TorchPuzzle>().ResetTorch();   // reset all torches         
             }
+            counter = 0;            // reset the puzzle  >>  set the stage to start
         }
     }
 
-    public void ResetTempFlames()
+    public void ResetTempFlames()                   // setting all temporary flames inactive
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < tempFlames.Count; i++)
         {
             tempFlames[i].SetActive(false);
         }
@@ -154,11 +133,11 @@ public class BottomFloorPuzzle : MonoBehaviour
 
     void RandomizeRiddle(List<string> riddleText, List<int> gemsOrder)
     {
-        int randomNum;
-        int tempId;
+        int randomNum;                      // number to generate
+        int tempId;                         // temporary placeholders...
         string tempText;
 
-        for(int i = 0; i < gemsOrder.Count; i++)
+        for(int i = 0; i < gemsOrder.Count; i++)                // loop to iterate through gemsOrder list
         {
             randomNum = Random.Range(0, gemsOrder.Count);                 // generate number
 
@@ -166,26 +145,26 @@ public class BottomFloorPuzzle : MonoBehaviour
             gemsOrder[randomNum] = gemsOrder[i];
             gemsOrder[i] = tempId;
 
-            tempText = riddleText[randomNum];
+            tempText = riddleText[randomNum];               // shuffle text order
             riddleText[randomNum] = riddleText[i];
             riddleText[i] = tempText;
 
         }
 
-        string finalString = "";
+        string finalString = "";                        // string to push to the note
 
-        for(int i = 0; i < riddleText.Count; i++)
+        for(int i = 0; i < riddleText.Count; i++)               // loop to iterate through the riddle string list
         {
-            finalString += riddleText[i];
+            finalString += riddleText[i];                       // append riddle text
 
-            if(i == riddleText.Count-1)
+            if(i == riddleText.Count-1)                     // final iteration...
             {
-                InteractionParent targetScript = targetNote.GetComponent<InteractionParent>();
+                InteractionParent targetScript = targetNote.GetComponent<InteractionParent>();      // access riddle script and push the string
                 targetScript.alternateMessage = finalString;
             }
             else
             {
-                finalString += "\n";
+                finalString += "\n";                    // finalise the line of the string
             }
         }
     }

@@ -16,16 +16,13 @@ public class TorchPuzzle : InteractionParent
     public GameObject puzzleMaster;         // target master script to communicate with
     BottomFloorPuzzle targetScript;
 
-    /*
-    public float timeActivated = -2;        // flame fizz up mechanic time
-      
-    */
 
-    public float maxTimeActive = 2f;
+    public float maxTimeActive = 2f;        // resetting, timer and puzzle master communication purposes...
     bool torchActive;                   
     bool torchInitiated;
     public float timeInitiated;
     bool communicateWithMaster;
+    GameObject tempFlame;
 
 
     // Start is called before the first frame update
@@ -54,31 +51,28 @@ public class TorchPuzzle : InteractionParent
             alternateMessage = "Fire!";
         }
 
-        if (!torchActive)                            // while torch is activated  >>  make it unavailable
+        if (!torchActive)                            // while torch is activated  >>  make it available
         {
             gameObject.layer = 3;
         }
-        else
+        else                                        // otherwise available...
         {
             gameObject.layer = 0;
 
-            if (torchInitiated)
+            if (torchInitiated)                     // once initiated  >>  monitor the time
             {
                 float currentTime = Time.time;
-                if (currentTime >= timeInitiated + maxTimeActive)
+                if (currentTime >= timeInitiated + maxTimeActive)       // past the timer...
                 {
-                    torchInitiated = false;
-                    Debug.Log("Yo");
-                    if (communicateWithMaster)
+                    torchInitiated = false;                             // initiation complete...
+                    if (communicateWithMaster)                          // correct flame id
                     {
-                        Debug.Log("Yo1");
-                        targetScript.SubmitTorch(requiredItemId);
+                        targetScript.SubmitTorch(requiredItemId);      
                         communicateWithMaster = false;
                     }
-                    else
+                    else                                               // incorrect flame id
                     {
-                        Debug.Log("Yo2");
-                        targetScript.ResetTempFlames();
+                        tempFlame.SetActive(false);
                         torchActive = false;
                     }
                 }
@@ -109,14 +103,12 @@ public class TorchPuzzle : InteractionParent
             }
             else                                                    // otherwise...
             {
-            //    torchInitiated = true;
-                timeInitiated = Time.time;
-
+                timeInitiated = Time.time;                      // timer
                 Vector3 current = transform.position;           // calculate the flame position
                 current.y += distanceAbove;
-                GameObject flame = targetScript.currentSelectedFlame;       // reference the correct temporary flame
-                flame.transform.position = current;
-                flame.SetActive(true);                                      // set active            
+                tempFlame = targetScript.currentSelectedFlame;       // reference the temporary flame
+                tempFlame.transform.position = current;                         // place at coordinates
+                tempFlame.SetActive(true);                                      // make visible          
             }
         }
         else
@@ -127,7 +119,7 @@ public class TorchPuzzle : InteractionParent
         return playerItems;
     }
 
-    public void ResetTorch()
+    public void ResetTorch()            
     {
         torchActive = false;
         correctFlame.SetActive(false);

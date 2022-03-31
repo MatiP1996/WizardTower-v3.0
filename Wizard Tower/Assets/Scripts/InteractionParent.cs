@@ -11,24 +11,14 @@ public class InteractionParent : MonoBehaviour
     public string firstMessage = "E - Interact";
     public string alternateMessage = "Hello!";
 
-
-  //  public GameObject player;
-    //public AudioSource AudioSource;
-
-  //  public AudioClip CurrentClip;
-  //  public AudioClip AudioClip;
-  //  public AudioClip AlternativeClip;
-
+    public AudioClip defaultClip;
+    [HideInInspector]
+    public AudioSource source;
 
     void Start()
     {
         defaultMessage = firstMessage;
-   //     Debug.Log("Parent");
-
-        //   player = GameObject.Find("Player");
-        //    AudioSource = Player.GetComponent<AudioSource>();
-
-        //  CurrentClip = AudioClip;
+        source = gameObject.GetComponent<AudioSource>();
     }
 
     public virtual string Communicate()
@@ -38,10 +28,8 @@ public class InteractionParent : MonoBehaviour
 
     public virtual List<int> Activate(List<int> playerItems)
     {
+        source.PlayOneShot(defaultClip);
         defaultMessage = alternateMessage;
-      //  AudioSource.PlayOneShot(currentClip);
-        //currentClip = alternativeClip;
-
         return playerItems;
     }
 
