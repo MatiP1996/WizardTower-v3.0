@@ -19,6 +19,9 @@ public class CandlePuzzle : InteractionParent
     public BottomFloorPuzzle puzzleScript;     // puzzle master script to reference  
     public GameObject temporaryFlame;           // flame for player to reference after activation
 
+    public AudioClip initial;
+    public AudioClip secondary;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,8 +54,6 @@ public class CandlePuzzle : InteractionParent
 
     public override List<int> Activate(List<int> playerItems)       // activate function (overrides the parent class)
     {
-        defaultMessage = alternateMessage;                          // change the UI message
-
         if (interactionTarget.candleActive)                         // if player has candle...
         {
             // if player contains any flames....
@@ -73,6 +74,17 @@ public class CandlePuzzle : InteractionParent
 
             playerItems.Add(itemId);                            // add a new flame
 
+        }
+        else
+        {
+            defaultMessage = alternateMessage;                          // change the UI message
+            if(canActivate)
+            {
+                if (!source.isPlaying)
+                {
+                    source.PlayOneShot(defaultClip);
+                }
+            }
         }
 
         return playerItems;

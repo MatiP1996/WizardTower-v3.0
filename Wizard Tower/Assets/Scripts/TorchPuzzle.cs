@@ -55,7 +55,7 @@ public class TorchPuzzle : InteractionParent
         {
             gameObject.layer = 3;
         }
-        else                                        // otherwise available...
+        else                                        // otherwise unavailable...
         {
             gameObject.layer = 0;
 

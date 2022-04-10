@@ -15,6 +15,8 @@ public class InteractionParent : MonoBehaviour
     [HideInInspector]
     public AudioSource source;
 
+    public bool canActivate = true;
+
     void Start()
     {
         defaultMessage = firstMessage;
@@ -28,14 +30,22 @@ public class InteractionParent : MonoBehaviour
 
     public virtual List<int> Activate(List<int> playerItems)
     {
-        source.PlayOneShot(defaultClip);
-        defaultMessage = alternateMessage;
+        if(canActivate)
+        {
+            canActivate = false;
+            if(!source.isPlaying)
+            {
+                source.PlayOneShot(defaultClip);
+            }
+            defaultMessage = alternateMessage;
+        }
         return playerItems;
     }
 
 
     public virtual void ResetState()
     {
+        canActivate = true;
         defaultMessage = firstMessage;
     }
 
