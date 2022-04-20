@@ -11,13 +11,17 @@ public class PickUpObject : MonoBehaviour
     float originalYAxisRotationOfPickedUpObject;
     float yAxisRotationOfPlayerUponPickup;
     float newYAxisRotationForPickedUpObject;
-    public GameObject wand;
-    public Component wandScript;
+    //public GameObject wand;
+    //public Component wandScript;
+
+
+
+    
 
 
     private void Start()
     {
-        wandScript = wand.GetComponent<WandInnit>(); // gets the script attached to the wand
+        //wandScript = wand.GetComponent<WandInnit>(); // gets the script attached to the wand
     }
 
 
