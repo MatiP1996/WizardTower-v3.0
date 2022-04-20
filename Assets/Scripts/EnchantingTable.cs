@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
+using Random = Unity.Mathematics.Random;
 
 public class EnchantingTable : MonoBehaviour
 {
@@ -20,7 +24,6 @@ public class EnchantingTable : MonoBehaviour
     Vector3 orb2MovePos;
     Vector3 orb3MovePos;
 
-
     public GameObject orb1Light;
     public GameObject orb2Light;
     public GameObject orb3Light;
@@ -39,7 +42,7 @@ public class EnchantingTable : MonoBehaviour
 
     float orbLightMaxintensity = 2;
     float pulseProportionComplete = 0;
-    float pulseLengthSeconds = 0.5f;
+    float pulseLengthSeconds = 0.6f;
     bool lightSequencePLaying = false;
     float lightSequenceTimer = 0;
     bool playerSequenceInputInProgress = false;
@@ -54,6 +57,10 @@ public class EnchantingTable : MonoBehaviour
     
     public AudioSource correctSound;
     public AudioSource incorrectSound;
+    public AudioSource correctPressSound;
+    public AudioSource playSequenceSound;
+    private bool errorJustMade = false;
+    private float errorMadeTimer = 0;
 
     List<string> playerSequenceInputList = new List<string>();
     List<string> correctSequenceList = new List<string>();
@@ -66,29 +73,15 @@ public class EnchantingTable : MonoBehaviour
     float orb2FloatingBobUpAndDownYVal = 0;
     float orb3FloatingBobUpAndDownYVal = 0;
 
-
     public Light enchantmentSuccessfulLight;
     public bool enchantmentLightEvent = false;
     float enchantmentLightEventTimer = 0f;
     float enchantmentLightIntensity = 2f;
 
-
-
-
-
+    
     private void Start()
     {
-        // set the correct sequence
-        correctSequenceList.Add("orb1"); //1
-        correctSequenceList.Add("orb2"); //2
-        correctSequenceList.Add("orb3"); //3
-        correctSequenceList.Add("orb3"); //4
-        correctSequenceList.Add("orb3"); //5
-        correctSequenceList.Add("orb1"); //6
-        correctSequenceList.Add("orb1"); //7
-        correctSequenceList.Add("orb3"); //8
-        correctSequenceList.Add("orb2"); //9
-        correctSequenceList.Add("orb1"); //10
+        SetRandomCorrectSequence();
 
         orb1MovePos = orb1.transform.position;
         orb2MovePos = orb2.transform.position;
@@ -126,6 +119,21 @@ public class EnchantingTable : MonoBehaviour
                 areOrbsMovingDown = true;                
             }
         }
+
+       
+
+        if (errorJustMade == true)
+        {
+            errorMadeTimer += Time.deltaTime;
+
+            if (errorMadeTimer > 1.5f)
+            {
+                errorMadeTimer = 0;
+                errorJustMade = false;
+            }
+        }
+
+
 
         // moves the orbs up and down
         if (areOrbsMovingUp == true)
@@ -180,84 +188,57 @@ public class EnchantingTable : MonoBehaviour
         // play the light sequence 
         if (lightSequencePLaying == true) 
         {
-            lightSequenceTimer += Time.deltaTime;
-
-            if (lightSequenceTimer > +orbMoveTimeSeconds)
+            if (plantOnTable == false)
             {
-                if (lightSequenceTimer < 0.5 + orbMoveTimeSeconds)
+                lightSequencePLaying = false;
+            }
+
+
+            if (areOrbsFloating == true && errorJustMade == false)
+            {
+                lightSequenceTimer += Time.deltaTime;
+
+                if (lightSequenceTimer < pulseLengthSeconds * 1)
                 {
-                    if (isOrb1Pulsing == false)
-                    {
-                        isOrb1Pulsing = true;
-                    }
+                   PulseOrbAtCorrectSequenceIndex(0);
                 }
-                else if (lightSequenceTimer < 1 + orbMoveTimeSeconds)
+                else if (lightSequenceTimer < pulseLengthSeconds * 2)
                 {
-                    if (isOrb2Pulsing == false)
-                    {
-                        isOrb2Pulsing = true;
-                    }
+                    PulseOrbAtCorrectSequenceIndex(1);
                 }
-                else if (lightSequenceTimer < 1.5f + orbMoveTimeSeconds)
+                else if (lightSequenceTimer < pulseLengthSeconds * 3)
                 {
-                    if (isOrb3Pulsing == false)
-                    {
-                        isOrb3Pulsing = true;
-                    }
+                    PulseOrbAtCorrectSequenceIndex(2);
                 }
-                else if (lightSequenceTimer < 2f + orbMoveTimeSeconds)
+                else if (lightSequenceTimer < pulseLengthSeconds * 4)
                 {
-                    if (isOrb3Pulsing == false)
-                    {
-                        isOrb3Pulsing = true;
-                    }
+                    PulseOrbAtCorrectSequenceIndex(3);
                 }
-                else if (lightSequenceTimer < 2.5f + orbMoveTimeSeconds)
+                else if (lightSequenceTimer < pulseLengthSeconds * 5)
                 {
-                    if (isOrb3Pulsing == false)
-                    {
-                        isOrb3Pulsing = true;
-                    }
+                    PulseOrbAtCorrectSequenceIndex(4);
                 }
-                else if (lightSequenceTimer < 3f + orbMoveTimeSeconds)
+                else if (lightSequenceTimer < pulseLengthSeconds * 6)
                 {
-                    if (isOrb1Pulsing == false)
-                    {
-                        isOrb1Pulsing = true;
-                    }
+                    PulseOrbAtCorrectSequenceIndex(5);
                 }
-                else if (lightSequenceTimer < 3.5f + orbMoveTimeSeconds)
+                else if (lightSequenceTimer < pulseLengthSeconds * 7)
                 {
-                    if (isOrb1Pulsing == false)
-                    {
-                        isOrb1Pulsing = true;
-                    }
+                    PulseOrbAtCorrectSequenceIndex(6);
                 }
-                else if (lightSequenceTimer < 4f + orbMoveTimeSeconds)
+                else if (lightSequenceTimer < pulseLengthSeconds * 8)
                 {
-                    if (isOrb3Pulsing == false)
-                    {
-                        isOrb3Pulsing = true;
-                    }
+                    PulseOrbAtCorrectSequenceIndex(7);
                 }
-                else if (lightSequenceTimer < 4.5f + orbMoveTimeSeconds)
-                {
-                    if (isOrb2Pulsing == false)
-                    {
-                        isOrb2Pulsing = true;
-                    }
-                }
-                else if (lightSequenceTimer < 5f + orbMoveTimeSeconds)
-                {
-                    if (isOrb1Pulsing == false)
-                    {
-                        isOrb1Pulsing = true;
-                    }
-                }
-                else if (lightSequenceTimer < 5.5f + orbMoveTimeSeconds)
+                else if (lightSequenceTimer < pulseLengthSeconds * 9)
                 {
                     lightSequencePLaying = false;
+                    lightSequenceTimer = 0;
                 }
+            }
+            else
+            {
+                lightSequenceTimer = 0;
             }
         }
 
@@ -346,7 +327,7 @@ public class EnchantingTable : MonoBehaviour
             {
                 if (CameraRaycast.currentHitInteractable == orb1) // if looking at orb1
                 {
-                    if (playerSequenceInputInProgress == false)
+                    if (playerSequenceInputInProgress == false) // set the player sequence input to true
                     {
                         playerSequenceInputInProgress = true;
                     }
@@ -358,13 +339,25 @@ public class EnchantingTable : MonoBehaviour
                     if (playerSequenceInputList[playerSequenceInputListCount-1] != correctSequenceList[playerSequenceInputListCount-1]) // if last player input is incorrect, rest player sequence and play "incorrect" sound
                     {
                         ResetPlayerSequenceInput();
+                        SetRandomCorrectSequence();
+                        errorJustMade = true;
+                        lightSequencePLaying = true;
                     }
                     else if (plantOnTable == false) // if plant not on table reset player sequence, and play "incorrect" sound 
                     {
                         ResetPlayerSequenceInput();
+                        SetRandomCorrectSequence();
+                        errorJustMade = true;
+                        lightSequencePLaying = true;
+                    }
+                    else
+                    {
+                        correctPressSound.pitch = 1 + 0.05f * playerSequenceInputListCount;
+                        correctPressSound.Play();
                     }
 
                     isOrb1Pulsing = true;
+                    orb1PulsingTimer = 0;
                     playerSequenceInputTimer = 0;
                     IsSequenceCorrect();
                 }
@@ -381,14 +374,26 @@ public class EnchantingTable : MonoBehaviour
 
                     if (playerSequenceInputList[playerSequenceInputListCount - 1] != correctSequenceList[playerSequenceInputListCount - 1]) // if last player input is incorrect, rest player sequence and play "incorrect" sound
                     {
+                        SetRandomCorrectSequence();
                         ResetPlayerSequenceInput();
+                        errorJustMade = true;
+                        lightSequencePLaying = true;
                     }
                     else if (plantOnTable == false) // if plant not on table reset player sequence, and play "incorrect" sound 
                     {
+                        SetRandomCorrectSequence();
                         ResetPlayerSequenceInput();
+                        errorJustMade = true;
+                        lightSequencePLaying = true;
+                    }
+                    else
+                    {
+                        correctPressSound.pitch = 1 + 0.05f * playerSequenceInputListCount;
+                        correctPressSound.Play();
                     }
 
                     isOrb2Pulsing = true;
+                    orb2PulsingTimer = 0;
                     playerSequenceInputTimer = 0;
                     IsSequenceCorrect();
                 }
@@ -405,14 +410,26 @@ public class EnchantingTable : MonoBehaviour
 
                     if (playerSequenceInputList[playerSequenceInputListCount - 1] != correctSequenceList[playerSequenceInputListCount - 1]) // if last player input is incorrect, rest player sequence and play "incorrect" sound
                     {
+                        SetRandomCorrectSequence();
                         ResetPlayerSequenceInput();
+                        errorJustMade = true;
+                        lightSequencePLaying = true;
                     }
                     else if (plantOnTable == false) // if plant not on table reset player sequence, and play "incorrect" sound 
                     {
+                        SetRandomCorrectSequence();
                         ResetPlayerSequenceInput();
+                        errorJustMade = true;
+                        lightSequencePLaying = true;
+                    }
+                    else
+                    {
+                        correctPressSound.pitch = 1 + 0.05f * playerSequenceInputListCount;
+                        correctPressSound.Play();
                     }
 
                     isOrb3Pulsing = true;
+                    orb3PulsingTimer = 0;
                     playerSequenceInputTimer = 0;
                     IsSequenceCorrect();
                 }
@@ -455,6 +472,7 @@ public class EnchantingTable : MonoBehaviour
             if (plantOnTable == false)
             {
                 ResetValuesToDefault();   
+                SetRandomCorrectSequence();
                 lightSequencePLaying = true;
                 lightSequenceTimer = 0;
                 thePlantOnTheTable = other.gameObject.transform.parent.gameObject;
@@ -476,6 +494,7 @@ public class EnchantingTable : MonoBehaviour
                 ResetValuesToDefault();
                 plantOnTable = false;
                 thePlantOnTheTable = null;
+                errorJustMade = true;
             }            
         }
     }
@@ -516,6 +535,7 @@ public class EnchantingTable : MonoBehaviour
         playerSequenceInputInProgress = false;
         playerSequenceInputTimer = 0;
         incorrectSound.Play();
+        //SetRandomCorrectSequence();
     }
 
 
@@ -532,11 +552,107 @@ public class EnchantingTable : MonoBehaviour
 
             if (plantOnTable == true && thePlantOnTheTable)
             {
+                SetRandomCorrectSequence();
                 thePlantOnTheTable.GetComponent<ParticleSystem>().Play();
                 enchantmentLightEvent = true;
                 thePlantOnTheTable.GetComponent<PlantScript>().isPlantEnchanted = true;
             }
         }        
     }
+
+    private void SetRandomCorrectSequence()
+    {
+        bool sequenceSetCorrectly = false;
+
+        
+
+        System.Random random = new System.Random();
+
+        while (sequenceSetCorrectly == false)
+        {
+            correctSequenceList.Clear();
+
+            for (int i = 0; i < 8; i++)
+            {
+                int randomInt = random.Next(1, 4);
+
+
+                if (randomInt == 1)
+                {
+                    correctSequenceList.Add("orb1");
+                }
+                else if (randomInt == 2)
+                {
+                    correctSequenceList.Add("orb2");
+                }
+                else
+                {
+                    correctSequenceList.Add("orb3");
+                }
+            }
+
+            bool containsOrb1 = false;
+            bool containsOrb2 = false;
+            bool containsOrb3 = false;
+
+            for (int i = 0; i < 8; i++)
+            {
+                if (correctSequenceList[i] == "orb1")
+                {
+                    containsOrb1 = true;
+                }
+
+                if (correctSequenceList[i] == "orb2")
+                {
+                    containsOrb2 = true;
+                }
+
+                if (correctSequenceList[i] == "orb3")
+                {
+                    containsOrb3 = true;
+                }
+            }
+
+
+            if (containsOrb1 == true && containsOrb2 == true && containsOrb3 == true)
+            {
+                sequenceSetCorrectly = true;
+            }
+        }
+    }
+
+
+    private void PulseOrbAtCorrectSequenceIndex(int sequenceIndex)
+    {
+        if (correctSequenceList[sequenceIndex] == "orb1")
+        {
+            if (isOrb1Pulsing == false)
+            {
+                isOrb1Pulsing = true;
+                playSequenceSound.pitch = 1 + 0.05f * sequenceIndex;
+                playSequenceSound.Play();
+            }
+        }
+        else if (correctSequenceList[sequenceIndex] == "orb2")
+        {
+            if (isOrb2Pulsing == false)
+            {
+                isOrb2Pulsing = true;
+                playSequenceSound.pitch = 1 + 0.05f * sequenceIndex;
+                playSequenceSound.Play();
+            }
+        }
+        else
+        {
+            if (isOrb3Pulsing == false)
+            {
+                isOrb3Pulsing = true;
+                playSequenceSound.pitch = 1 + 0.05f * sequenceIndex;
+                playSequenceSound.Play();
+            }
+        }
+    }
+
+
 }
 

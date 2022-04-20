@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickUpObject : MonoBehaviour
 {
-    bool isAnItemCurrentlyPickedUp = false;
+    public static bool isAnItemCurrentlyPickedUp = false;
     GameObject itemCurrentlyPickedUp;
 
     Vector3 locationToMovePickedUpItemTo;
@@ -29,37 +29,12 @@ public class PickUpObject : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0)) /// WHEN LMB IS PRESSED AND THE PLAYER IS LOOKING AT SOMETHING THAT CAN BE PICKED UP, SET THE OBJECT AS PICKED UP
+        if (Input.GetKeyDown(KeyCode.E)) /// WHEN LMB IS PRESSED AND THE PLAYER IS LOOKING AT SOMETHING THAT CAN BE PICKED UP, SET THE OBJECT AS PICKED UP
         {
-            if (isAnItemCurrentlyPickedUp == false)
-            {
-                if (CameraRaycast.currentHitInteractable != null) // if player is currently looking at an interactable
-                {
-                    itemCurrentlyPickedUp = CameraRaycast.currentHitInteractable;
-                    itemCurrentlyPickedUp.GetComponent<Rigidbody>().isKinematic = true;
-                    isAnItemCurrentlyPickedUp = true;
-                    originalYAxisRotationOfPickedUpObject = itemCurrentlyPickedUp.transform.rotation.y;
-                    yAxisRotationOfPlayerUponPickup = gameObject.transform.rotation.eulerAngles.y;
-
-                    if (itemCurrentlyPickedUp.tag == "Wand")
-                    {
-                        WandInnit.isPickedUp = true;
-                    }
-                }
-            }
-            else
-            {
-                if (itemCurrentlyPickedUp.tag == "Wand")
-                {
-                    WandInnit.isPickedUp = false;
-                }
-
-                itemCurrentlyPickedUp.GetComponent<Rigidbody>().isKinematic = false;
-                isAnItemCurrentlyPickedUp = false;
-                itemCurrentlyPickedUp = null;                
-            }            
+            PickUp();
         }        
     }
+
     private void FixedUpdate()
     {
         if (isAnItemCurrentlyPickedUp == true) /// IF AN ITEM IS CURRENTLY PICKED UP, UPDATE ITS LOCATION AND ROTATION IN FRONT OF THE PLAYER
@@ -83,4 +58,40 @@ public class PickUpObject : MonoBehaviour
             }
         }
     }
+
+    public void PickUp()
+    {
+        if (isAnItemCurrentlyPickedUp == false)
+        {
+            if (CameraRaycast.currentHitInteractable != null) // if player is currently looking at an interactable
+            {
+                if (CameraRaycast.currentHitInteractable.GetComponent<Rigidbody>()) // if the interactable has a rigidbody
+                {
+                    itemCurrentlyPickedUp = CameraRaycast.currentHitInteractable;
+                    itemCurrentlyPickedUp.GetComponent<Rigidbody>().isKinematic = true;
+                    isAnItemCurrentlyPickedUp = true;
+                    originalYAxisRotationOfPickedUpObject = itemCurrentlyPickedUp.transform.rotation.y;
+                    yAxisRotationOfPlayerUponPickup = gameObject.transform.rotation.eulerAngles.y;
+
+                    if (itemCurrentlyPickedUp.tag == "Wand")
+                    {
+                        WandInnit.isPickedUp = true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (itemCurrentlyPickedUp.tag == "Wand")
+            {
+                WandInnit.isPickedUp = false;
+            }
+
+            itemCurrentlyPickedUp.GetComponent<Rigidbody>().isKinematic = false;
+            isAnItemCurrentlyPickedUp = false;
+            itemCurrentlyPickedUp = null;
+        }
+    }
+
+
 }
