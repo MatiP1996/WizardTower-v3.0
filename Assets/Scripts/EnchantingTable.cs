@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using Random = Unity.Mathematics.Random;
@@ -78,7 +79,6 @@ public class EnchantingTable : MonoBehaviour
     float enchantmentLightEventTimer = 0f;
     float enchantmentLightIntensity = 2f;
 
-    
     private void Start()
     {
         SetRandomCorrectSequence();
@@ -88,9 +88,9 @@ public class EnchantingTable : MonoBehaviour
         orb3MovePos = orb3.transform.position;
     }
 
-
     void Update()
     {
+        // move orbs up and down over time to make them look like they are floating
         if (areOrbsFloating == true)
         {
             floatingBobUpAndDownTimer += Time.deltaTime;
@@ -104,7 +104,7 @@ public class EnchantingTable : MonoBehaviour
             orb3.transform.Translate(new Vector3(0, orb3FloatingBobUpAndDownYVal, 0));
         }
 
-        // if there's a plant on table, set the orbs to float above the enchanting table
+        // if there's a plant on table, set the orbs to float above the enchanting table. Else, set the orbs to move down
         if (plantOnTable == true)
         {
             if (areOrbsFloating == false)
@@ -120,9 +120,8 @@ public class EnchantingTable : MonoBehaviour
             }
         }
 
-       
-
-        if (errorJustMade == true)
+        // if an error just made by player, set a short timer to stop the new sequence being played immediately after
+        if (errorJustMade == true) 
         {
             errorMadeTimer += Time.deltaTime;
 
@@ -132,9 +131,7 @@ public class EnchantingTable : MonoBehaviour
                 errorJustMade = false;
             }
         }
-
-
-
+        
         // moves the orbs up and down
         if (areOrbsMovingUp == true)
         {
@@ -192,7 +189,6 @@ public class EnchantingTable : MonoBehaviour
             {
                 lightSequencePLaying = false;
             }
-
 
             if (areOrbsFloating == true && errorJustMade == false)
             {
@@ -350,7 +346,7 @@ public class EnchantingTable : MonoBehaviour
                         errorJustMade = true;
                         lightSequencePLaying = true;
                     }
-                    else
+                    else // player input is correct and plant is on table
                     {
                         correctPressSound.pitch = 1 + 0.05f * playerSequenceInputListCount;
                         correctPressSound.Play();
@@ -386,7 +382,7 @@ public class EnchantingTable : MonoBehaviour
                         errorJustMade = true;
                         lightSequencePLaying = true;
                     }
-                    else
+                    else // player input is correct and plant is on table
                     {
                         correctPressSound.pitch = 1 + 0.05f * playerSequenceInputListCount;
                         correctPressSound.Play();
@@ -422,7 +418,7 @@ public class EnchantingTable : MonoBehaviour
                         errorJustMade = true;
                         lightSequencePLaying = true;
                     }
-                    else
+                    else // player input is correct and plant is on table
                     {
                         correctPressSound.pitch = 1 + 0.05f * playerSequenceInputListCount;
                         correctPressSound.Play();
@@ -443,10 +439,14 @@ public class EnchantingTable : MonoBehaviour
 
             if (playerSequenceInputTimer > 2) // if player hasn't made an input in 2 seconds, reset the input
             {
+                lightSequencePLaying = true;
+                errorJustMade = true;
                 ResetPlayerSequenceInput();
+                SetRandomCorrectSequence();
             }
         }
 
+        // on sequence correct, play enchantment light event
         if (enchantmentLightEvent == true)
         {
             enchantmentLightEventTimer += Time.deltaTime/2.2f;
@@ -462,8 +462,7 @@ public class EnchantingTable : MonoBehaviour
             }
         }
     }
-
-
+    
     // on plant enter the trigger collider
     private void OnTriggerEnter(Collider other)
     {
@@ -480,8 +479,7 @@ public class EnchantingTable : MonoBehaviour
             }            
         }
     }
-
-
+    
     // on plant exit the trigger collider
     private void OnTriggerExit(Collider other)
     {
@@ -498,8 +496,7 @@ public class EnchantingTable : MonoBehaviour
             }            
         }
     }
-
-
+    
     // resets the orb values to default
     void ResetValuesToDefault()
     {
@@ -535,10 +532,8 @@ public class EnchantingTable : MonoBehaviour
         playerSequenceInputInProgress = false;
         playerSequenceInputTimer = 0;
         incorrectSound.Play();
-        //SetRandomCorrectSequence();
     }
-
-
+    
     // checks to see if sequence is correct, if so commence sequence correct functionality
     private void IsSequenceCorrect()
     {
@@ -550,7 +545,7 @@ public class EnchantingTable : MonoBehaviour
             playerSequenceInputList.Clear();
             gameObject.GetComponent<ParticleSystem>().Play();
 
-            if (plantOnTable == true && thePlantOnTheTable)
+            if (plantOnTable == true && thePlantOnTheTable) // if the plant is on the table
             {
                 SetRandomCorrectSequence();
                 thePlantOnTheTable.GetComponent<ParticleSystem>().Play();
@@ -560,15 +555,14 @@ public class EnchantingTable : MonoBehaviour
         }        
     }
 
+    // randomly sets the correct sequence
     private void SetRandomCorrectSequence()
     {
         bool sequenceSetCorrectly = false;
 
-        
-
         System.Random random = new System.Random();
 
-        while (sequenceSetCorrectly == false)
+        while (sequenceSetCorrectly == false) // while a suitable sequence is not yet set
         {
             correctSequenceList.Clear();
 
@@ -595,7 +589,7 @@ public class EnchantingTable : MonoBehaviour
             bool containsOrb2 = false;
             bool containsOrb3 = false;
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++) // check to see if sequence contains each orb at least once
             {
                 if (correctSequenceList[i] == "orb1")
                 {
@@ -613,15 +607,14 @@ public class EnchantingTable : MonoBehaviour
                 }
             }
 
-
-            if (containsOrb1 == true && containsOrb2 == true && containsOrb3 == true)
+            if (containsOrb1 == true && containsOrb2 == true && containsOrb3 == true) // if sequence contains all three orbs, set sequenceSetCorrectly to true
             {
                 sequenceSetCorrectly = true;
             }
         }
     }
 
-
+    // sets orb to pulse at given 'correct sequence' index
     private void PulseOrbAtCorrectSequenceIndex(int sequenceIndex)
     {
         if (correctSequenceList[sequenceIndex] == "orb1")
@@ -652,7 +645,5 @@ public class EnchantingTable : MonoBehaviour
             }
         }
     }
-
-
 }
 
