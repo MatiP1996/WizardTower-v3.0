@@ -7,7 +7,7 @@ public class PlantGrowLocation : MonoBehaviour
     public PickUpObject pickUpObjectInstance;
     private bool treePlanted = false;
     private GameObject thePlantedPlant;
-    
+    public AudioSource popSound;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -23,6 +23,7 @@ public class PlantGrowLocation : MonoBehaviour
             thePlantedPlant.GetComponent<Rigidbody>().isKinematic = true;
             thePlantedPlant.GetComponent<Rigidbody>().MovePosition(this.transform.position);
             thePlantedPlant.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(0,-90,0));
+            popSound.Play();
         }
     }
 }

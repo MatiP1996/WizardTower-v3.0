@@ -5,7 +5,7 @@ using UnityEngine;
 public class PickUpObject : MonoBehaviour
 {
     public static bool isAnItemCurrentlyPickedUp = false;
-    GameObject itemCurrentlyPickedUp;
+    public static GameObject itemCurrentlyPickedUp;
 
     Vector3 locationToMovePickedUpItemTo;
     float originalYAxisRotationOfPickedUpObject;
@@ -46,6 +46,16 @@ public class PickUpObject : MonoBehaviour
 
                 newYAxisRotationForPickedUpObject = originalYAxisRotationOfPickedUpObject + gameObject.transform.rotation.eulerAngles.y - yAxisRotationOfPlayerUponPickup; //calculates the y rotation the picked up item should be at
                 itemCurrentlyPickedUp.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(gameObject.transform.rotation.eulerAngles.x + 70 , gameObject.transform.rotation.eulerAngles.y, 0)); // rotates the picked up item to match the rotation of the player
+
+            }
+            else if (itemCurrentlyPickedUp.tag == "wateringCan")
+            {
+                locationToMovePickedUpItemTo = gameObject.transform.position + gameObject.transform.forward * 1f + gameObject.transform.right * 0.5f + gameObject.transform.up * -0.2f; // calculates the location the picked up item should be at
+                itemCurrentlyPickedUp.GetComponent<Rigidbody>().MovePosition(locationToMovePickedUpItemTo); // moves the item to the above calculated location
+
+                
+                itemCurrentlyPickedUp.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(gameObject.transform.rotation.eulerAngles.x, gameObject.transform.rotation.eulerAngles.y, 0)); // rotates the picked up item to match the rotation of the player
+
 
             }
             else

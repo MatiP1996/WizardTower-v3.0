@@ -9,6 +9,8 @@ TagManager:
   - Undefined
   - Orb
   - plant
+  - tap
+  - wateringCan
   layers:
   - Default
   - TransparentFX
