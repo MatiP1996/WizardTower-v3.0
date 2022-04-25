@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class GrowVine : MonoBehaviour
 {
-    float growValue = -0.5f;
+
+
+
+    public float growValue = -0.5f;
 
     private Material growMat;
     private float growStepProgress;
@@ -38,7 +41,7 @@ public class GrowVine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        growValue += Time.deltaTime / 5;
+        //growValue += Time.deltaTime / 5;
         
 
         growMat.SetFloat("Grow", growValue);

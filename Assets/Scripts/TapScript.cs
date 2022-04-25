@@ -9,8 +9,9 @@ public class TapScript : MonoBehaviour
 
     private GameObject theWateringCan;
     public AudioSource popSound;
+    public AudioSource tapSound;
 
-   // public Collider colliderr;
+    // public Collider colliderr;
 
     void Update()
     {
@@ -21,6 +22,7 @@ public class TapScript : MonoBehaviour
                 if (CameraRaycast.currentHitInteractable.gameObject == gameObject) // if looking at this gameObject
                 {
                     gameObject.GetComponentInChildren<ParticleSystem>().Play(); // play the water particle system
+                    tapSound.Play(); // play the tap sound
 
                     Vector3 worldRayStart = gameObject.GetComponentInChildren<ParticleSystem>().gameObject.transform
                         .position; // set ray start pos
@@ -31,9 +33,8 @@ public class TapScript : MonoBehaviour
                     if (Physics.Raycast(ray, out raycastHit, 2)) // raycast
                     {
                         if (raycastHit.transform.gameObject.tag == "wateringCan") // if ray hits the watering can
-                        {
-                            raycastHit.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().enabled =
-                                true; // set water to visible
+                        {  
+                            raycastHit.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().enabled = true; // set water to visible
                         }
                     }
                 }
