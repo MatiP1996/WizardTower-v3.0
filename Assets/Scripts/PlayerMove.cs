@@ -10,7 +10,7 @@ public class PlayerMove : MonoBehaviour
     public float speed;
     public float gravity;
     public float jumpHeight;
-    public bool onLadder = false;
+    
 
     public Transform groundCheck;
     public float groundDistance;
@@ -52,7 +52,9 @@ public class PlayerMove : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
-        if (onLadder == false)
+
+
+        if (LadderClimb.onLadder == false)
         {
             velocity.y += gravity * Time.deltaTime;
         }
