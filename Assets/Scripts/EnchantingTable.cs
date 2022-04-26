@@ -43,7 +43,7 @@ public class EnchantingTable : MonoBehaviour
 
     float orbLightMaxintensity = 2;
     float pulseProportionComplete = 0;
-    float pulseLengthSeconds = 0.6f;
+    float pulseLengthSeconds = 0.7f;
     bool lightSequencePLaying = false;
     float lightSequenceTimer = 0;
     bool playerSequenceInputInProgress = false;
@@ -249,7 +249,7 @@ public class EnchantingTable : MonoBehaviour
                 orb1LightActive = true;
             }
 
-            if (orb1PulsingTimer < pulseLengthSeconds)
+            if (orb1PulsingTimer < pulseLengthSeconds + 0.01f)
             {
                 pulseProportionComplete = 1 - orb1PulsingTimer / pulseLengthSeconds;
                 orb1Light.GetComponent<Light>().intensity = orbLightMaxintensity * pulseProportionComplete;
@@ -265,7 +265,7 @@ public class EnchantingTable : MonoBehaviour
         }
 
         // the light pulse for orb 2
-        if (isOrb2Pulsing == true)  
+        if (isOrb2Pulsing == true)
         {
             orb2PulsingTimer += Time.deltaTime;
 
@@ -275,7 +275,7 @@ public class EnchantingTable : MonoBehaviour
                 orb2LightActive = true;
             }
 
-            if (orb2PulsingTimer < pulseLengthSeconds)
+            if (orb2PulsingTimer < pulseLengthSeconds + 0.01f)
             {
                 pulseProportionComplete = 1 - orb2PulsingTimer / pulseLengthSeconds;
                 orb2Light.GetComponent<Light>().intensity = orbLightMaxintensity * pulseProportionComplete;
@@ -301,7 +301,7 @@ public class EnchantingTable : MonoBehaviour
                 orb3LightActive = true;
             }
 
-            if (orb3PulsingTimer < pulseLengthSeconds)
+            if (orb3PulsingTimer < pulseLengthSeconds + 0.01f)
             {
                 pulseProportionComplete = 1 - orb3PulsingTimer / pulseLengthSeconds;
                 orb3Light.GetComponent<Light>().intensity = orbLightMaxintensity * pulseProportionComplete;
@@ -635,7 +635,7 @@ public class EnchantingTable : MonoBehaviour
                 playSequenceSound.Play();
             }
         }
-        else
+        else if (correctSequenceList[sequenceIndex] == "orb3")
         {
             if (isOrb3Pulsing == false)
             {
