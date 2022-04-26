@@ -4,33 +4,27 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-
     public float mouseSensitivity = 100f;
-
     public Transform playerBody;
-
     float xRotation = 0f;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked; // lock the cursor
     }
-
-
-    // Update is called once per frame
+    
     void Update()
     {
-        if (PauseMenu.pauseMenuVisible == false)
+        if (PauseMenu.pauseMenuVisible == false) // if pause menu isn't open, use mouse input to rotate player body and camera
         {
-            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity; // gets X axis mouse movement
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity; // gets Y axis mouse movement
 
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-            playerBody.Rotate(Vector3.up * mouseX);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // rotate camera
+            playerBody.Rotate(Vector3.up * mouseX); // rotate body
         }
     }
 }

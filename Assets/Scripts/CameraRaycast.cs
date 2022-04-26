@@ -9,9 +9,8 @@ public class CameraRaycast : MonoBehaviour
     public static Ray ray = new Ray();
     public static Vector3 cameraOrigin;
     public static Vector3 cameraDirection;
-
     public static GameObject currentHitInteractable;  // the interactable currently being looked at
-    public static GameObject priorHitInteractable; // the interactable hit before the "currentHitInteractable"
+    public static GameObject priorHitInteractable;    // the interactable hit before the "currentHitInteractable"
 
 
     // Update is called once per frame
@@ -20,9 +19,7 @@ public class CameraRaycast : MonoBehaviour
         cameraOrigin = gameObject.transform.position;          // sets the origin of the ray cast
         cameraDirection = gameObject.transform.forward * 3;    // sets the direction of the ray cast
 
-        ray = new Ray(cameraOrigin, cameraDirection);                        
-        Debug.DrawRay(cameraOrigin, cameraDirection, Color.green);
-
+        ray = new Ray(cameraOrigin, cameraDirection);
 
         /// UPDATES "currentHitInteractable" WITH WHATEVER INTERACTABLE THE PLAYER IS LOOKING AT, IF PLAYER ISN'T LOOKING AT AN INTERACTABLE, SET "currentHitInteractable" TO NULL ///
         if (Physics.Raycast(ray, out raycastHit, 3, LayerMask))  // if something is hit AND the object hit is of the layer specified (layer specified is currently "interactable")
@@ -41,7 +38,6 @@ public class CameraRaycast : MonoBehaviour
             }
             
             currentHitInteractable = raycastHit.collider.gameObject;
-            //Debug.Log("ray cast hit " +  currentHitInteractable.name);
 
             for (int i = 0; i < currentHitInteractable.GetComponent<Renderer>().materials.Length; i++) // for each material attached to "currentHitInteractable" set the emission value to 0.2
             {

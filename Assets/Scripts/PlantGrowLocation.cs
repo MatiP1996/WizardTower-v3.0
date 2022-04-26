@@ -5,21 +5,20 @@ using UnityEngine;
 public class PlantGrowLocation : MonoBehaviour
 {
     public PickUpObject pickUpObjectInstance;
-    private bool treePlanted = false;
     private GameObject thePlantedPlant;
     public AudioSource popSound;
 
-    private void OnTriggerEnter(Collider other)
+    // if plant enters the grow location, snap it to the centre of the grow location
+    private void OnTriggerEnter(Collider other) 
     {
         if (other.tag == "plant")
         {
-            if (PickUpObject.isAnItemCurrentlyPickedUp)
+            if (PickUpObject.isAnItemCurrentlyPickedUp) // drop object if its currently picked up
             {
                pickUpObjectInstance.PickUp();
             }
 
             thePlantedPlant = other.gameObject.transform.parent.gameObject;
-
             thePlantedPlant.GetComponent<Rigidbody>().isKinematic = true;
             thePlantedPlant.GetComponent<Rigidbody>().MovePosition(this.transform.position);
             thePlantedPlant.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(0,-90,0));

@@ -120,23 +120,11 @@ public class EnchantingTable : MonoBehaviour
             }
         }
 
-        // if an error just made by player, set a short timer to stop the new sequence being played immediately after
-        if (errorJustMade == true) 
-        {
-            errorMadeTimer += Time.deltaTime;
-
-            if (errorMadeTimer > 1.5f)
-            {
-                errorMadeTimer = 0;
-                errorJustMade = false;
-            }
-        }
-        
         // moves the orbs up and down
         if (areOrbsMovingUp == true)
         {
             orbMoveTimer += Time.deltaTime;
-            
+
             if (orbMoveTimer > orbMoveTimeSeconds)
             {
                 orbMoveTimer = 0;
@@ -181,26 +169,38 @@ public class EnchantingTable : MonoBehaviour
             orb2.transform.position = orb2MovePos;
             orb3.transform.position = orb3MovePos;
         }
+        
+        // if an error just made by player, set a short timer to stop the new sequence being played immediately after
+        if (errorJustMade == true) 
+        {
+            errorMadeTimer += Time.deltaTime;
 
+            if (errorMadeTimer > 1.5f)
+            {
+                errorMadeTimer = 0;
+                errorJustMade = false;
+            }
+        }
+        
         // play the light sequence 
         if (lightSequencePLaying == true) 
         {
-            if (plantOnTable == false)
+            if (plantOnTable == false) // stop light sequence from playing if there is no plant on the table
             {
                 lightSequencePLaying = false;
             }
 
-            if (areOrbsFloating == true && errorJustMade == false)
+            if (areOrbsFloating == true && errorJustMade == false) // if orbs are floating and no errors just made, play the light sequence
             {
                 lightSequenceTimer += Time.deltaTime;
 
-                if (lightSequenceTimer < pulseLengthSeconds * 1)
+                if (lightSequenceTimer < pulseLengthSeconds * 1) // interval 1
                 {
-                   PulseOrbAtCorrectSequenceIndex(0);
+                   PulseOrbAtCorrectSequenceIndex(0); // pulse the orb which is at index 0 in the correct light sequence
                 }
-                else if (lightSequenceTimer < pulseLengthSeconds * 2)
+                else if (lightSequenceTimer < pulseLengthSeconds * 2) // interval 2...
                 {
-                    PulseOrbAtCorrectSequenceIndex(1);
+                    PulseOrbAtCorrectSequenceIndex(1); // pulse the orb which is at index 1 in the correct light sequence...
                 }
                 else if (lightSequenceTimer < pulseLengthSeconds * 3)
                 {
@@ -226,7 +226,7 @@ public class EnchantingTable : MonoBehaviour
                 {
                     PulseOrbAtCorrectSequenceIndex(7);
                 }
-                else if (lightSequenceTimer < pulseLengthSeconds * 9)
+                else if (lightSequenceTimer < pulseLengthSeconds * 9) // the light sequence is complete, reset variables
                 {
                     lightSequencePLaying = false;
                     lightSequenceTimer = 0;
@@ -238,24 +238,24 @@ public class EnchantingTable : MonoBehaviour
             }
         }
 
-        // the light pulse for orb 1
-        if (isOrb1Pulsing == true)  
+        // THE LIGHT PULSE FOR ORB 1
+        if (isOrb1Pulsing == true)  // as triggered by "PulseOrbAtCorrectSequenceIndex()"
         {
             orb1PulsingTimer += Time.deltaTime;
 
-            if (orb1LightActive == false)
+            if (orb1LightActive == false) // set light active if it isn't already
             {
                 orb1Light.GetComponent<Light>().enabled = true;
                 orb1LightActive = true;
             }
 
-            if (orb1PulsingTimer < pulseLengthSeconds + 0.01f)
+            if (orb1PulsingTimer < pulseLengthSeconds + 0.01f) // set material emission and light intensity to 'pulse' over time
             {
                 pulseProportionComplete = 1 - orb1PulsingTimer / pulseLengthSeconds;
                 orb1Light.GetComponent<Light>().intensity = orbLightMaxintensity * pulseProportionComplete;
                 orb1.GetComponent<Renderer>().materials[0].SetFloat("emissionIntensity", pulseProportionComplete*3);
             }
-            else
+            else // if pulse complete, reset values etc
             {
                 orb1Light.GetComponent<Light>().enabled = false;
                 orb1PulsingTimer = 0;
@@ -264,24 +264,24 @@ public class EnchantingTable : MonoBehaviour
             }
         }
 
-        // the light pulse for orb 2
-        if (isOrb2Pulsing == true)
+        // THE LIGHT PULSE FOR ORB 2
+        if (isOrb2Pulsing == true) // as triggered by "PulseOrbAtCorrectSequenceIndex()"
         {
             orb2PulsingTimer += Time.deltaTime;
 
-            if (orb2LightActive == false)
+            if (orb2LightActive == false) // set light active if it isn't already
             {
                 orb2Light.GetComponent<Light>().enabled = true;
                 orb2LightActive = true;
             }
 
-            if (orb2PulsingTimer < pulseLengthSeconds + 0.01f)
+            if (orb2PulsingTimer < pulseLengthSeconds + 0.01f) // set material emission and light intensity to 'pulse' over time
             {
                 pulseProportionComplete = 1 - orb2PulsingTimer / pulseLengthSeconds;
                 orb2Light.GetComponent<Light>().intensity = orbLightMaxintensity * pulseProportionComplete;
                 orb2.GetComponent<Renderer>().materials[0].SetFloat("emissionIntensity", pulseProportionComplete*3);
             }
-            else
+            else // if pulse complete, reset values etc
             {
                 orb2Light.GetComponent<Light>().enabled = false;
                 orb2PulsingTimer = 0;
@@ -290,24 +290,24 @@ public class EnchantingTable : MonoBehaviour
             }
         }
 
-        // the light pulse for orb 3
-        if (isOrb3Pulsing == true)  
+        // THE LIGHT PULSE FOR ORB 3
+        if (isOrb3Pulsing == true)  // as triggered by "PulseOrbAtCorrectSequenceIndex()"
         {
             orb3PulsingTimer += Time.deltaTime;
 
-            if (orb3LightActive == false)
+            if (orb3LightActive == false) // set light active if it isn't already
             {
                 orb3Light.GetComponent<Light>().enabled = true;
                 orb3LightActive = true;
             }
 
-            if (orb3PulsingTimer < pulseLengthSeconds + 0.01f)
+            if (orb3PulsingTimer < pulseLengthSeconds + 0.01f) // set material emission and light intensity to 'pulse' over time
             {
                 pulseProportionComplete = 1 - orb3PulsingTimer / pulseLengthSeconds;
                 orb3Light.GetComponent<Light>().intensity = orbLightMaxintensity * pulseProportionComplete;
                 orb3.GetComponent<Renderer>().materials[0].SetFloat("emissionIntensity", pulseProportionComplete*3);
             }
-            else
+            else // if pulse complete, reset values etc
             {
                 orb3Light.GetComponent<Light>().enabled = false;
                 orb3PulsingTimer = 0;
@@ -316,21 +316,21 @@ public class EnchantingTable : MonoBehaviour
             }
         }
 
-        // on press "E" add player orb selection to list, if incorrect reset list. If correct, check to see if entire sequence is completed, if so commence sequence correct functionality
+        // on press "E" add player orb selection to list, if incorrect, then reset list. If correct, check to see if entire sequence is completed, if so commence sequence correct functionality
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (lightSequencePLaying == false)
             {
                 if (CameraRaycast.currentHitInteractable == orb1) // if looking at orb1
                 {
-                    if (playerSequenceInputInProgress == false) // set the player sequence input to true
+                    if (playerSequenceInputInProgress == false) // set the player sequence input to true if not already (starts a timer that creates a player error if the player takes to long to decide)
                     {
                         playerSequenceInputInProgress = true;
                     }
 
-                    playerSequenceInputList.Add("orb1");
+                    playerSequenceInputList.Add("orb1"); // add the orb the player has selected to the player sequence list
 
-                    int playerSequenceInputListCount = playerSequenceInputList.Count;
+                    int playerSequenceInputListCount = playerSequenceInputList.Count; // the current length of the player input list
 
                     if (playerSequenceInputList[playerSequenceInputListCount-1] != correctSequenceList[playerSequenceInputListCount-1]) // if last player input is incorrect, rest player sequence and play "incorrect" sound
                     {
@@ -352,21 +352,21 @@ public class EnchantingTable : MonoBehaviour
                         correctPressSound.Play();
                     }
 
-                    isOrb1Pulsing = true;
+                    isOrb1Pulsing = true; // pulse the orb selected by player
                     orb1PulsingTimer = 0;
                     playerSequenceInputTimer = 0;
-                    IsSequenceCorrect();
+                    IsSequenceCorrect(); // check if player has completed the sequence
                 }
                 else if (CameraRaycast.currentHitInteractable == orb2) // if looking at orb2
                 {
-                    if (playerSequenceInputInProgress == false)
+                    if (playerSequenceInputInProgress == false) // set the player sequence input to true if not already (starts a timer that creates a player error if the player takes to long to decide)
                     {
                         playerSequenceInputInProgress = true;
                     }
 
-                    playerSequenceInputList.Add("orb2");
+                    playerSequenceInputList.Add("orb2"); // add the orb the player has selected to the player sequence list
 
-                    int playerSequenceInputListCount = playerSequenceInputList.Count;
+                    int playerSequenceInputListCount = playerSequenceInputList.Count; // the current length of the player input list
 
                     if (playerSequenceInputList[playerSequenceInputListCount - 1] != correctSequenceList[playerSequenceInputListCount - 1]) // if last player input is incorrect, rest player sequence and play "incorrect" sound
                     {
@@ -388,19 +388,19 @@ public class EnchantingTable : MonoBehaviour
                         correctPressSound.Play();
                     }
 
-                    isOrb2Pulsing = true;
+                    isOrb2Pulsing = true; // pulse the orb selected by player
                     orb2PulsingTimer = 0;
                     playerSequenceInputTimer = 0;
-                    IsSequenceCorrect();
+                    IsSequenceCorrect(); // check if player has completed the sequence
                 }
                 else if (CameraRaycast.currentHitInteractable == orb3) // if looking at orb3
                 {
-                    if (playerSequenceInputInProgress == false)
+                    if (playerSequenceInputInProgress == false) // set the player sequence input to true if not already (starts a timer that creates a player error if the player takes to long to decide)
                     {
                         playerSequenceInputInProgress = true;
                     }
 
-                    playerSequenceInputList.Add("orb3");
+                    playerSequenceInputList.Add("orb3"); // add the orb the player has selected to the player sequence list
 
                     int playerSequenceInputListCount = playerSequenceInputList.Count;
 
@@ -424,10 +424,10 @@ public class EnchantingTable : MonoBehaviour
                         correctPressSound.Play();
                     }
 
-                    isOrb3Pulsing = true;
+                    isOrb3Pulsing = true;  // pulse the orb selected by player
                     orb3PulsingTimer = 0;
                     playerSequenceInputTimer = 0;
-                    IsSequenceCorrect();
+                    IsSequenceCorrect(); // check if player has completed the sequence
                 }
             }            
         }
@@ -454,7 +454,7 @@ public class EnchantingTable : MonoBehaviour
             enchantmentSuccessfulLight.enabled = true;
             enchantmentSuccessfulLight.intensity = enchantmentLightIntensity * Mathf.Sin(enchantmentLightEventTimer);
 
-            if (enchantmentLightEventTimer > 3.15f)
+            if (enchantmentLightEventTimer > 3.15f) // after event complete, reset variables 
             {
                 enchantmentLightEvent = false;
                 enchantmentSuccessfulLight.enabled = false;
@@ -463,7 +463,7 @@ public class EnchantingTable : MonoBehaviour
         }
     }
     
-    // on plant enter the trigger collider
+    // on plant enter the trigger collider, set the light sequence to play etc
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "plant")
@@ -480,7 +480,7 @@ public class EnchantingTable : MonoBehaviour
         }
     }
     
-    // on plant exit the trigger collider
+    // on plant exit the trigger collider, trigger the orbs float down etc
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "plant")
@@ -555,7 +555,7 @@ public class EnchantingTable : MonoBehaviour
         }        
     }
 
-    // randomly sets the correct sequence
+    // randomly sets the 'correct sequence'
     private void SetRandomCorrectSequence()
     {
         bool sequenceSetCorrectly = false;
@@ -564,12 +564,11 @@ public class EnchantingTable : MonoBehaviour
 
         while (sequenceSetCorrectly == false) // while a suitable sequence is not yet set
         {
-            correctSequenceList.Clear();
+            correctSequenceList.Clear(); // clear the list ready for a new sequence
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++) // for each index in sequence, randomly assign an orb
             {
                 int randomInt = random.Next(1, 4);
-
 
                 if (randomInt == 1)
                 {
@@ -607,14 +606,14 @@ public class EnchantingTable : MonoBehaviour
                 }
             }
 
-            if (containsOrb1 == true && containsOrb2 == true && containsOrb3 == true) // if sequence contains all three orbs, set sequenceSetCorrectly to true
+            if (containsOrb1 == true && containsOrb2 == true && containsOrb3 == true) // if sequence contains all three orbs, set sequenceSetCorrectly to true. If sequence doesn't contain each orb at least once, the while loop continues and sets a new sequence
             {
                 sequenceSetCorrectly = true;
             }
         }
     }
 
-    // sets orb to pulse at given 'correct sequence' index
+    // get the orb at given 'correct sequence' index and set it to pulse
     private void PulseOrbAtCorrectSequenceIndex(int sequenceIndex)
     {
         if (correctSequenceList[sequenceIndex] == "orb1")
@@ -646,4 +645,3 @@ public class EnchantingTable : MonoBehaviour
         }
     }
 }
-

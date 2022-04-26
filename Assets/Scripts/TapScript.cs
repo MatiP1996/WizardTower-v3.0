@@ -6,26 +6,23 @@ public class TapScript : MonoBehaviour
 {
     public PickUpObject pickUpObjectInstance;
     public GameObject wateringCanLocation;
-
     private GameObject theWateringCan;
     public AudioSource popSound;
     public AudioSource tapSound;
 
-    // public Collider colliderr;
-
     void Update()
     {
+        /// IF PLAYER INTERACTS WITH TAP, PLAY THE WATER PARTICLE EFFECT. IF THE WATERING CAN IS UNDERNEAT THE TAP, FILL THE CAN WITH WATER
         if (Input.GetKeyDown(KeyCode.E)) // when E pressed
         {
-            if (CameraRaycast.currentHitInteractable)
+            if (CameraRaycast.currentHitInteractable) // if looking at an interactable
             {
-                if (CameraRaycast.currentHitInteractable.gameObject == gameObject) // if looking at this gameObject
+                if (CameraRaycast.currentHitInteractable.gameObject == gameObject) // if looking at this gameObject (the tap)
                 {
                     gameObject.GetComponentInChildren<ParticleSystem>().Play(); // play the water particle system
                     tapSound.Play(); // play the tap sound
 
-                    Vector3 worldRayStart = gameObject.GetComponentInChildren<ParticleSystem>().gameObject.transform
-                        .position; // set ray start pos
+                    Vector3 worldRayStart = gameObject.GetComponentInChildren<ParticleSystem>().gameObject.transform.position; // set ray start pos
 
                     Ray ray = new Ray(worldRayStart, -gameObject.transform.forward);
                     RaycastHit raycastHit;
@@ -43,6 +40,7 @@ public class TapScript : MonoBehaviour
     }
 
 
+    // if watering can enters tap trigger area, snap the watering can to underneath the tap
     public void WateringCanSocket(Collider other)
     {
         if (other.gameObject.tag == "wateringCan")
@@ -53,7 +51,6 @@ public class TapScript : MonoBehaviour
             }
 
             theWateringCan = other.gameObject;
-
             theWateringCan.GetComponent<Rigidbody>().isKinematic = true;
             theWateringCan.GetComponent<Rigidbody>().MovePosition(wateringCanLocation.transform.position);
             theWateringCan.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(0, -90, 0));

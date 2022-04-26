@@ -5,19 +5,13 @@ using UnityEngine;
 
 public class GrowVine : MonoBehaviour
 {
-
-
-
-    public float growValue = -0.5f;
-
+    public float growValue = -0.5f; // this value is increased as the player waters the plant
     private Material growMat;
     private float growStepProgress;
-
-    private int steps = 6;
-
+    //private int steps = 6;
     float stepProportionComplete = 0;
 
-
+    //GROW VAL / SCALE VAL
     // -0.5 / -4.2
     // - 0.19 / -3.8
     // 0 / -2.2
@@ -41,12 +35,9 @@ public class GrowVine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //growValue += Time.deltaTime / 5;
-        
+        growMat.SetFloat("Grow", growValue); // set the shader "Grow" variable to the "growValue"
 
-        growMat.SetFloat("Grow", growValue);
-
-
+        /// SETS THE SHADER "Scale" VALUE, DEPRENDENT ON WHAT THE "growValue" CURRENTLY IS (to ensure the vine grow doesn't look dodgy)
         if (growValue < -0.19f)
         {
             growStepProgress = growValue + 0.5f;

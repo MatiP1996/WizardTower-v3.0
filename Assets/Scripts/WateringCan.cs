@@ -7,7 +7,6 @@ public class WateringCan : MonoBehaviour
     private ParticleSystem waterParticles;
     private MeshRenderer waterRenderer;
     public GameObject wateringTriggerArea;
-
     public bool isWatering = false;
     private float wateringTimer = 0;
 
@@ -16,15 +15,14 @@ public class WateringCan : MonoBehaviour
         waterParticles = transform.GetChild(1).GetComponent<ParticleSystem>();
         waterRenderer = transform.GetChild(0).GetComponent<MeshRenderer>();
     }
-
-
+    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0)) // on LMB click
         {
             if (PickUpObject.itemCurrentlyPickedUp == gameObject) // if the watering can is in player hand
             {
-                if (waterRenderer.enabled == true) // if the watering can has water in
+                if (waterRenderer.enabled == true) // if the watering can has water in, set isWatering to true
                 {
                     waterParticles.Play();
                     waterRenderer.enabled = false;
@@ -33,6 +31,7 @@ public class WateringCan : MonoBehaviour
             }
         }
 
+        // the watering timer
         if (isWatering == true)
         {
             wateringTimer += Time.deltaTime;

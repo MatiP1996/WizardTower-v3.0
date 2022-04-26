@@ -7,29 +7,17 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
     public static bool pauseMenuVisible = false;
-    //public GameObject playerChar;
-    public CharacterController characterController;
 
-
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        //characterController = playerChar.GetComponent<CharacterController>();
-    }
-
-
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)  || Input.GetKeyDown(KeyCode.KeypadMinus))
+        if (Input.GetKeyDown(KeyCode.Escape)  || Input.GetKeyDown(KeyCode.KeypadMinus)) // if player presses escape, open pause menu
         {
             Resume();
         }
-
     }
 
-
-    public void Resume()
+    // opens and closes the pause menu
+    public void Resume() 
     {
         pauseMenuVisible = !pauseMenuVisible;
         pauseMenu.SetActive(pauseMenuVisible);
@@ -46,20 +34,17 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    public void Restart()
+    // restarts the game
+    public void Restart() 
     {
         pauseMenuVisible = !pauseMenuVisible;
         pauseMenu.SetActive(pauseMenuVisible);
         Cursor.visible = pauseMenuVisible;
         Time.timeScale = 1;
-
         SceneManager.LoadScene(0);
-
-        
-
-
     }
 
+    // quits the game
     public void Quit()
     {
         Application.Quit();
