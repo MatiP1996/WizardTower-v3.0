@@ -13,16 +13,12 @@ public class GrowVine : MonoBehaviour
     private List<float> growValList = new List<float>();
     private List<float> scaleValList = new List<float>();
     private float growStepSize = 0;
-
-    private MeshCollider meshCollider;
-    private MeshFilter meshFilter;
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
-        meshCollider = gameObject.GetComponent<MeshCollider>();
-        meshFilter = gameObject.GetComponent<MeshFilter>();
         growMat = gameObject.GetComponent<Renderer>().material;
 
         // the grow step bound values
@@ -49,14 +45,11 @@ public class GrowVine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        meshCollider.sharedMesh = meshFilter.sharedMesh;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift)) // for testing
         {
             growValue += Time.deltaTime / 20;
         }
-
-
 
         growMat.SetFloat("Grow", growValue); // set the shader "Grow" variable to the "growValue"
 
@@ -93,14 +86,6 @@ public class GrowVine : MonoBehaviour
         {
             SetScaleValue(8);
         }
-
-
-        
-
-
-
-
-
     }
 
     void SetScaleValue(int stepIndex)
