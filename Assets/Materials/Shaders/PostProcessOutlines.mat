@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GrowMat
-  m_Shader: {fileID: -6465566751694194690, guid: c62ed4744441850418e6ca644b7bae35, type: 3}
-  m_ShaderKeywords: 
+  m_Name: PostProcessOutlines
+  m_Shader: {fileID: -6465566751694194690, guid: d54526c7ad04b1342b6f0910cfe83968, type: 3}
+  m_ShaderKeywords: REQUIRE_DEPTH_TEXTURE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -59,14 +59,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_46217e8d6519430f8b95bf796df936af_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 3bf05175261d86a4dbc90e9f52b73e85, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_cbe82e0029044a8d911d10bc922b0c31_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 24aa31911fe26a04db7f47e7300968e6, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -85,9 +77,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Clip: 0.871
-    - Grow: 0.02
-    - Scale: -1.2
+    - DepthStrength: 0.73
+    - DepthThickness: 1.02
+    - DepthThreshold: 0.1
+    - REQUIRE_DEPTH_TEXTURE: 1
+    - REQUIRE_OPAQUE_TEXTURE_1: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -114,13 +108,16 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - sobelSampleMatrixRadius: 0.99
+    - sobelSampleMatrixSpreadSize: 1.5
+    - thickness: 1.5
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &4795154382161256996
+--- !u!114 &92468890384931280
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
