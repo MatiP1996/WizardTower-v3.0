@@ -71,6 +71,7 @@ public class CharacterController : MonoBehaviour
             movementAllowed = true;
         }
 
+
         if (grounded && movementAllowed)
         {
             if (jump)
@@ -82,6 +83,7 @@ public class CharacterController : MonoBehaviour
             else
             {
                 playerMove = transform.right * horizontal * velocity + transform.forward * vertical * velocity;
+            //    Debug.Log(playerMove);
                 rb.velocity = playerMove;
             }
 
