@@ -7,17 +7,18 @@ public class FinalStaff : InteractionParent
     public GameObject target;
 
     //elevating
-
-    float amplitudeY = 5.0f;
+    /*
+   // float amplitudeY = 5.0f;
     float omegaX;
     float omegaY;
     float index;
+    */
 
     // Start is called before the first frame update
     void Start()
     {
-        omegaX = transform.position.x;
-        omegaY = transform.position.y;
+     //   omegaX = transform.position.x;
+    //    omegaY = transform.position.y;
     }
 
     // Update is called once per frame
