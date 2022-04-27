@@ -78,8 +78,8 @@ Material:
     m_Ints: []
     m_Floats:
     - Clip: 0.909
-    - Grow: 1
-    - Scale: 0.7
+    - Grow: 0.02
+    - Scale: -0.3
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
