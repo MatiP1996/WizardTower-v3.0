@@ -6,101 +6,97 @@ using UnityEngine.UI;
 
 public class InteractionManager : MonoBehaviour
 {
-    public Text textObject;         // on screen text
+    public Text textObject;
+    public Transform freeCam;
 
-    public LayerMask interactMask;   // target mask for rayacast
+    ToggleCamera cameraScript;
+    public GameObject selectedObject;
+    public List<int> ItemIDs;
+    Painting paintingScript;
+    Camera playerCam;
+    CamToTele camTele;
+    GameObject player;
 
-    GameObject currentSelectedObject;        // connecting + resetting objects
-    GameObject previousSelectedObject;
+    CharacterController controllerScript;
 
-    InteractionParent currentlySelectedInteraction;      //   connecting + resetting interactions
-    InteractionParent previouslySelectedInteraction;
-
-    public float raycastLength = 2f;        // raycast distance
-
-    public List<int> itemIDs;              // player collected items
-    Camera cameraObject;                      // target camera
-
-    public GameObject playerCandle;         // on screen candle 
-
-    public bool candleActive;               // player holding candle
-    public bool flameActive;
     // Start is called before the first frame update
     void Start()
     {
-                        // initialise variables
-        itemIDs = new List<int> { };            
-        textObject.text = "";
-        cameraObject = gameObject.GetComponent<Camera>();
+        player = GameObject.FindGameObjectWithTag("Player");
 
+        cameraScript = player.GetComponent<ToggleCamera>();
+
+        controllerScript = player.GetComponent<CharacterController>();
+
+        camTele = gameObject.GetComponent<CamToTele>();
+        playerCam = player.transform.GetChild(1).GetComponent<Camera>();
+
+        ItemIDs = new List<int> { };
+
+        textObject.text = "";
+
+    }
+
+    public void leaveTelescope()
+    {
+        
+        freeCam.gameObject.GetComponent<Camera>().fieldOfView = 30f;
+
+        playerCam.enabled = true;
+        freeCam.gameObject.GetComponent<Camera>().enabled = false;
+        
+        freeCam.eulerAngles = new Vector3(freeCam.eulerAngles.x, 18f, freeCam.eulerAngles.z);
+
+        Debug.Log("leavingTelescope");
+
+        player.GetComponent<Rigidbody>().isKinematic = false;
     }
 
     // Update is called once per frame
     void Update()
-    {               // core functions
-        RaycastingAndText();    
-        ActivateCandle();
-    }
-
-    void ActivateCandle()       // check if player collected candle + flame (inventory)
     {
-        if (!candleActive)
+
+        Camera CameraObject = gameObject.GetComponent<Camera>();
+        Ray ray = CameraObject.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 4f))
         {
-            if (itemIDs.Contains(-1))            // if so enable candle object
+            selectedObject = hit.transform.gameObject;
+            if (selectedObject.tag == "Painting" && Input.GetKeyDown(KeyCode.E))
             {
-                candleActive = true;
-                playerCandle.SetActive(true);
+
+                selectedObject = selectedObject.gameObject;
+                paintingScript = selectedObject.GetComponent<Painting>();
+
+                //Debug.Log(selectedObject.transform.parent);
+
+                paintingScript.InteractPainting(selectedObject);
+
+
             }
-        }
-        else if(!flameActive)       // if candle activated  >>  check flame
-        {
-            if (itemIDs.Count > 1)
+            else if (selectedObject.tag == "TeleScope" && Input.GetKeyDown(KeyCode.E))
             {
-                flameActive = true;
+                Debug.Log("hit tele");
+                freeCam.gameObject.GetComponent<Camera>().fieldOfView = 60f;
+                freeCam.transform.position = playerCam.transform.position;
+                freeCam.gameObject.GetComponent<Camera>().enabled = true;
+                freeCam.gameObject.SetActive(true);
+
+                playerCam.enabled = false;
+
+                freeCam.eulerAngles = new Vector3(freeCam.eulerAngles.x, freeCam.eulerAngles.y + 180, freeCam.eulerAngles.z);
+                camTele.GoToTele();
+                
             }
-        }
-    }
-
-    void RaycastingAndText()
-    {
-        Ray ray = cameraObject.ScreenPointToRay(Input.mousePosition);   // execute raycast + initialise hit
-        RaycastHit hit;             
-        previousSelectedObject = currentSelectedObject;                 // store previous raycast hit object
-
-        if(previousSelectedObject != null)                    // if recent object present  >>  pass previous interaction script      
-        {
-            previouslySelectedInteraction = currentlySelectedInteraction;
-        }
-
-        if (Physics.Raycast(ray, out hit, raycastLength, interactMask))             // if raycast successfully connects with interaction layer mask...
-        {
-            currentSelectedObject = hit.transform.gameObject;                                       // take the object reference
-            currentlySelectedInteraction = currentSelectedObject.GetComponent<InteractionParent>();     // access the interaction script
-            string message = currentlySelectedInteraction.Communicate();                // access the text message
-            textObject.text = message;                                              // update the interface
-
-            //activate interaction
-
-            if (Input.GetKeyDown("e"))                                      // when player presses E  >>  interaction script activate + modify player items
+            else
             {
-                itemIDs = currentlySelectedInteraction.Activate(itemIDs);
+                textObject.text = "";
             }
 
         }
-        else                                                                       // otherwise reset interface + current object
+        else
         {
-            currentSelectedObject = null;
             textObject.text = "";
-        }
-
-        if (previousSelectedObject != currentSelectedObject)                        // if recent object and current object are not the same...
-        {
-            if(previouslySelectedInteraction != null)                                   // AND if previous interaction script is not cleared...
-            {
-                previouslySelectedInteraction.ResetState();                         // reset recent interaction
-                previouslySelectedInteraction = null;                               // clear the reference
-            }
-
         }
     }
 }

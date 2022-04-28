@@ -24,7 +24,7 @@ public class PickUpItem : InteractionParent
             float currentTime = Time.time;
             if(currentTime >= timeActivate + delayTime)
             {
-                player.itemIDs.Add(itemId);
+                ///player.itemIDs.Add(itemId); FIX
                 gameObject.SetActive(false);
             }
         }

@@ -46,11 +46,11 @@ public class TorchPuzzle : InteractionParent
     // Update is called once per frame
     void Update()
     {
-        if (interactionTarget.flameActive)              // once player candle is available...
-        {                                                           // alter messages
+        /*if (interactionTarget.flameActive)              // once player candle is available...
+        {                                                           // alter messages ///commented out because error
             firstMessage = "E - Light the torch";
             alternateMessage = "Fire!";
-        }
+        }*/
 
         if (!torchActive)                            // while torch is activated  >>  make it available
         {
