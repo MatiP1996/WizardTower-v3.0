@@ -24,7 +24,7 @@ public class BottomFloorPuzzle : MonoBehaviour
     public List<GameObject> torches;
 
 
-    public GameObject playerCamera;                 // reference target camera to get interaction manager script
+  //  public GameObject playerCamera;                 // reference target camera to get interaction manager script
 
 
     public GameObject currentSelectedFlame;                 // to reference current temporary flame#
