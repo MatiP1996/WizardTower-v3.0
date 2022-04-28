@@ -550,7 +550,7 @@ public class EnchantingTable : MonoBehaviour
                 SetRandomCorrectSequence();
                 thePlantOnTheTable.GetComponent<ParticleSystem>().Play();
                 enchantmentLightEvent = true;
-                thePlantOnTheTable.GetComponent<PlantScript>().isPlantEnchanted = true;
+                PlantScript.isPlantEnchanted = true;
             }
         }        
     }

@@ -20,7 +20,7 @@ public class EnchantmentTableSocket : MonoBehaviour
             thePlant = other.gameObject.transform.parent.gameObject;
             thePlant.GetComponent<Rigidbody>().isKinematic = true;
             thePlant.GetComponent<Rigidbody>().MovePosition(this.transform.position);
-            thePlant.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(0, 180, 0));
+            thePlant.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(0, 270, 0));
             popSound.Play();
         }
     }

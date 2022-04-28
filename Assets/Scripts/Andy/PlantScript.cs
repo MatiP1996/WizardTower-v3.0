@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class PlantScript : MonoBehaviour
 {
-    public bool isPlantEnchanted = false;
+    public static bool isPlantEnchanted = false;
     public ParticleSystem enchantedPlantParticles;
 }

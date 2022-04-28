@@ -39,7 +39,7 @@ public class WateringCan : MonoBehaviour
             if (wateringTimer > 4) //after 4 seconds, set is watering to false
             {
                 wateringTimer = 0;
-                isWatering = false;
+                isWatering = false; 
                 wateringTriggerArea.GetComponent<WateringTriggerArea>().slurpSoundPlaying = false;
             }
         }

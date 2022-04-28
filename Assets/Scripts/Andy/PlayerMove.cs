@@ -37,7 +37,7 @@ public class PlayerMove : MonoBehaviour
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
 
-            if (LadderClimb.onLadder == false) // set vertical velocity
+            if (LadderClimb.onLadder == false && VineClimb.onVine == false)  // set vertical velocity
             {
                 velocity.y += gravity * Time.deltaTime;
             }

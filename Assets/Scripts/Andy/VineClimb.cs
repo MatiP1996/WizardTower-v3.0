@@ -2,17 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LadderClimb : MonoBehaviour
+public class VineClimb : MonoBehaviour
 {
     public GameObject player;
-    public static bool onLadder = false;
+    public UnityEngine.CharacterController charCont;
+    public static bool onVine = false;
+
+
+    void Start()
+    {
+        charCont = player.GetComponent<UnityEngine.CharacterController>();
+    }
+
+
 
     // Update is called once per frame
     void Update()
     {
-        if (onLadder == true && Input.GetKey(KeyCode.W)) // if player is on ladder and W is being held, move the player up
+        if (onVine == true && Input.GetKey(KeyCode.W)) // if player is on ladder and W is being held, move the player up
         {
-            player.GetComponent<UnityEngine.CharacterController>().Move(new Vector3(0, 3 * Time.deltaTime, 0));
+            charCont.Move(new Vector3(0, 3 * Time.deltaTime, 0));
         }
     }
 
@@ -20,7 +29,7 @@ public class LadderClimb : MonoBehaviour
     {
         if (collider.transform.root == player.transform)
         {
-            onLadder = true;
+            onVine = true;
         }
     }
 
@@ -28,8 +37,7 @@ public class LadderClimb : MonoBehaviour
     {
         if (collider.transform.root == player.transform)
         {
-            onLadder = false;
+            onVine = false;
         }
     }
 }
-

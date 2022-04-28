@@ -5,95 +5,360 @@ using UnityEngine;
 
 public class GrowVine : MonoBehaviour
 {
-    public float growValue = -0.5f; // this value is increased as the player waters the plant
-    private Material growMat;
+    public float growValue = -0.0f; // this value is increased as the player waters the plant
+
+    private float mainGrowValOffset = 0;
+    private float lowGrowValOffset = -0.3f;
+    private float midGrowValOffset = -0.5f;
+    private float topGrowValOffset = -0.75f;
+
+    private Material mainGrowMat;
+    private Material lowGrowMat;
+    private Material midGrowMat;
+    private Material topGrowMat;
+
+
     private float growStepProgress;
     float stepProportionComplete = 0;
     
-    private List<float> growValList = new List<float>();
-    private List<float> scaleValList = new List<float>();
+    private List<float> mainBranchGrowValList = new List<float>();
+    private List<float> mainBranchScaleValList = new List<float>();
+
+    private List<float> lowerBranchGrowValList = new List<float>();
+    private List<float> lowerBranchScaleValList = new List<float>();
+
+    private List<float> midBranchGrowValList = new List<float>();
+    private List<float> midBranchScaleValList = new List<float>();
+
+    private List<float> topBranchGrowValList = new List<float>();
+    private List<float> topBranchScaleValList = new List<float>();
+
+    private List<float> colliderGrowValList = new List<float>();
+    private List<float> colliderScaleValList = new List<float>();
+    private List<float> colliderPositionValList = new List<float>();
+
+
+
     private float growStepSize = 0;
+
+
+    public GameObject mainBranch;
+    public GameObject lowerBranch;
+    public GameObject midBranch;
+    public GameObject topBranch;
+
+    public GameObject colliderObject;
+
+
     
 
 
     // Start is called before the first frame update
     void Start()
     {
-        growMat = gameObject.GetComponent<Renderer>().material;
+        mainGrowMat = mainBranch.GetComponent<Renderer>().material;
+        lowGrowMat = lowerBranch.GetComponent<Renderer>().material;
+        midGrowMat = midBranch.GetComponent<Renderer>().material;
+        topGrowMat = topBranch.GetComponent<Renderer>().material;
 
+        // MAIN BRANCH
         // the grow step bound values
-        growValList.Add(0);
-        growValList.Add(0.12f);
-        growValList.Add(0.24f);
-        growValList.Add(0.39f);
-        growValList.Add(0.48f);
-        growValList.Add(0.57f);
-        growValList.Add(0.72f);
-        growValList.Add(1f);
-
+        mainBranchGrowValList.Add(0);      //1
+        mainBranchGrowValList.Add(0.12f);  //2
+        mainBranchGrowValList.Add(0.24f);  //3
+        mainBranchGrowValList.Add(0.39f);  //4
+        mainBranchGrowValList.Add(0.48f);  //5
+        mainBranchGrowValList.Add(0.57f);  //6
+        mainBranchGrowValList.Add(0.72f);  //7
+        mainBranchGrowValList.Add(1f);     //8
         // the scale step bound values
-        scaleValList.Add(-3.5f);
-        scaleValList.Add(-2.9f);
-        scaleValList.Add(-2.7f);
-        scaleValList.Add(-2.5f);
-        scaleValList.Add(-2.1f);
-        scaleValList.Add(-1.9f);
-        scaleValList.Add(-1.1f);
-        scaleValList.Add(0);
+        mainBranchScaleValList.Add(-2.7f); //1
+        mainBranchScaleValList.Add(-2.2f); //2
+        mainBranchScaleValList.Add(-2.2f); //3
+        mainBranchScaleValList.Add(-1.6f); //4
+        mainBranchScaleValList.Add(-1.3f); //5
+        mainBranchScaleValList.Add(-1.2f); //6
+        mainBranchScaleValList.Add(-0.9f); //7
+        mainBranchScaleValList.Add(0);     //8
+        
+        // LOWER BRANCH
+        // the grow step bound values
+        lowerBranchGrowValList.Add(-0.15f); //1
+        lowerBranchGrowValList.Add(-0.07f); //2
+        lowerBranchGrowValList.Add(0.05f); //3
+        lowerBranchGrowValList.Add(0.16f); //4
+        lowerBranchGrowValList.Add(0.23f); //5
+        lowerBranchGrowValList.Add(0.48f); //6
+        lowerBranchGrowValList.Add(0.48f); //7
+        lowerBranchGrowValList.Add(1f); //8
+        // the scale step bound values
+        lowerBranchScaleValList.Add(-1.8f); //1
+        lowerBranchScaleValList.Add(-1.6f); //2
+        lowerBranchScaleValList.Add(-1.4f); //3
+        lowerBranchScaleValList.Add(-0.3f); //4
+        lowerBranchScaleValList.Add(-0.3f); //5
+        lowerBranchScaleValList.Add(0); //6
+        lowerBranchScaleValList.Add(0); //7
+        lowerBranchScaleValList.Add(0); //8
+        
+        // MID BRANCH
+        // the grow step bound values
+        midBranchGrowValList.Add(-0.16f); //1
+        midBranchGrowValList.Add(-0.06f); //2
+        midBranchGrowValList.Add(0.04f); //3
+        midBranchGrowValList.Add(0.11f); //4
+        midBranchGrowValList.Add(0.27f); //5
+        midBranchGrowValList.Add(0.27f); //6
+        midBranchGrowValList.Add(0.27f); //7
+        midBranchGrowValList.Add(1); //8
+        // the scale step bound values
+        midBranchScaleValList.Add(-1.4f); //1
+        midBranchScaleValList.Add(-1.4f); //2
+        midBranchScaleValList.Add(-0.8f); //3
+        midBranchScaleValList.Add(-0.5f); //4
+        midBranchScaleValList.Add(0); //5
+        midBranchScaleValList.Add(0); //6
+        midBranchScaleValList.Add(0); //7
+        midBranchScaleValList.Add(0); //8
+
+        // TOP BRANCH
+        // the grow step bound values
+        topBranchGrowValList.Add(-0.14f); //1
+        topBranchGrowValList.Add(-0.08f); //2
+        topBranchGrowValList.Add(0); //3
+        topBranchGrowValList.Add(0.1f); //4
+        topBranchGrowValList.Add(0.16f); //5
+        topBranchGrowValList.Add(1); //6
+        topBranchGrowValList.Add(1); //7
+        topBranchGrowValList.Add(1); //8
+        // the scale step bound values
+        topBranchScaleValList.Add(-0.7f); //1
+        topBranchScaleValList.Add(-0.7f); //2
+        topBranchScaleValList.Add(-0.5f); //3
+        topBranchScaleValList.Add(-0.3f); //4
+        topBranchScaleValList.Add(-0.2f); //5
+        topBranchScaleValList.Add(0); //6
+        topBranchScaleValList.Add(0); //7
+        topBranchScaleValList.Add(0); //8
+
+
+        // COLLIDER
+        // collider grow value list
+        colliderGrowValList.Add(0);
+        colliderGrowValList.Add(0.2f);
+        colliderGrowValList.Add(0.4f);
+        colliderGrowValList.Add(0.6f);
+        colliderGrowValList.Add(0.8f);
+        colliderGrowValList.Add(1);
+        // collider Y axis scale list
+        colliderScaleValList.Add(1.29f);
+        colliderScaleValList.Add(3.28f);
+        colliderScaleValList.Add(5.37f);
+        colliderScaleValList.Add(7.33f);
+        colliderScaleValList.Add(9.25f);
+        colliderScaleValList.Add(10.69f);
+        // collider Y axis position list
+        colliderPositionValList.Add(7.691f + 2);
+        colliderPositionValList.Add(8.95f + 2);
+        colliderPositionValList.Add(9.94f + 2);
+        colliderPositionValList.Add(10.88f + 2);
+        colliderPositionValList.Add(11.85f + 2);
+        colliderPositionValList.Add(12.65f + 2);
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKey(KeyCode.LeftShift)) // for testing
-        {
-            growValue += Time.deltaTime / 20;
-        }
-
-        growMat.SetFloat("Grow", growValue); // set the shader "Grow" variable to the "growValue"
+        mainGrowMat.SetFloat("Grow", growValue + mainGrowValOffset); // set the shader "Grow" variable to the "growValue"
+        lowGrowMat.SetFloat("Grow", growValue + lowGrowValOffset); // set the shader "Grow" variable to the "growValue"
+        midGrowMat.SetFloat("Grow", growValue + midGrowValOffset); // set the shader "Grow" variable to the "growValue"
+        topGrowMat.SetFloat("Grow", growValue + topGrowValOffset); // set the shader "Grow" variable to the "growValue"
 
         /// SETS THE SHADER "Scale" VALUE, DEPENDENT ON WHAT THE "growValue" CURRENTLY IS (to ensure the vine grows smoothly)
-        if (growValue < growValList[1]) // if grow value is in step 1
+        if (growValue < mainBranchGrowValList[1]) // if grow value is in step 1
         {
-            SetScaleValue(1); // set scale value for step 1
+            SetScaleValue(1,mainBranchGrowValList, mainBranchScaleValList, mainGrowMat, mainGrowValOffset); // set scale value for step 1
         }
-        else if (growValue < growValList[2])// if grow value is in step 1...
+        else if (growValue < mainBranchGrowValList[2])// if grow value is in step 1...
         {
-            SetScaleValue(2); // set scale value for step 1...
+            SetScaleValue(2, mainBranchGrowValList, mainBranchScaleValList, mainGrowMat, mainGrowValOffset); // set scale value for step 1...
         }
-        else if (growValue < growValList[3])
+        else if (growValue < mainBranchGrowValList[3])
         {
-            SetScaleValue(3);
+            SetScaleValue(3, mainBranchGrowValList, mainBranchScaleValList, mainGrowMat, mainGrowValOffset);
         }
-        else if (growValue < growValList[4])
+        else if (growValue < mainBranchGrowValList[4])
         {
-            SetScaleValue(4);
+            SetScaleValue(4, mainBranchGrowValList, mainBranchScaleValList, mainGrowMat, mainGrowValOffset);
         }
-        else if (growValue < growValList[5])
+        else if (growValue < mainBranchGrowValList[5])
         {
-            SetScaleValue(5);
+            SetScaleValue(5, mainBranchGrowValList, mainBranchScaleValList, mainGrowMat, mainGrowValOffset);
         }
-        else if (growValue < growValList[6])
+        else if (growValue < mainBranchGrowValList[6])
         {
-            SetScaleValue(6);
+            SetScaleValue(6, mainBranchGrowValList, mainBranchScaleValList, mainGrowMat, mainGrowValOffset);
         }
-        else if (growValue < growValList[7])
+        else if (growValue < mainBranchGrowValList[7])
         {
-            SetScaleValue(7);
+            SetScaleValue(7, mainBranchGrowValList, mainBranchScaleValList, mainGrowMat, mainGrowValOffset);
         }
-        else if (growValue < growValList[8])
+        else if (growValue < mainBranchGrowValList[8])
         {
-            SetScaleValue(8);
+            SetScaleValue(8, mainBranchGrowValList, mainBranchScaleValList, mainGrowMat, mainGrowValOffset);
+        }
+
+        /// SETS THE SHADER "Scale" VALUE, DEPENDENT ON WHAT THE "growValue" CURRENTLY IS (to ensure the vine grows smoothly)
+        if (growValue + lowGrowValOffset < lowerBranchGrowValList[1]) // if grow value is in step 1
+        {
+            SetScaleValue(1, lowerBranchGrowValList, lowerBranchScaleValList, lowGrowMat, lowGrowValOffset); // set scale value for step 1
+        }
+        else if (growValue + lowGrowValOffset < lowerBranchGrowValList[2])// if grow value is in step 1...
+        {
+            SetScaleValue(2, lowerBranchGrowValList, lowerBranchScaleValList, lowGrowMat, lowGrowValOffset); // set scale value for step 1...
+        }
+        else if (growValue + lowGrowValOffset < lowerBranchGrowValList[3])
+        {
+            SetScaleValue(3, lowerBranchGrowValList, lowerBranchScaleValList, lowGrowMat, lowGrowValOffset);
+        }
+        else if (growValue + lowGrowValOffset < lowerBranchGrowValList[4])
+        {
+            SetScaleValue(4, lowerBranchGrowValList, lowerBranchScaleValList, lowGrowMat, lowGrowValOffset);
+        }
+        else if (growValue + lowGrowValOffset < lowerBranchGrowValList[5])
+        {
+            SetScaleValue(5, lowerBranchGrowValList, lowerBranchScaleValList, lowGrowMat, lowGrowValOffset);
+        }
+        else if (growValue + lowGrowValOffset < lowerBranchGrowValList[6])
+        {
+            SetScaleValue(6, lowerBranchGrowValList, lowerBranchScaleValList, lowGrowMat, lowGrowValOffset);
+        }
+        else if (growValue + lowGrowValOffset < lowerBranchGrowValList[7])
+        {
+            SetScaleValue(7, lowerBranchGrowValList, lowerBranchScaleValList, lowGrowMat, lowGrowValOffset);
+        }
+        else if (growValue + lowGrowValOffset < lowerBranchGrowValList[8])
+        {
+            SetScaleValue(8, lowerBranchGrowValList, lowerBranchScaleValList, lowGrowMat, lowGrowValOffset);
+        }
+
+        /// SETS THE SHADER "Scale" VALUE, DEPENDENT ON WHAT THE "growValue" CURRENTLY IS (to ensure the vine grows smoothly)
+        if (growValue + midGrowValOffset < midBranchGrowValList[1]) // if grow value is in step 1
+        {
+            SetScaleValue(1, midBranchGrowValList, midBranchScaleValList, midGrowMat, midGrowValOffset); // set scale value for step 1
+        }
+        else if (growValue + midGrowValOffset < midBranchGrowValList[2])// if grow value is in step 1...
+        {
+            SetScaleValue(2, midBranchGrowValList, midBranchScaleValList, midGrowMat, midGrowValOffset); // set scale value for step 1...
+        }
+        else if (growValue + midGrowValOffset < midBranchGrowValList[3])
+        {
+            SetScaleValue(3, midBranchGrowValList, midBranchScaleValList, midGrowMat, midGrowValOffset);
+        }
+        else if (growValue + midGrowValOffset < midBranchGrowValList[4])
+        {
+            SetScaleValue(4, midBranchGrowValList, midBranchScaleValList, midGrowMat, midGrowValOffset);
+        }
+        else if (growValue + midGrowValOffset < midBranchGrowValList[5])
+        {
+            SetScaleValue(5, midBranchGrowValList, midBranchScaleValList, midGrowMat, midGrowValOffset);
+        }
+        else if (growValue + midGrowValOffset < midBranchGrowValList[6])
+        {
+            SetScaleValue(6, midBranchGrowValList, midBranchScaleValList, midGrowMat, midGrowValOffset);
+        }
+        else if (growValue + midGrowValOffset < midBranchGrowValList[7])
+        {
+            SetScaleValue(7, midBranchGrowValList, midBranchScaleValList, midGrowMat, midGrowValOffset);
+        }
+        else if (growValue + midGrowValOffset < midBranchGrowValList[8])
+        {
+            SetScaleValue(8, midBranchGrowValList, midBranchScaleValList, midGrowMat, midGrowValOffset);
+        }
+
+        /// SETS THE SHADER "Scale" VALUE, DEPENDENT ON WHAT THE "growValue" CURRENTLY IS (to ensure the vine grows smoothly)
+        if (growValue + topGrowValOffset < topBranchGrowValList[1]) // if grow value is in step 1
+        {
+            SetScaleValue(1, topBranchGrowValList, topBranchScaleValList, topGrowMat, topGrowValOffset); // set scale value for step 1
+        }
+        else if (growValue + topGrowValOffset < topBranchGrowValList[2])// if grow value is in step 1...
+        {
+            SetScaleValue(2, topBranchGrowValList, topBranchScaleValList, topGrowMat, topGrowValOffset); // set scale value for step 1...
+        }
+        else if (growValue + topGrowValOffset < topBranchGrowValList[3])
+        {
+            SetScaleValue(3, topBranchGrowValList, topBranchScaleValList, topGrowMat, topGrowValOffset);
+        }
+        else if (growValue + topGrowValOffset < topBranchGrowValList[4])
+        {
+            SetScaleValue(4, topBranchGrowValList, topBranchScaleValList, topGrowMat, topGrowValOffset);
+        }
+        else if (growValue + topGrowValOffset < topBranchGrowValList[5])
+        {
+            SetScaleValue(5, topBranchGrowValList, topBranchScaleValList, topGrowMat, topGrowValOffset);
+        }
+        else if (growValue + topGrowValOffset < topBranchGrowValList[6])
+        {
+            SetScaleValue(6, topBranchGrowValList, topBranchScaleValList, topGrowMat, topGrowValOffset);
+        }
+        else if (growValue + topGrowValOffset < topBranchGrowValList[7])
+        {
+            SetScaleValue(7, topBranchGrowValList, topBranchScaleValList, topGrowMat, topGrowValOffset);
+        }
+        else if (growValue + topGrowValOffset < topBranchGrowValList[8])
+        {
+            SetScaleValue(8, topBranchGrowValList, topBranchScaleValList, topGrowMat, topGrowValOffset);
+        }
+
+        // SETS NEW SCALE AND POSITION FOR THE COLLIDER, BASED ON WHAT THE GROW VALUE CURRENTLY IS
+        if (growValue < colliderGrowValList[1])
+        {
+            SetCollidierScaleAndPosition(1);
+        }
+        else if (growValue < colliderGrowValList[2])
+        {
+            SetCollidierScaleAndPosition(2);
+        }
+        else if (growValue < colliderGrowValList[3])
+        {
+            SetCollidierScaleAndPosition(3);
+        }
+        else if (growValue < colliderGrowValList[4])
+        {
+            SetCollidierScaleAndPosition(4);
+        }
+        else if (growValue < colliderGrowValList[5])
+        {
+            SetCollidierScaleAndPosition(5);
+        }
+        else if (growValue < colliderGrowValList[6])
+        {
+            SetCollidierScaleAndPosition(6);
         }
     }
 
-    void SetScaleValue(int stepIndex)
+    void SetScaleValue(int stepIndex, List<float> growValList, List<float> scaleValList, Material growMat, float offset)
     {
         growStepSize = growValList[stepIndex] - growValList[stepIndex - 1]; // get the current step size
-        growStepProgress = growValue - growValList[stepIndex - 1];  // get the grow progress in the current step
+        growStepProgress = growValue + offset - growValList[stepIndex - 1];  // get the grow progress in the current step
         stepProportionComplete = growStepProgress / growStepSize;  // get the grow step proportion complete
 
         growMat.SetFloat("Scale", Mathf.Lerp(scaleValList[stepIndex - 1], scaleValList[stepIndex], stepProportionComplete));  // set scale value as interpolated by the grow step proportion complete val
+    }
+
+
+    void SetCollidierScaleAndPosition(int stepIndex)
+    {
+        float stepSize = 0.2f;
+        growStepProgress = growValue - colliderGrowValList[stepIndex - 1];
+        stepProportionComplete = growStepProgress / stepSize;
+
+        Vector3 newPosition = colliderObject.transform.position;
+        newPosition.y = Mathf.Lerp(colliderPositionValList[stepIndex - 1], colliderPositionValList[stepIndex], stepProportionComplete);
+        colliderObject.transform.position = newPosition;
+
+        Vector3 newScale = colliderObject.transform.localScale;
+        newScale.y = Mathf.Lerp(colliderScaleValList[stepIndex - 1], colliderScaleValList[stepIndex], stepProportionComplete);
+        colliderObject.transform.localScale = newScale;
     }
 }

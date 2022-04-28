@@ -10,20 +10,39 @@ public class WateringTriggerArea : MonoBehaviour
     public bool wateringCanDetected = false;
     public bool slurpSoundPlaying = false;
     public AudioSource slurpSound;
-    
+    private GrowVine growVineScript;
+
+
+    void Start()
+    {
+        growVineScript = growVine.GetComponent<GrowVine>();
+    }
+
+
     void Update()
     {
         if (wateringCanDetected == true) // if watering can is in collider
         {
             if (wateringCan.GetComponent<WateringCan>().isWatering == true) // if the player is currently watering
             {
-                if (slurpSoundPlaying == false) // play the sound if not already playing
+                if (PlantScript.isPlantEnchanted == true && PlantGrowLocation.isTheVinePlanted == true)
                 {
-                    slurpSound.Play();
-                    slurpSoundPlaying = true;
-                }
+                    if (slurpSoundPlaying == false) // play the sound if not already playing
+                    {
+                        slurpSound.Play();
+                        slurpSoundPlaying = true;
+                    }
 
-                growVine.GetComponent<GrowVine>().growValue += Time.deltaTime / 10; // increase the vine grow amount
+                    if (growVineScript.growValue < 0.999f) // if grow vine isn't fully grown
+                    {
+                        growVineScript.growValue += Time.deltaTime / 15; // increase the vine grow amount
+
+                        if (growVineScript.growValue > 0.999f)
+                        {
+                            growVineScript.growValue = 0.999f;
+                        }
+                    }
+                }
             }
         }
     }
