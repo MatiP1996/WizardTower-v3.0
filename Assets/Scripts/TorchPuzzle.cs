@@ -36,7 +36,6 @@ public class TorchPuzzle : InteractionParent
 
         correctFlame.SetActive(false);              // set the correct flame inactive
 
-
         targetScript = puzzleMaster.GetComponent<BottomFloorPuzzle>();      // reference the puzzle master script
 
 
