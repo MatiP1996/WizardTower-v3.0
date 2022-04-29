@@ -11,6 +11,10 @@ TagManager:
   - plant
   - tap
   - wateringCan
+  - Painting
+  - Line
+  - TeleScope
+  - StarCam
   layers:
   - Default
   - TransparentFX
