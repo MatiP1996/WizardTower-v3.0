@@ -158,6 +158,9 @@ public class GrowVine : MonoBehaviour
         colliderPositionValList.Add(10.88f + 2);
         colliderPositionValList.Add(11.85f + 2);
         colliderPositionValList.Add(12.65f + 2);
+
+        SetCollidierScaleAndPosition(1);
+
     }
 
     // Update is called once per frame
