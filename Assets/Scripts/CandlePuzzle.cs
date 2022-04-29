@@ -38,7 +38,7 @@ public class CandlePuzzle : InteractionParent
     // Update is called once per frame
     void Update()
     {
-        /*if(interactionTarget.itemIDs.Contains(itemId))
+        if(interactionTarget.itemIDs.Contains(itemId))
         {
             gameObject.layer = 0;                           // switch the layer mask (disable interaction)
         }
@@ -49,12 +49,11 @@ public class CandlePuzzle : InteractionParent
             {
                 defaultMessage = "E - Light the candle";
             }
-        }*/
+        }
     }
 
     public override List<int> Activate(List<int> playerItems)       // activate function (overrides the parent class)
     {
-        /*
         if (interactionTarget.candleActive)                         // if player has candle...
         {
             // if player contains any flames....
@@ -86,7 +85,7 @@ public class CandlePuzzle : InteractionParent
                     source.PlayOneShot(defaultClip);
                 }
             }
-        }*/
+        }
 
         return playerItems;
     }
