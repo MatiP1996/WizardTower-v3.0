@@ -25,9 +25,6 @@ public class InteractionManager : MonoBehaviour
 
     public bool candleActive;               // player holding candle
     public bool flameActive;
-
-    // some changes as a test 
-
     // Start is called before the first frame update
     void Start()
     {
