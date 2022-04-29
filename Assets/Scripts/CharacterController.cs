@@ -24,13 +24,11 @@ public class CharacterController : MonoBehaviour
     public float groundDistance;
     public float jumpDelay;
     public float timeJumped;
-
     public bool movementAllowed;
-    public bool inputAllowed = true;
 
     // player grab purposes
-    //   public GameObject playerCamera;
-    //    public CameraControl cameraScript;
+ //   public GameObject playerCamera;
+//    public CameraControl cameraScript;
 
     public bool spaceAllowed;
     // Start is called before the first frame update
@@ -42,20 +40,14 @@ public class CharacterController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {                           //  determine inputs
+        horizontal = Input.GetAxis("Horizontal"); // player movement choices
+        vertical = Input.GetAxis("Vertical");
 
-        //  determine inputs
-        if (inputAllowed)
+        if (Input.GetKeyDown(KeyCode.Space))     // check jump
         {
-            horizontal = Input.GetAxis("Horizontal"); // player movement choices
-            vertical = Input.GetAxis("Vertical");
-
-            if (Input.GetKeyDown(KeyCode.Space))     // check jump
-            {
-                jump = true;
-            }
+            jump = true;
         }
-
     }
 
     private void FixedUpdate()  // every physics tick
