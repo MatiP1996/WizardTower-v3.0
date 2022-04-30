@@ -14,7 +14,7 @@ public class CamMove : MonoBehaviour
     {
         startCamPos = transform;
         mouseStart = Input.mousePosition.x;
-        Debug.Log(Input.mousePosition.x);
+
         player = GameObject.FindGameObjectWithTag("Player");
 
         camTeleScript = player.transform.GetChild(1).GetComponent<CamToTele>();

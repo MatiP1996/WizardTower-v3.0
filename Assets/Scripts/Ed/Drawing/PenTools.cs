@@ -91,7 +91,7 @@ public class PenTools : MonoBehaviour
         {
 
             //GetNearestPoint();
-            
+            /*
             
             //DELTED TO STOP POINT SPAWNING
 
@@ -109,7 +109,7 @@ public class PenTools : MonoBehaviour
                 currentLine.AddPoint(transformScript.closestPoint.transform);
             }
 
-
+            */
             //transformScript.SetPoint();
             
         }

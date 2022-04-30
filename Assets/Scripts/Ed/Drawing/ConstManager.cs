@@ -7,12 +7,23 @@ public class ConstManager : MonoBehaviour
     public GameObject lineParent;
     Transform[] array;
     List<int> pointsPressed = new List<int>();
-    bool completed = false;
+    public bool completed;
+    CamToTele camTele;
+    static GameObject player;
+    GameObject lpChild;
+    bool doOnce = false;
+    bool oneTime = false;
+
+    [SerializeField] TransformsFound transformsFound;
+
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         array = gameObject.GetComponentsInChildren<Transform>();
-        Debug.Log(array.Length);
+
+        camTele = player.transform.GetChild(1).GetComponent<CamToTele>();
+
     }
     public void AddPoint(int DotID)
     {
@@ -45,25 +56,71 @@ public class ConstManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log("Pressed num" + pointsPressed.Count);
 
-        if (array.Length - 1 == pointsPressed.Count)
+        if (camTele.inTele)
         {
-            completed = CheckOrder();
 
-            if (completed)
+            if (array.Length - 1 == pointsPressed.Count)
             {
-                foreach (Transform child in transform)
-                {
-                    child.gameObject.GetComponent<DotScript>().isSelected = true;
+                completed = CheckOrder();
+                Debug.Log(completed);
 
+                if (completed)
+                {
+                    foreach (Transform child in transform)
+                    {
+                        child.gameObject.GetComponent<DotScript>().isSelected = true;
+
+
+                    }
+
+                    if (lineParent.transform.childCount > 0)
+                    {
+
+                        if (!doOnce)
+                        {
+                            lpChild = lineParent.transform.GetChild(0).gameObject;
+                            lineParent.transform.GetChild(0).gameObject.SetActive(false);
+                            Destroy(lpChild);
+
+
+                            transformsFound.currentLine = null;
+
+                            doOnce = true;
+                        }
+
+                    }
 
                 }
-                Debug.Log(lineParent.transform.GetChild(0).gameObject);
-                //GameObject.Destroy(lineParent.transform.GetChild(0).gameObject);
-                lineParent.transform.GetChild(0).gameObject.SetActive(false);
-                ///lineParent.transform.GetChild(0).gameObject = null;
+                else 
+                {
+                    foreach (Transform child in transform)
+                    {
+                        child.gameObject.GetComponent<DotScript>().isSelected = false;
+                        child.gameObject.GetComponent<DotScript>().doOnce = false;
+
+
+                    }
+                    if (lineParent.transform.childCount > 0)
+                    {
+
+                        if (!oneTime)
+                        {
+                            lpChild = lineParent.transform.GetChild(0).gameObject;
+                            lineParent.transform.GetChild(0).gameObject.SetActive(false);
+                            Destroy(lpChild);
+
+
+                            transformsFound.currentLine = null;
+
+                            pointsPressed.Clear();
+                            Debug.Log("Cleared");
+                        }
+
+                    }
+                }
             }
         }
+
     }
 }

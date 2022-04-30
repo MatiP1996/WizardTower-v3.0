@@ -6,7 +6,7 @@ public class PaintingManager : MonoBehaviour
 {
 
     List<GameObject> paintings = new List<GameObject>();
-    GameObject[] allPaintings;
+    public GameObject[] allPaintings;
     int integer;
     bool allComplete = false;
 
@@ -15,32 +15,30 @@ public class PaintingManager : MonoBehaviour
     {
         //GameObject.FindObjectsOfType<Painting>();
 
-        allPaintings = GameObject.FindGameObjectsWithTag("Painting");
-
-
-        foreach (GameObject i in allPaintings)
-        {
-            paintings.Add(i);
-        }
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("List Count:"+ paintings.Count);
-        foreach (GameObject i in paintings)
+        if (allComplete)
         {
-            /*if (i.GetComponent<Painting>().correctPos == true)
+            Debug.Log("All paintings true");
+        }
+        foreach (GameObject i in allPaintings)
+        {
+            if (i.GetComponent<Painting>().correctPos)
             {
                 allComplete = true;
-
-                Debug.Log("completed");
+                
             }
-            else 
+            else
             {
-                allComplete = !allComplete;
-            }*/
+                allComplete = false;
+                Debug.Log("All paintings not true");
+            }
+
         }
+
+
     }
 }

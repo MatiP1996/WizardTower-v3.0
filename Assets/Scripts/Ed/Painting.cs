@@ -44,6 +44,10 @@ public class Painting : MonoBehaviour
     Vector3 freeCamPos;
     CharacterController cc;
 
+    Color redLight;
+    float chosenPointRot;
+    float selectedBoxRot;
+
     // Start is called before the first frame update
 
 
@@ -64,6 +68,7 @@ public class Painting : MonoBehaviour
         controlScript = player.GetComponent<PlayerMove>();
         playerCam = player.transform.GetChild(1).GetComponent<Camera>();
 
+        redLight = transform.GetChild(4).GetComponent<Light>().color;
 
         obj = gameObject;
         point = obj.transform;
@@ -187,6 +192,15 @@ public class Painting : MonoBehaviour
     void Update()
     {
 
+        if (correctPos)
+        {
+            transform.GetChild(4).GetComponent<Light>().color = new Color(0, 1, 0,1);
+        }
+        else
+        {
+            transform.GetChild(4).GetComponent<Light>().color = new Color(1, 0, 0, 1);
+        }
+
         if (paintingInUse)
         {
             freeCamPos = freeCam.transform.position;
@@ -196,11 +210,14 @@ public class Painting : MonoBehaviour
             freeCam.transform.eulerAngles = new Vector3(freeCam.transform.eulerAngles.x,18f,freeCam.transform.eulerAngles.z);
 
             Debug.Log("Point:"+chosenPoint.localRotation.eulerAngles.z+"  Plane:"+selectedBox.localRotation.eulerAngles.y);
-            
-            if (selectedBox.localEulerAngles.z == chosenPoint.localEulerAngles.z)
+
+            if (selectedBox.localRotation.eulerAngles.y == chosenPoint.localRotation.eulerAngles.z)
             {
-                Debug.Log("ORINETATION CORREVT");
                 correctRot = true;
+            }
+            else
+            {
+                correctRot = false;
             }
             mousePos = Input.mousePosition;
            
@@ -208,7 +225,6 @@ public class Painting : MonoBehaviour
             if (!mouseStartPosReset)
             {
                 mouseStartPos = Input.mousePosition;
-                Debug.Log(mouseStartPos);
                 mouseStartPosReset = true;
             }
 
@@ -260,6 +276,7 @@ public class Painting : MonoBehaviour
                 freeCam.transform.position = new Vector3(selectedBox.transform.position.x, selectedBox.transform.position.y, freeCam.transform.position.z - 1);
             }
 
+
             if (correctLoc && correctRot)
             {
                 correctPos = true;
@@ -283,14 +300,7 @@ public class Painting : MonoBehaviour
                 RotatePiece(selectedBox, 90);
 
 
-                if (selectedBox.localRotation.eulerAngles.y == chosenPoint.localRotation.eulerAngles.z)
-                {
-                    correctRot = true;
-                }
-                else
-                {
-                    correctRot = false;
-                }
+
 
             }
             if (Input.GetMouseButtonDown(0))
