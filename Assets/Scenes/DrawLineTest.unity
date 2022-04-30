@@ -551,7 +551,7 @@ GameObject:
   - component: {fileID: 113843011}
   - component: {fileID: 113843012}
   m_Layer: 0
-  m_Name: Set2
+  m_Name: Set3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -595,7 +595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae29c5f09a3d4264c9d36857a8c7299f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineParent: {fileID: 0}
+  lineParent: {fileID: 1235330419}
 --- !u!1 &187739449
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae29c5f09a3d4264c9d36857a8c7299f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineParent: {fileID: 0}
+  lineParent: {fileID: 1235330419}
 --- !u!1001 &269665580
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -36,6 +36,7 @@ public class PenTools : MonoBehaviour
     GameObject player;
     InteractionManager intMan;
     GameObject starCam;
+    CamToTele camTele;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +44,7 @@ public class PenTools : MonoBehaviour
         transformScript = circleColObj.GetComponent<TransformsFound>();
         player = GameObject.FindGameObjectWithTag("Player");
         starCam = GameObject.FindGameObjectWithTag("StarCam");
-
+        camTele = player.transform.GetChild(1).GetComponent<CamToTele>();
 
 
     }
@@ -56,6 +57,8 @@ public class PenTools : MonoBehaviour
         //SceneManager.LoadScene("Main Scene");
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Main Scene"));
         //intMan.leaveTelescope();
+
+        camTele.LeaveTele();
 
 
     }

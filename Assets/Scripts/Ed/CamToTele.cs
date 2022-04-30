@@ -12,6 +12,8 @@ public class CamToTele : MonoBehaviour
     string DrawLineTest = "DrawLineTest";
     Scene currentScene;
     GameObject starCamGo;
+    GameObject player;
+    Camera playerCam;
     Camera starCam;
     public GameObject freeCam;
     // Start is called before the first frame update
@@ -19,13 +21,19 @@ public class CamToTele : MonoBehaviour
     {
         starCamGo = GameObject.FindGameObjectWithTag("StarCam");
         starCam = starCamGo.GetComponent<Camera>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerCam = player.transform.GetChild(1).GetComponent<Camera>();
     }
 
     public void LeaveTele()
     {
+        freeCam.GetComponent<Camera>().enabled = true;
+        playerCam.enabled = true; 
+
         starCam.enabled = false;
         inTele = false;
-        freeCam.GetComponent<Camera>().enabled = false;
+
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
