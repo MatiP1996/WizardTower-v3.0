@@ -12,7 +12,7 @@ public class LineController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        lineRef.sortingOrder = 1;
     }
     private void Awake()
     {

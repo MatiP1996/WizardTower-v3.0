@@ -12,6 +12,14 @@ public class TransformsFound : MonoBehaviour
     GameObject player;
     CamToTele camScript;
     GameObject starCam;
+
+    [Header("Lines")]
+    [SerializeField] Transform lineParent;
+    [SerializeField] private GameObject linePrefab;
+
+    public LineController currentLine;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +28,6 @@ public class TransformsFound : MonoBehaviour
         circleCol = gameObject.GetComponent<CircleCollider2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         camScript = player.transform.GetChild(1).GetComponent<CamToTele>();
-
     }
 
     Transform GetClosestPoint(List<Transform> points)
@@ -44,8 +51,13 @@ public class TransformsFound : MonoBehaviour
     }
     private Vector3 GetMousePosition()
     {
+        //Vector3 mousePos = new Vector3(0,0,0);
+        //Ray ray = starCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+
         Vector3 mousePos = starCam.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
+
+        //change to area on z axis
+        mousePos.z = 165;
 
         return mousePos;
     }
@@ -60,7 +72,7 @@ public class TransformsFound : MonoBehaviour
     public void SetPoint()
     {
         Debug.Log(nearby.Count);
-        
+
 
         /*if (GetClosestPoint(nearby).gameObject != null)
         {
@@ -86,43 +98,61 @@ public class TransformsFound : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (camScript.inTele)///CHASNGE TO INTELE BOOL
         {
+            if (currentLine != null)
+            {
+                Debug.Log(currentLine.points.Count);
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
                 GetNearestPoint();
 
                 Delay(0.01f);
 
 
-                if (GetClosestPoint(nearby) != null)
-                {
-                    closestPoint = GetClosestPoint(nearby).gameObject;
-
-                    if (closestPoint.gameObject.GetComponent<DotScript>() != null)
-                    {
-                        closestPoint.GetComponent<DotScript>().isSelected = !closestPoint.GetComponent<DotScript>().isSelected;
-                        //Debug.Log(closestPoint.GetComponent<DotScript>().isSelected);
-                    }
-
-                }
-
-
-
             }
 
         }
-        
 
+
+    }
+    private void CheckPoints()
+    {
+        if (GetClosestPoint(nearby) != null)
+        {
+            Debug.Log("PointNOTNULL");
+            closestPoint = GetClosestPoint(nearby).gameObject;
+            Debug.Log(closestPoint);
+
+            if (closestPoint.gameObject.GetComponent<DotScript>() != null)
+            {
+                closestPoint.GetComponent<DotScript>().isSelected = !closestPoint.GetComponent<DotScript>().isSelected;
+            }
+
+
+            if (currentLine == null)
+            {
+                currentLine = Instantiate(linePrefab, Vector3.zero, Quaternion.identity, lineParent).GetComponent<LineController>();
+                Debug.Log("Instanciated line");
+            }
+
+            if (closestPoint != null)
+            {
+                Debug.Log("ADDED POINT");
+                currentLine.AddPoint(closestPoint.transform);
+            }
+
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         nearby.Add(collision.transform);
         Debug.Log(collision.transform);
+        CheckPoints();
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

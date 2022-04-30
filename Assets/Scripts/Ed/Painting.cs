@@ -42,6 +42,7 @@ public class Painting : MonoBehaviour
     float boxAngle;
     float chosenPointAngle;
     Vector3 freeCamPos;
+    CharacterController cc;
 
     // Start is called before the first frame update
 
@@ -54,6 +55,7 @@ public class Painting : MonoBehaviour
         freeCamStartFOV = freeCam.fieldOfView;
 
         player = GameObject.FindGameObjectWithTag("Player");
+        cc = player.GetComponent<CharacterController>();
 
         freecamStartPos = camPos.transform;
         startBoxRot.eulerAngles = selectedBox.localEulerAngles;
@@ -111,9 +113,10 @@ public class Painting : MonoBehaviour
         CameraTransform();
         freeCam.transform.SetParent(transform);
 
+        //cc.enabled = false;
         controlScript.inputAllowed = false;
         paintingInUse = true;
-        player.GetComponent<MeshRenderer>().enabled = false;
+        //player.GetComponent<MeshRenderer>().enabled = false;
 
 
         mousePos = Input.mousePosition;
@@ -133,14 +136,15 @@ public class Painting : MonoBehaviour
 
     void LeavePainting()
     {
-        player.GetComponent<MeshRenderer>().enabled = true;
+        //player.GetComponent<MeshRenderer>().enabled = true;
         player.transform.GetChild(1).GetComponent<Camera>().enabled = true;
         //controlScript.rb.detectCollisions = true;
 
         freeCam.enabled = false;
         paintingInUse = false;
-        player.GetComponent<Rigidbody>().isKinematic = false;
+
         player.GetComponent<PlayerMove>().inputAllowed = true;
+        //cc.enabled = true;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

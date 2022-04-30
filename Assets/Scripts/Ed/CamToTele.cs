@@ -13,6 +13,7 @@ public class CamToTele : MonoBehaviour
     Scene currentScene;
     GameObject starCamGo;
     Camera starCam;
+    public GameObject freeCam;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +25,7 @@ public class CamToTele : MonoBehaviour
     {
         starCam.enabled = false;
         inTele = false;
+        freeCam.GetComponent<Camera>().enabled = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -32,7 +34,7 @@ public class CamToTele : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position,teleLens.position,camMoveSpeed * Time.deltaTime);
         inTele = true;
 
-        
+        freeCam.GetComponent<Camera>().enabled = false;
         starCam.enabled = true;
 
 

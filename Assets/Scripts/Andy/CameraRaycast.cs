@@ -13,6 +13,19 @@ public class CameraRaycast : MonoBehaviour
     public static GameObject priorHitInteractable;    // the interactable hit before the "currentHitInteractable"
 
 
+    GameObject selectedGameObject;
+    Painting paintingScript;
+    GameObject player;
+    Camera playerCam;
+    CamToTele camTele;
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerCam = player.transform.GetChild(1).GetComponent<Camera>();
+        camTele = player.transform.GetChild(1).GetComponent<CamToTele>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -22,6 +35,33 @@ public class CameraRaycast : MonoBehaviour
         ray = new Ray(cameraOrigin, cameraDirection);
 
         /// UPDATES "currentHitInteractable" WITH WHATEVER INTERACTABLE THE PLAYER IS LOOKING AT, IF PLAYER ISN'T LOOKING AT AN INTERACTABLE, SET "currentHitInteractable" TO NULL ///
+        /// 
+
+        if (Physics.Raycast(ray, out raycastHit ,3) && Input.GetKeyDown(KeyCode.E))
+        {
+            selectedGameObject = raycastHit.transform.gameObject;
+            if (raycastHit.transform.gameObject.tag == "Painting")
+            {
+                Debug.Log("HIt painting");
+                selectedGameObject = raycastHit.transform.gameObject;
+
+                paintingScript = selectedGameObject.GetComponent<Painting>();
+                Debug.Log(paintingScript);
+                
+                paintingScript.InteractPainting(selectedGameObject);
+            }
+            else if (selectedGameObject.tag == "TeleScope")
+            {
+                Debug.Log("hit tele");
+
+                playerCam.enabled = false;
+
+                //freeCam.eulerAngles = new Vector3(freeCam.eulerAngles.x, freeCam.eulerAngles.y + 180, freeCam.eulerAngles.z);
+                camTele.GoToTele();
+
+            }
+        }
+
         if (Physics.Raycast(ray, out raycastHit, 3, LayerMask))  // if something is hit AND the object hit is of the layer specified (layer specified is currently "interactable")
         {
             if (raycastHit.collider.gameObject != currentHitInteractable)
