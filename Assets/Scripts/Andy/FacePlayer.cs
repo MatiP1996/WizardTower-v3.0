@@ -5,7 +5,7 @@ using UnityEngine;
 public class FacePlayer : MonoBehaviour
 {
     public GameObject playerCamera;
-    private Vector3 thisObjToPlayerVector;
+  //  private Vector3 thisObjToPlayerVector;
 
 
     // Update is called once per frame

@@ -20,7 +20,7 @@ public class CamToTele : MonoBehaviour
     void Start()
     {
         starCamGo = GameObject.FindGameObjectWithTag("StarCam");
-        starCam = starCamGo.GetComponent<Camera>();
+      //  starCam = starCamGo.GetComponent<Camera>();    // error coming up - mateusz
         player = GameObject.FindGameObjectWithTag("Player");
         playerCam = player.transform.GetChild(1).GetComponent<Camera>();
     }
