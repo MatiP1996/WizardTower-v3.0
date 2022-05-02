@@ -210,16 +210,13 @@ public class Painting : MonoBehaviour
             freeCam.transform.eulerAngles = new Vector3(freeCam.transform.eulerAngles.x,18f,freeCam.transform.eulerAngles.z);
 
 
-            Debug.Log(chosenPoint.localRotation.eulerAngles.x);
+
 
             if (chosenPoint.localRotation.eulerAngles.x != 0)
             {
                 chosenPointRot = chosenPoint.localRotation.eulerAngles.x + 90;
             }
-            else if (chosenPoint.localRotation.eulerAngles.x == 0)
-            {
-                chosenPointRot = 270;
-            }
+
             else if (chosenPoint.localRotation.eulerAngles.x == -180)
             {
                 //chosenPointRot = 90;
@@ -227,9 +224,15 @@ public class Painting : MonoBehaviour
 
             }
 
+            if (chosenPointRot == 0)
+            {
+                chosenPointRot = 90;
+            }
+
+
             if (chosenPointRot == 90 && chosenPoint.localRotation.eulerAngles.x == 0)
             {
-                chosenPointRot = 0;
+                //chosenPointRot = 0;
             }
             else if (chosenPointRot == 90)
             {
@@ -257,15 +260,7 @@ public class Painting : MonoBehaviour
 
 
             }
-            else if (chosenPointRot < 90)
-            {
-                //chosenPointRot = 270;
-            }
 
-            if (chosenPointRot == 90)
-            {
-                //chosenPointRot = 270;
-            }
 
             if (chosenPointRot == 360)
             {
@@ -280,6 +275,8 @@ public class Painting : MonoBehaviour
             {
                 //chosenPointRot = (chosenPoint.localRotation.eulerAngles.x + -90f) +360f;
             }
+
+            Debug.Log(chosenPointRot);
 
             Debug.Log("Point:" + chosenPointRot + "  Plane:" + selectedBox.localRotation.eulerAngles.y);
 
