@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 41600433}
   - component: {fileID: 41600432}
   m_Layer: 0
-  m_Name: testflame (1)
+  m_Name: topaz candle flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6138,7 +6138,7 @@ GameObject:
   - component: {fileID: 467173945}
   - component: {fileID: 467173944}
   m_Layer: 0
-  m_Name: testflame (4)
+  m_Name: emerald candle flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24964,7 +24964,7 @@ GameObject:
   - component: {fileID: 828523391}
   - component: {fileID: 828523390}
   m_Layer: 0
-  m_Name: testflame (5)
+  m_Name: topaz candle flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29217,7 +29217,7 @@ GameObject:
   - component: {fileID: 1090000831}
   - component: {fileID: 1090000830}
   m_Layer: 0
-  m_Name: testflame (6)
+  m_Name: amethyst candle flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36222,7 +36222,7 @@ GameObject:
   - component: {fileID: 1520136227}
   - component: {fileID: 1520136226}
   m_Layer: 0
-  m_Name: testflame (3)
+  m_Name: jasper candle flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43071,7 +43071,7 @@ GameObject:
   - component: {fileID: 2008699753}
   - component: {fileID: 2008699752}
   m_Layer: 0
-  m_Name: testflame (2)
+  m_Name: sapphire candle flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
