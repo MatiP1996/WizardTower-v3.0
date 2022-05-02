@@ -34,7 +34,7 @@ public class PaintingManager : MonoBehaviour
             else
             {
                 allComplete = false;
-                Debug.Log("All paintings not true");
+             //   Debug.Log("All paintings not true");
             }
 
         }
