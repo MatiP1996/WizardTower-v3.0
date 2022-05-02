@@ -59,7 +59,10 @@ public class ConstManager : MonoBehaviour
 
         if (camTele.inTele)
         {
-
+            if (array.Length - 1 == pointsPressed.Count)
+            {
+                completed = CheckOrder();
+            }
             if (array.Length - 1 == pointsPressed.Count)
             {
                 completed = CheckOrder();
@@ -67,9 +70,11 @@ public class ConstManager : MonoBehaviour
 
                 if (completed)
                 {
+
                     foreach (Transform child in transform)
                     {
                         child.gameObject.GetComponent<DotScript>().isSelected = true;
+                        child.gameObject.GetComponent<CircleCollider2D>().enabled = false;
 
 
                     }

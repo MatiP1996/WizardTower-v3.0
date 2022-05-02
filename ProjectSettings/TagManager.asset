@@ -15,6 +15,7 @@ TagManager:
   - Line
   - TeleScope
   - StarCam
+  - DrawManager
   layers:
   - Default
   - TransparentFX
