@@ -305,11 +305,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -41.4
+      value: -41.70003
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 153.9
+      value: 202.4
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1455,11 +1455,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -80.9
+      value: -81.2
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 44
+      value: 92.5
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3317,11 +3317,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.9
+      value: 0.59997135
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 44
+      value: 92.5
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3354,7 +3354,7 @@ GameObject:
   - component: {fileID: 1858238877}
   m_Layer: 0
   m_Name: DrawManager
-  m_TagString: Untagged
+  m_TagString: DrawManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
