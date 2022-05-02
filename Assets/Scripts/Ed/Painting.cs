@@ -209,9 +209,81 @@ public class Painting : MonoBehaviour
             freeCam.fieldOfView = 30;
             freeCam.transform.eulerAngles = new Vector3(freeCam.transform.eulerAngles.x,18f,freeCam.transform.eulerAngles.z);
 
-            Debug.Log("Point:"+chosenPoint.localRotation.eulerAngles.z+"  Plane:"+selectedBox.localRotation.eulerAngles.y);
 
-            if (selectedBox.localRotation.eulerAngles.y == chosenPoint.localRotation.eulerAngles.z)
+            Debug.Log(chosenPoint.localRotation.eulerAngles.x);
+
+            if (chosenPoint.localRotation.eulerAngles.x != 0)
+            {
+                chosenPointRot = chosenPoint.localRotation.eulerAngles.x + 90;
+            }
+            else if (chosenPoint.localRotation.eulerAngles.x == 0)
+            {
+                chosenPointRot = 270;
+            }
+            else if (chosenPoint.localRotation.eulerAngles.x == -180)
+            {
+                //chosenPointRot = 90;
+                //chosenPointRot = 270;
+
+            }
+
+            if (chosenPointRot == 90 && chosenPoint.localRotation.eulerAngles.x == 0)
+            {
+                chosenPointRot = 0;
+            }
+            else if (chosenPointRot == 90)
+            {
+                Debug.Log(chosenPointRot);
+
+                if (chosenPoint.localRotation.eulerAngles.x == 0)
+                {
+                    chosenPointRot = 90;
+                }
+                else
+                {
+                    chosenPointRot = 270;
+                }
+                
+            }
+
+
+
+            if (chosenPointRot > 90)
+            {
+                if (chosenPointRot != 0)
+                {
+                    //chosenPointRot = chosenPoint.localRotation.eulerAngles.x + 90;
+                }
+
+
+            }
+            else if (chosenPointRot < 90)
+            {
+                //chosenPointRot = 270;
+            }
+
+            if (chosenPointRot == 90)
+            {
+                //chosenPointRot = 270;
+            }
+
+            if (chosenPointRot == 360)
+            {
+                chosenPointRot = 0;
+            }
+
+
+            
+
+
+            if (chosenPointRot < 0)
+            {
+                //chosenPointRot = (chosenPoint.localRotation.eulerAngles.x + -90f) +360f;
+            }
+
+            Debug.Log("Point:" + chosenPointRot + "  Plane:" + selectedBox.localRotation.eulerAngles.y);
+
+            if (selectedBox.localRotation.eulerAngles.y == chosenPointRot)
             {
                 correctRot = true;
             }
