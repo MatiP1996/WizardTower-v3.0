@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.1792152, g: 0.22440451, b: 0.3061447, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -305,11 +305,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -41.6
+      value: -41.4
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 183.4
+      value: 153.9
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1455,11 +1455,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -81.099945
+      value: -80.9
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 73.50001
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1820,7 +1820,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 0.75183654
 --- !u!4 &723389676
 Transform:
   m_ObjectHideFlags: 0
@@ -3317,11 +3317,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.7000589
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 73.50001
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 7962535454285224336, guid: 37d9ec33f215cbe40b32c48f82cbacb0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3354,7 +3354,7 @@ GameObject:
   - component: {fileID: 1858238877}
   m_Layer: 0
   m_Name: DrawManager
-  m_TagString: DrawManager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
