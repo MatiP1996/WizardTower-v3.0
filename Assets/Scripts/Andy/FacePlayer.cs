@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class FacePlayer : MonoBehaviour
 {
-    public GameObject playerCharacter;
+    public GameObject playerCamera;
     private Vector3 thisObjToPlayerVector;
 
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(playerCharacter.transform.position);
+        transform.LookAt(playerCamera.transform.position);
     }
 }
