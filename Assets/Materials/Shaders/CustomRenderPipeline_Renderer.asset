@@ -57,4 +57,4 @@ MonoBehaviour:
   settings:
     material: {fileID: 2100000, guid: cb0f9d4c5b799a84980997ed7ffef6bf, type: 2}
     materialPassIndex: 0
-    renderEvent: 500
+    renderEvent: 350
