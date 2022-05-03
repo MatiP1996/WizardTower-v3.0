@@ -48,6 +48,11 @@ public class Painting : MonoBehaviour
     float chosenPointRot;
     float selectedBoxRot;
 
+    public Vector2 mouseLimit;
+    float borderThickness = 10f;
+    float camMoveSpeed = 1f;
+    float scrollSpeed = 5f;
+
     // Start is called before the first frame update
 
 
@@ -123,7 +128,7 @@ public class Painting : MonoBehaviour
         paintingInUse = true;
         //player.GetComponent<MeshRenderer>().enabled = false;
 
-
+        Cursor.visible = false;
         mousePos = Input.mousePosition;
         mousePos = selectedBox.transform.position;
     }
@@ -302,55 +307,50 @@ public class Painting : MonoBehaviour
             Mathf.Clamp(mousePos.y, mouseStartPos.y - (-paintingHeight/2) , mouseStartPos.y -(paintingHeight / 2));
 
 
+            Vector3 pos = freeCam.transform.localPosition;
 
-            /// IF squaree item on border NOT FUINCTIONING ATM
-            /// 
-            if (selectedBox.position.y >= Screen.height * 0.95)
+            if (Input.mousePosition.y >= Screen.height - borderThickness)
             {
-                Debug.Log("TRIGGERED IN SCRENHEIUHGT");
-                if (Input.mousePosition.y > 200)
-                {
-                    freeCam.transform.position = new Vector3(freeCam.transform.position.x, freeCam.transform.position.y - 0.1f, freeCam.transform.position.z);
-                }
-                else
-                {
-                    freeCam.transform.position = new Vector3(freeCam.transform.position.x, freeCam.transform.position.y + 0.1f, freeCam.transform.position.z);
-                }
+                pos.y += camMoveSpeed *Time.deltaTime;
+            
+            }
+            if (Input.mousePosition.y <= borderThickness)
+            {
+                pos.y -= camMoveSpeed * Time.deltaTime;
+            }
+            if (Input.mousePosition.x >= Screen.width - borderThickness)
+            {
+                pos.x += camMoveSpeed * Time.deltaTime;
 
             }
+            if (Input.mousePosition.x <= borderThickness)
+            {
+                pos.x -= camMoveSpeed * Time.deltaTime;
+            }
 
+            pos.x = Mathf.Clamp(pos.x, -mouseLimit.x, mouseLimit.x);
+            pos.y = Mathf.Clamp(pos.y, -mouseLimit.y, mouseLimit.y);
 
+            if (pos.z < -2.25f)
+            {
+                camMoveSpeed = 1.5f;
+            }
+            else
+            {
+                camMoveSpeed = 3f;
+            }
 
-            if (camPos.position.z > freecamStartPos.position.z)
-            {
-                freeCam.transform.localPosition = new Vector3(selectedBox.localPosition.x, selectedBox.localPosition.y, freeCam.transform.localPosition.z);
-                //Vector3.Lerp(freeCam.transform.position, new Vector3(selectedBox.position.x, selectedBox.localPosition.y, freeCam.transform.localPosition.z +2f), 2.5f);
-                Debug.Log("Cam Greater#");
-            }
-            else 
-            {
-                //freeCam.transform.position = camPos.transform.position;
-                Vector3.Lerp(freeCam.transform.position, camPos.transform.position,2);
-            }
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
-            {
-                zoomNum = 1;
-                //freeCam.fieldOfView -= 1;
-                freeCam.transform.position = new Vector3(selectedBox.transform.position.x,selectedBox.transform.position.y, freeCam.transform.position.z +1);
-            }
-            if (Input.GetAxis("Mouse ScrollWheel") < 0)
-            {
-                zoomNum =- 1;
-                //freeCam.fieldOfView += 1;
-                freeCam.transform.position = new Vector3(selectedBox.transform.position.x, selectedBox.transform.position.y, freeCam.transform.position.z - 1);
-            }
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            pos.z += scroll * scrollSpeed *50f * Time.deltaTime;
+
+            freeCam.transform.localPosition = pos;
+            
 
 
             if (correctLoc && correctRot)
             {
                 correctPos = true;
                 Debug.Log("BOFFA TRUE");
-
 
             }
             else
@@ -367,25 +367,11 @@ public class Painting : MonoBehaviour
             if (Input.GetMouseButtonDown(1))
             {
                 RotatePiece(selectedBox, 90);
-
-
-
-
             }
+
             if (Input.GetMouseButtonDown(0))
             {
-                //selectedBox.localEulerAngles = new Vector3(selectedBox.localEulerAngles.x, selectedBox.localEulerAngles.y, selectedBox.localEulerAngles.z);
-
                 RotatePiece(selectedBox, -90);
-
-                if (selectedBox.localRotation.z == chosenPoint.localRotation.z)                    
-                {
-                    correctRot = true;
-                }
-                else
-                {
-                    correctRot = false;
-                }
             }
 
             if (!resetMouse)
