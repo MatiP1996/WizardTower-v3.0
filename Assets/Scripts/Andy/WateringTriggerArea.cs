@@ -34,7 +34,7 @@ public class WateringTriggerArea : MonoBehaviour
 
                     if (growVineScript.growValue < 0.999f) // if grow vine isn't fully grown
                     {
-                        growVineScript.growValue += Time.deltaTime / 15; // increase the vine grow amount
+                        growVineScript.growValue += Time.deltaTime / 4; // increase the vine grow amount
 
                         if (growVineScript.growValue > 0.999f) // if grow value is 1 or greater, restrict to 0.999f (to stop errors in vine grow script)
                         {

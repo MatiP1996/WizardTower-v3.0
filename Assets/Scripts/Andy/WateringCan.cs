@@ -22,8 +22,11 @@ public class WateringCan : MonoBehaviour
         {
             if (PickUpObject.itemCurrentlyPickedUp == gameObject) // if the watering can is in player hand
             {
+
+                
                 if (waterRenderer.enabled == true) // if the watering can has water in, set isWatering to true
                 {
+                    Debug.Log("can in hand");
                     waterParticles.Play();
                     waterRenderer.enabled = false;
                     isWatering = true;

@@ -9,9 +9,14 @@ public class TapScript : MonoBehaviour
     private GameObject theWateringCan;
     public AudioSource popSound;
     public AudioSource tapSound;
+    public GameObject rayCastStart;
 
     void Update()
     {
+
+        //Debug.DrawRay(rayCastStart.transform.position, gameObject.transform.forward);
+
+
         /// IF PLAYER INTERACTS WITH TAP, PLAY THE WATER PARTICLE EFFECT. IF THE WATERING CAN IS UNDERNEAT THE TAP, FILL THE CAN WITH WATER
         if (Input.GetKeyDown(KeyCode.E)) // when E pressed
         {
@@ -24,7 +29,13 @@ public class TapScript : MonoBehaviour
 
                     Vector3 worldRayStart = gameObject.GetComponentInChildren<ParticleSystem>().gameObject.transform.position; // set ray start pos
 
-                    Ray ray = new Ray(worldRayStart, -gameObject.transform.forward);
+                    Ray ray = new Ray(worldRayStart, -gameObject.transform.up*2);
+
+
+                    //Debug.Log(("rayyyyyy"));
+
+                    //Debug.DrawRay(rayCastStart.transform.position,-gameObject.transform.up*3,Color.cyan,5);
+
                     RaycastHit raycastHit;
 
                     if (Physics.Raycast(ray, out raycastHit, 2)) // raycast
