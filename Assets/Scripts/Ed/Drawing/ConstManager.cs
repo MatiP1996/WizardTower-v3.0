@@ -29,6 +29,34 @@ public class ConstManager : MonoBehaviour
     {
         pointsPressed.Add(DotID);
     }
+
+    public void ClearLines()
+    {
+
+        if (lineParent.transform.childCount > 0)
+        {
+            foreach (Transform child in transform)
+            {
+                child.gameObject.GetComponent<DotScript>().isSelected = false;
+                child.gameObject.GetComponent<DotScript>().doOnce = false;
+
+
+            }
+            if (!oneTime)
+            {
+                lpChild = lineParent.transform.GetChild(0).gameObject;
+                lineParent.transform.GetChild(0).gameObject.SetActive(false);
+                Destroy(lpChild);
+
+
+                transformsFound.currentLine = null;
+
+                pointsPressed.Clear();
+                Debug.Log("Cleared");
+            }
+
+        }
+    }
     public bool CheckOrder()
     {
         bool pointsInOrder = true;

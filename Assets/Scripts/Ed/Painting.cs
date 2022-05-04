@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Painting : MonoBehaviour
 {
@@ -47,6 +48,8 @@ public class Painting : MonoBehaviour
     Color redLight;
     float chosenPointRot;
     float selectedBoxRot;
+
+    TextMeshProUGUI UIText;
 
     public Vector2 mouseLimit;
     float borderThickness = 10f;
