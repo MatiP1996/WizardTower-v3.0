@@ -8,7 +8,7 @@ public class PaintingManager : MonoBehaviour
     List<GameObject> paintings = new List<GameObject>();
     public GameObject[] allPaintings;
     int integer;
-    bool allComplete = false;
+    public bool allComplete = false;
 
     // Start is called before the first frame update
     void Start()
