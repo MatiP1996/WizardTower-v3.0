@@ -6,6 +6,7 @@ public class TelescopeRoomManager : MonoBehaviour
 {
     public Transform door;
     bool doOnce;
+    public bool roomComplete = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +21,9 @@ public class TelescopeRoomManager : MonoBehaviour
             if (!doOnce)
             {
                 door.Rotate(0, -90, 0);
+                roomComplete = true;
                 doOnce = true;
+                
             }
 
         }

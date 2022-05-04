@@ -49,7 +49,7 @@ public class Painting : MonoBehaviour
     float chosenPointRot;
     float selectedBoxRot;
 
-    TextMeshProUGUI UIText;
+    public HintUI hintUI;
 
     public Vector2 mouseLimit;
     float borderThickness = 10f;
@@ -134,6 +134,11 @@ public class Painting : MonoBehaviour
         Cursor.visible = false;
         mousePos = Input.mousePosition;
         mousePos = selectedBox.transform.position;
+
+        hintUI.hintText.enabled = true;
+        
+        StartCoroutine(WaitThenNull(5));
+
     }
 
 
@@ -405,5 +410,13 @@ public class Painting : MonoBehaviour
         {
             controlScript.inputAllowed = true;
         }
+    }
+
+    IEnumerator WaitThenNull(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Debug.Log("Time dun true");
+
+        hintUI.hintText.enabled = false;
     }
 }
