@@ -35,15 +35,17 @@ public class ConstManager : MonoBehaviour
 
         if (lineParent.transform.childCount > 0)
         {
-            foreach (Transform child in transform)
+            if (!completed)
             {
-                child.gameObject.GetComponent<DotScript>().isSelected = false;
-                child.gameObject.GetComponent<DotScript>().doOnce = false;
+                foreach (Transform child in transform)
+                {
+
+                    child.gameObject.GetComponent<DotScript>().isSelected = false;
+                    child.gameObject.GetComponent<DotScript>().doOnce = false;
 
 
-            }
-            if (!oneTime)
-            {
+                }
+
                 lpChild = lineParent.transform.GetChild(0).gameObject;
                 lineParent.transform.GetChild(0).gameObject.SetActive(false);
                 Destroy(lpChild);
