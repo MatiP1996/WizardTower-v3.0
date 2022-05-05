@@ -25,10 +25,6 @@ public class ToggleCamera : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            CamToggle();
-        }
     }
     public void CamToggle()
     { 
@@ -37,14 +33,14 @@ public class ToggleCamera : MonoBehaviour
         {
             playerCam.enabled = false;
             staticCam.enabled = true;
-            controller.inputAllowed = false;
+            //controller.inputAllowed = false;
 
         }
         else
         {   
             playerCam.enabled = true;
             staticCam.enabled = false;
-            controller.inputAllowed = true;
+            //controller.inputAllowed = true;
         }
 
         

@@ -7,10 +7,13 @@ public class TelescopeRoomManager : MonoBehaviour
     public Transform door;
     bool doOnce;
     public bool roomComplete = false;
+    public GameObject spareCam;
+    Camera playerCam;
+    GameObject player;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        //door.RotateAround();
+        playerCam = GameObject.FindGameObjectWithTag("Player").transform.GetChild(1).GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -20,18 +23,28 @@ public class TelescopeRoomManager : MonoBehaviour
         {
             if (!doOnce)
             {
-                door.Rotate(0, -90, 0);
+
                 roomComplete = true;
+
+                spareCam.SetActive(true);
+                playerCam.enabled = false;
+
                 doOnce = true;
-                
+
+                StartCoroutine(WaitForTime(2));
             }
 
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        IEnumerator WaitForTime(float time)
         {
-            door.Rotate(0, -90, 0);
+            yield return new WaitForSeconds(time);
+
+            door.position = new Vector3(door.position.x, -7f, door.position.z);
+            yield return new WaitForSeconds(time);
+
+            playerCam.enabled = true;
+            spareCam.SetActive(false);
         }
-        
     }
 }
