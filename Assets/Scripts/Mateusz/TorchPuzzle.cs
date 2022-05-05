@@ -7,6 +7,7 @@ public class TorchPuzzle : InteractionParent
     public int requiredItemId;   // player candle needed               
 
     public float distanceAbove = 0.5f;      // position of the flame about the torch
+    public float distanceFront = 0.2f;
 
     public GameObject correctFlame;         // the correct flame to reference
 
@@ -51,7 +52,7 @@ public class TorchPuzzle : InteractionParent
 
         if (!torchActive)                            // while torch is activated  >>  make it available
         {
-            gameObject.layer = 3;
+            gameObject.layer = 7;
         }
         else                                        // otherwise unavailable...
         {
@@ -93,6 +94,7 @@ public class TorchPuzzle : InteractionParent
 
                 Vector3 current = transform.position;           // calculate the flame position
                 current.y += distanceAbove;
+                current.z += distanceFront;
                 correctFlame.transform.position = current;
 
                 correctFlame.SetActive(true);

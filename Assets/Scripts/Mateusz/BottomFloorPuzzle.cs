@@ -21,7 +21,7 @@ public class BottomFloorPuzzle : MonoBehaviour
     public GameObject jasperFlame;
 
     List<GameObject> tempFlames = new List<GameObject>();       // list of all temporary flames
-    public List<GameObject> torches;
+ //   public List<GameObject> torches;
 
 
   //  public GameObject playerCamera;                 // reference target camera to get interaction manager script
@@ -71,9 +71,9 @@ public class BottomFloorPuzzle : MonoBehaviour
 
         else                                      // otherwise  >>  reset the puzzle
         {
-            for (int i = 0; i < torches.Count; i++)             // iterate through torches
+            for (int i = 0; i < torchLocations.Count; i++)             // iterate through torches
             {
-                torches[i].GetComponent<TorchPuzzle>().ResetTorch();   // reset all torches         
+                torchLocations[i].GetComponent<TorchPuzzle>().ResetTorch();   // reset all torches         
             }
             counter = 0;            // reset the puzzle  >>  set the stage to start
         }

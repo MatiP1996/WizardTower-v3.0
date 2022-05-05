@@ -84,7 +84,6 @@ public class InteractionManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastLength, interactMask))             // if raycast successfully connects with interaction layer mask...
         {
-            Debug.Log("anything");
             currentSelectedObject = hit.transform.gameObject;                                       // take the object reference
             currentlySelectedInteraction = currentSelectedObject.GetComponent<InteractionParent>();     // access the interaction script
             string message = currentlySelectedInteraction.Communicate();                // access the text message
