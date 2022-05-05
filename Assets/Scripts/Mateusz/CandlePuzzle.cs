@@ -21,9 +21,12 @@ public class CandlePuzzle : InteractionParent
     public AudioClip initial;
     public AudioClip secondary;
 
+    AudioSource source;
+
     // Start is called before the first frame update
     void Start()
     {
+        source = gameObject.GetComponent<AudioSource>();
         targetPlayerScript = GameObject.Find("Main Camera").GetComponent<InteractionManager>();
 
         firstMessage = "E - Interact";          // set messages
