@@ -31,6 +31,9 @@ public class InteractionManager : MonoBehaviour
     PlayerMove moveControl;
     bool controlDisabled;
 
+    Animator anim;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +44,8 @@ public class InteractionManager : MonoBehaviour
 
         mouseControl = GameObject.Find("Main Camera").GetComponent<MouseLook>();
         moveControl = GameObject.Find("FirstPersonPlayer").GetComponent<PlayerMove>();
+
+        anim = GameObject.Find("Hands Animation").GetComponent<Animator>();
 
     }
 
@@ -99,6 +104,7 @@ public class InteractionManager : MonoBehaviour
                 mouseControl.enabled = false;
                 moveControl.enabled = false;
                 controlDisabled = true;
+                anim.SetBool("interacting", true);
             }
 
         }
@@ -129,6 +135,8 @@ public class InteractionManager : MonoBehaviour
                 moveControl.enabled = true;
 
                 controlDisabled = false;
+
+                anim.SetBool("interacting", false);
             }
         }
     }
