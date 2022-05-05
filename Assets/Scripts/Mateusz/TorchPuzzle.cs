@@ -6,8 +6,8 @@ public class TorchPuzzle : InteractionParent
 {
     public int requiredItemId;   // player candle needed               
 
-    public float distanceAbove = 0.5f;      // position of the flame about the torch
-    public float distanceFront = 0.2f;
+    public float distanceAbove = 0.4f;      // position of the flame about the torch
+    public float distanceFront = 0.07f;
 
     public GameObject correctFlame;         // the correct flame to reference
 
