@@ -25,6 +25,12 @@ public class InteractionManager : MonoBehaviour
 
     public bool candleActive;               // player holding candle
     public bool flameActive;
+
+    public float timeMoveEnable;
+    MouseLook mouseControl;
+    PlayerMove moveControl;
+    bool controlDisabled;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +39,9 @@ public class InteractionManager : MonoBehaviour
         textObject.text = "";
         cameraObject = gameObject.GetComponent<Camera>();
 
+        mouseControl = GameObject.Find("Main Camera").GetComponent<MouseLook>();
+        moveControl = GameObject.Find("FirstPersonPlayer").GetComponent<PlayerMove>();
+
     }
 
     // Update is called once per frame
@@ -40,6 +49,7 @@ public class InteractionManager : MonoBehaviour
     {               // core functions
         RaycastingAndText();    
         ActivateCandle();
+        EnableMove();
     }
 
     void ActivateCandle()       // check if player collected candle + flame (inventory)
@@ -84,7 +94,12 @@ public class InteractionManager : MonoBehaviour
 
             if (Input.GetKeyDown("e"))                                      // when player presses E  >>  interaction script activate + modify player items
             {
-                currentlySelectedInteraction.Activate();
+                timeMoveEnable = currentlySelectedInteraction.Activate();
+                timeMoveEnable += Time.time;
+
+                mouseControl.enabled = false;
+                moveControl.enabled = false;
+                controlDisabled = true;
             }
 
         }
@@ -101,7 +116,21 @@ public class InteractionManager : MonoBehaviour
                 previouslySelectedInteraction.ResetState();                         // reset recent interaction
                 previouslySelectedInteraction = null;                               // clear the reference
             }
+        }
+    }
 
+    void EnableMove()
+    {
+        if(controlDisabled)
+        {
+            if (Time.time >= timeMoveEnable)
+            {
+
+                mouseControl.enabled = true;
+                moveControl.enabled = true;
+
+                controlDisabled = false;
+            }
         }
     }
 }

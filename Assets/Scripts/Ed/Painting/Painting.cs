@@ -19,7 +19,7 @@ public class Painting : MonoBehaviour
 
     bool resetMouse = false;
 
-    float zoomNum = 1f;
+ //   float zoomNum = 1f;
 
 
     public GameObject player;

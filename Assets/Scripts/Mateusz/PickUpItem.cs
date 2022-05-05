@@ -5,7 +5,7 @@ using UnityEngine;
 public class PickUpItem : InteractionParent
 {
     public int itemId;
-    public float delayTime = 1;
+    
     float timeActivate = -1;
     InteractionManager player;
     // Start is called before the first frame update
@@ -22,7 +22,7 @@ public class PickUpItem : InteractionParent
         if (timeActivate != -1)
         {
             float currentTime = Time.time;
-            if(currentTime >= timeActivate + delayTime)
+            if(currentTime >= timeActivate + pauseTime)
             {
                 player.itemIDs.Add(itemId);
                 gameObject.SetActive(false);
