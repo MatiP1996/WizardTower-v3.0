@@ -33,6 +33,8 @@ public class InteractionManager : MonoBehaviour
 
     Animator anim;
 
+    bool bottomFloorComplete;
+
 
     // Start is called before the first frame update
     void Start()
@@ -59,21 +61,29 @@ public class InteractionManager : MonoBehaviour
 
     void ActivateCandle()       // check if player collected candle + flame (inventory)
     {
-        if (!candleActive)
+        if (bottomFloorComplete)
         {
-            if (itemIDs.Contains(-1))            // if so enable candle object
+            playerCandle.SetActive(false);
+        }
+        else
+        {
+            if (!candleActive)
             {
-                candleActive = true;
-                playerCandle.SetActive(true);
+                if (itemIDs.Contains(-1))            // if so enable candle object
+                {
+                    candleActive = true;
+                    playerCandle.SetActive(true);
+                }
+            }
+            else if (!flameActive)       // if candle activated  >>  check flame
+            {
+                if (itemIDs.Count > 1)
+                {
+                    flameActive = true;
+                }
             }
         }
-        else if(!flameActive)       // if candle activated  >>  check flame
-        {
-            if (itemIDs.Count > 1)
-            {
-                flameActive = true;
-            }
-        }
+
     }
 
     void RaycastingAndText()
@@ -124,7 +134,7 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
-    void EnableMove()
+    void EnableMove()                                           // animations
     {
         if(controlDisabled)
         {

@@ -65,7 +65,7 @@ public class BottomFloorPuzzle : MonoBehaviour
         if (gemsOrder[counter] == itemId)           // if correct flame is activated  >>  proceed to next stage of puzzle...
         {
             counter += 1;                           // increment
-            if (counter == 5)                       // final increment  >>  puzzle successful
+            if (counter == 6)                       // final increment  >>  puzzle successful
             {
                 targetLadder.dropDown = true;
             }
