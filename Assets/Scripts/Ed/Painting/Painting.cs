@@ -113,7 +113,7 @@ public class Painting : MonoBehaviour
         freeCam.transform.position = camPos.transform.position;
     }
 
-    public void InteractPainting(GameObject painting)
+    public void InteractPainting()
     {
         //NO MORE RB ON PLAYER
         //controlScript.rb.isKinematic = true;
@@ -138,6 +138,7 @@ public class Painting : MonoBehaviour
         hintUI.hintText.enabled = true;
         
         StartCoroutine(WaitThenNull(5));
+        ///sort dis
 
     }
 
@@ -291,7 +292,7 @@ public class Painting : MonoBehaviour
 
             Debug.Log(chosenPointRot);
 
-            Debug.Log("Point:" + chosenPointRot + "  Plane:" + selectedBox.localRotation.eulerAngles.y);
+            Debug.Log("Point:" + chosenPoint.localRotation.eulerAngles.y + "  Plane:" + selectedBox.localRotation.eulerAngles.y);
 
             if (selectedBox.localRotation.eulerAngles.y == chosenPointRot)
             {

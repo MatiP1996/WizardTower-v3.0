@@ -10,6 +10,7 @@ public class HintUI : MonoBehaviour
     void Start()
     {
         hintText = gameObject.GetComponent<TextMeshProUGUI>();
+        hintText.enabled = false;
     }
 
     // Update is called once per frame

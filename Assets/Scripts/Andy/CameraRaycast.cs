@@ -48,7 +48,7 @@ public class CameraRaycast : MonoBehaviour
                 paintingScript = selectedGameObject.GetComponent<Painting>();
                 Debug.Log(paintingScript);
                 
-                paintingScript.InteractPainting(selectedGameObject);
+                paintingScript.InteractPainting();
             }
             else if (selectedGameObject.tag == "TeleScope")
             {
