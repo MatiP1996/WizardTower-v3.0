@@ -15,6 +15,13 @@ public class PlayerMove : MonoBehaviour
     public bool isGrounded;
     public bool inputAllowed = true;
 
+    public AudioSource source;
+    public AudioClip footsteps;
+
+    private void Start()
+    {
+        source = gameObject.GetComponent<AudioSource>();
+    }
     void Update()
     {
         if (PauseMenu.pauseMenuVisible == false) // if pause menu isn't currently open
@@ -34,6 +41,24 @@ public class PlayerMove : MonoBehaviour
                 Vector3 move = transform.right * x + transform.forward * z; // vector for the player input on horizontal plane
 
                 controller.Move(move * speed * Time.deltaTime); //moves the player on horizontal plane using the above move vector
+
+
+                if(x != 0 || z != 0)            // footsteps
+                {
+                    if (isGrounded)
+                    {
+                        int num = Random.Range(0, 250);
+                        if(num == 0)
+                        {
+                            if (!source.isPlaying)
+                            {
+                                source.PlayOneShot(footsteps);
+                            }
+                                
+                        }
+                    }
+                }
+
 
                 if (Input.GetButtonDown("Jump") && isGrounded) // if player is grounded and jumps, change the players vertical velocity
                 {

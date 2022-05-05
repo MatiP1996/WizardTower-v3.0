@@ -10,7 +10,7 @@ public class BottomFloorPuzzle : MonoBehaviour
     
     public GameObject targetNote;           // note to contain the riddle
 
-    public bool puzzleAccomplished;         // boolean whether puzzle has been finished
+    LadderClimb targetLadder;         // target once puzzle has been finished
 
 
     public GameObject amethystFlame;            // reference all the temporary flames
@@ -50,6 +50,8 @@ public class BottomFloorPuzzle : MonoBehaviour
 
         ResetTempFlames();          // set all the temporary flames inactive
 
+        targetLadder = GameObject.Find("ladder_1").GetComponent<LadderClimb>();
+
     }
 
     public void SubmitFlame(GameObject temporaryFlame)          
@@ -65,7 +67,7 @@ public class BottomFloorPuzzle : MonoBehaviour
             counter += 1;                           // increment
             if (counter == 5)                       // final increment  >>  puzzle successful
             {
-                puzzleAccomplished = true;
+                targetLadder.dropDown = true;
             }
         }
 

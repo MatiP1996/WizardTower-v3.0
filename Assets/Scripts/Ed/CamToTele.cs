@@ -48,7 +48,7 @@ public class CamToTele : MonoBehaviour
 
         ///intManager.freeCam.GetComponent<Camera>().enabled = false;
 
-        Debug.Log("Loading scene");
+     //   Debug.Log("Loading scene");
 
 
 
@@ -59,7 +59,7 @@ public class CamToTele : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(inTele);
+     //   Debug.Log(inTele);
         if (inTele)
         {
             if (Input.GetKeyDown(KeyCode.F))
