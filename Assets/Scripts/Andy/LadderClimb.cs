@@ -7,9 +7,27 @@ public class LadderClimb : MonoBehaviour
     public GameObject player;
     public static bool onLadder = false;
 
+    public bool dropDown;
+    public float distanceDown = 7f;
+    float speed = 2f;
+    Vector3 target;
+
     // Update is called once per frame
+
+    private void Start()
+    {
+        player = GameObject.Find("FirstPersonPlayer");
+        target = transform.position;
+        target.y -= distanceDown;
+    }
     void Update()
     {
+        if(dropDown)
+        {
+            var step = speed * Time.deltaTime; // calculate distance to move
+            transform.position = Vector3.MoveTowards(transform.position, target, step);
+        }
+
         if (onLadder == true && Input.GetKey(KeyCode.W)) // if player is on ladder and W is being held, move the player up
         {
             player.GetComponent<UnityEngine.CharacterController>().Move(new Vector3(0, 3 * Time.deltaTime, 0));
