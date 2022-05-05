@@ -6,9 +6,6 @@ public class TorchPuzzle : InteractionParent
 {
     public int requiredItemId;   // player candle needed               
 
-    GameObject playerCamera;                // required references
-    InteractionManager interactionTarget;
-
     public float distanceAbove = 0.5f;      // position of the flame about the torch
 
     public GameObject correctFlame;         // the correct flame to reference
@@ -28,8 +25,8 @@ public class TorchPuzzle : InteractionParent
     // Start is called before the first frame update
     void Start()
     {
-        playerCamera = GameObject.Find("Main Camera");         // initialise variables         
-        interactionTarget = playerCamera.GetComponent<InteractionManager>();
+        targetPlayerScript = GameObject.Find("Main Camera").GetComponent<InteractionManager>();
+
         firstMessage = "E - Interact";              // set the messages
         alternateMessage = "I need a flame!";
         defaultMessage = "E - Interact";
@@ -46,7 +43,7 @@ public class TorchPuzzle : InteractionParent
     // Update is called once per frame
     void Update()
     {
-        if (interactionTarget.flameActive)              // once player candle is available...
+        if (targetPlayerScript.flameActive)              // once player candle is available...
         {                                                           // alter messages
             firstMessage = "E - Light the torch";
             alternateMessage = "Fire!";
@@ -82,15 +79,16 @@ public class TorchPuzzle : InteractionParent
     }
 
 
-    public override List<int> Activate(List<int> playerItems)   //dedicated to interacting with the object
+    public override float Activate()   //dedicated to interacting with the object
     {                                                           // if player contains any flames in the inventory...
-        if(playerItems.Contains(0) || playerItems.Contains(1) || playerItems.Contains(2) || playerItems.Contains(3) || playerItems.Contains(4) || playerItems.Contains(5))
+        List<int> items = targetPlayerScript.itemIDs;
+        if (items.Contains(0) || items.Contains(1) || items.Contains(2) || items.Contains(3) || items.Contains(4) || items.Contains(5))
         {
             torchActive = true;
             timeInitiated = Time.time;
             torchInitiated = true;
 
-            if (playerItems.Contains(requiredItemId))    // if player contains the correct flame...
+            if (items.Contains(requiredItemId))    // if player contains the correct flame...
             {
 
                 Vector3 current = transform.position;           // calculate the flame position
@@ -99,8 +97,7 @@ public class TorchPuzzle : InteractionParent
 
                 correctFlame.SetActive(true);
                 communicateWithMaster = true;
-
-                
+       
             }
             else                                                    // otherwise...
             {
@@ -117,7 +114,7 @@ public class TorchPuzzle : InteractionParent
             defaultMessage = alternateMessage;     // set the UI message
         }
 
-        return playerItems;
+        return pauseTime;
     }
 
     public void ResetTorch()            

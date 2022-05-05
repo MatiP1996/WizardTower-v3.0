@@ -16,9 +16,13 @@ public class InteractionParent : MonoBehaviour
     public AudioSource source;
 
     public bool canActivate = true;
+    public InteractionManager targetPlayerScript;
+
+    public float pauseTime = 1;
 
     void Start()
     {
+        targetPlayerScript = GameObject.Find("Main Camera").GetComponent<InteractionManager>();
         defaultMessage = firstMessage;
         source = gameObject.GetComponent<AudioSource>();
     }
@@ -28,7 +32,7 @@ public class InteractionParent : MonoBehaviour
         return defaultMessage;
     }
 
-    public virtual List<int> Activate(List<int> playerItems)
+    public virtual float Activate()
     {
         if(canActivate)
         {
@@ -39,7 +43,7 @@ public class InteractionParent : MonoBehaviour
             }
             defaultMessage = alternateMessage;
         }
-        return playerItems;
+        return pauseTime;
     }
 
 

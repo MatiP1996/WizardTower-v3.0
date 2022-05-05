@@ -10,8 +10,8 @@ public class InteractionManager : MonoBehaviour
 
     public LayerMask interactMask;   // target mask for rayacast
 
-    GameObject currentSelectedObject;        // connecting + resetting objects
-    GameObject previousSelectedObject;
+    public GameObject currentSelectedObject;        // connecting + resetting objects
+    public GameObject previousSelectedObject;
 
     InteractionParent currentlySelectedInteraction;      //   connecting + resetting interactions
     InteractionParent previouslySelectedInteraction;
@@ -74,6 +74,7 @@ public class InteractionManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastLength, interactMask))             // if raycast successfully connects with interaction layer mask...
         {
+            Debug.Log("anything");
             currentSelectedObject = hit.transform.gameObject;                                       // take the object reference
             currentlySelectedInteraction = currentSelectedObject.GetComponent<InteractionParent>();     // access the interaction script
             string message = currentlySelectedInteraction.Communicate();                // access the text message
@@ -83,7 +84,7 @@ public class InteractionManager : MonoBehaviour
 
             if (Input.GetKeyDown("e"))                                      // when player presses E  >>  interaction script activate + modify player items
             {
-                itemIDs = currentlySelectedInteraction.Activate(itemIDs);
+                currentlySelectedInteraction.Activate();
             }
 
         }

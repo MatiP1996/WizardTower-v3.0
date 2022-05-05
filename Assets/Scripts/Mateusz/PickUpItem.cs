@@ -31,12 +31,13 @@ public class PickUpItem : InteractionParent
     }
 
     // Update is called once per frame
-    public override List<int> Activate(List<int> playerItems)
+    public override float Activate()
     {
         source.PlayOneShot(defaultClip);
         gameObject.layer = 0; 
         timeActivate = Time.time;
-        return playerItems;
+
+        return pauseTime;
     }
 }
 

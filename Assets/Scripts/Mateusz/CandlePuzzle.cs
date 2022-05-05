@@ -5,7 +5,6 @@ using UnityEngine;
 public class CandlePuzzle : InteractionParent
 {
     GameObject playerCamera;                // required references
-    InteractionManager interactionTarget;
 
     public GameObject setFlameActive;       // target flames references
     public GameObject setFlameInactive;
@@ -25,8 +24,7 @@ public class CandlePuzzle : InteractionParent
     // Start is called before the first frame update
     void Start()
     {
-        playerCamera = GameObject.Find("Main Camera");          // initialise references
-        interactionTarget = playerCamera.GetComponent<InteractionManager>();
+        targetPlayerScript = GameObject.Find("Main Camera").GetComponent<InteractionManager>();
 
         firstMessage = "E - Interact";          // set messages
         alternateMessage = "This could be useful!";
@@ -38,29 +36,28 @@ public class CandlePuzzle : InteractionParent
     // Update is called once per frame
     void Update()
     {
-        if(interactionTarget.itemIDs.Contains(itemId))
+        if(targetPlayerScript.itemIDs.Contains(itemId))
         {
             gameObject.layer = 0;                           // switch the layer mask (disable interaction)
         }
         else
         {
-            Debug.Log("interact");
-            gameObject.layer = 3;                           // otherwise reset layer mask
-            if (interactionTarget.itemIDs.Contains(-1))
+            gameObject.layer = 7;                           // otherwise reset layer mask
+            if (targetPlayerScript.itemIDs.Contains(-1))
             {
                 defaultMessage = "E - Light the candle";
             }
         }
     }
 
-    public override List<int> Activate(List<int> playerItems)       // activate function (overrides the parent class)
+    public override float Activate()       // activate function (overrides the parent class)
     {
-        if (interactionTarget.candleActive)                         // if player has candle...
+        if (targetPlayerScript.candleActive)                         // if player has candle...
         {
             // if player contains any flames....
-            if (playerItems.Count == 2)
+            if (targetPlayerScript.itemIDs.Count == 2)
             {
-                playerItems.RemoveAt(1);                            // remove the recent flame
+                targetPlayerScript.itemIDs.RemoveAt(1);                            // remove the recent flame
 
             }
  
@@ -73,7 +70,7 @@ public class CandlePuzzle : InteractionParent
             setFlameInactive4.SetActive(false);
             setFlameInactive5.SetActive(false);
 
-            playerItems.Add(itemId);                            // add a new flame
+            targetPlayerScript.itemIDs.Add(itemId);                            // add a new flame
 
         }
         else
@@ -87,8 +84,7 @@ public class CandlePuzzle : InteractionParent
                 }
             }
         }
-
-        return playerItems;
+        return pauseTime;
     }
 }
 
