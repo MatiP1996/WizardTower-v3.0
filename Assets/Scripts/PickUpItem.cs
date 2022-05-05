@@ -14,12 +14,12 @@ public class PickUpItem : InteractionParent
     {
         source = GetComponent<AudioSource>();
         player = GameObject.Find("Main Camera").GetComponent<InteractionManager>();
-        Debug.Log(player);
     }
 
     private void Update()
     {
-        if(timeActivate != -1)
+        Debug.Log(player);
+        if (timeActivate != -1)
         {
             float currentTime = Time.time;
             if(currentTime >= timeActivate + delayTime)

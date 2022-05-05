@@ -9,7 +9,7 @@ public class CamToTele : MonoBehaviour
     float camMoveSpeed =5f;
     public bool inTele = false;
     InteractionManager intManager;
-    string DrawLineTest = "DrawLineTest";
+ //   string DrawLineTest = "DrawLineTest";
     Scene currentScene;
     GameObject starCamGo;
     GameObject player;
@@ -20,7 +20,7 @@ public class CamToTele : MonoBehaviour
     void Start()
     {
         starCamGo = GameObject.FindGameObjectWithTag("StarCam");
-        starCam = starCamGo.GetComponent<Camera>();    
+      //  starCam = starCamGo.GetComponent<Camera>();    
         player = GameObject.FindGameObjectWithTag("Player");
         playerCam = player.transform.GetChild(1).GetComponent<Camera>();
     }

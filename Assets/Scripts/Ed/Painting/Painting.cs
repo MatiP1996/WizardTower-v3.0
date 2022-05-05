@@ -84,7 +84,7 @@ public class Painting : MonoBehaviour
         //get child of painting rendereer should be optimised
         string matName = obj.GetComponentInChildren<Renderer>().material.name;
 
-        Debug.Log(matName);
+   //     Debug.Log(matName);
 
 
         paintingWidth= gameObject.GetComponent<BoxCollider>().size.x;

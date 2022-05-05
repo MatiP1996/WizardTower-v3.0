@@ -4206,6 +4206,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1404662051}
     m_Modifications:
+    - target: {fileID: 2054638896066279462, guid: 80b6d630b2ac0d841971a2a95b3ca77c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2054638896628900712, guid: 80b6d630b2ac0d841971a2a95b3ca77c, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -5052,7 +5056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3061074211290532338, guid: dd174bbd3881a2b45a8b66120cae1fb8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.628
+      value: -5.31
       objectReference: {fileID: 0}
     - target: {fileID: 3061074211290532338, guid: dd174bbd3881a2b45a8b66120cae1fb8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5094,5 +5098,9 @@ PrefabInstance:
       propertyPath: playerCandle
       value: 
       objectReference: {fileID: 1752506878}
+    - target: {fileID: 3061074211736446480, guid: dd174bbd3881a2b45a8b66120cae1fb8, type: 3}
+      propertyPath: interactMask.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd174bbd3881a2b45a8b66120cae1fb8, type: 3}

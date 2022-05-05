@@ -40,7 +40,6 @@ public class InteractionManager : MonoBehaviour
     {               // core functions
         RaycastingAndText();    
         ActivateCandle();
-        textObject.text = "YOLO";
     }
 
     void ActivateCandle()       // check if player collected candle + flame (inventory)
@@ -75,11 +74,9 @@ public class InteractionManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastLength, interactMask))             // if raycast successfully connects with interaction layer mask...
         {
-            Debug.Log("YOLO");
             currentSelectedObject = hit.transform.gameObject;                                       // take the object reference
             currentlySelectedInteraction = currentSelectedObject.GetComponent<InteractionParent>();     // access the interaction script
             string message = currentlySelectedInteraction.Communicate();                // access the text message
-            Debug.Log(message);
             textObject.text = message;                                              // update the interface
 
             //activate interaction

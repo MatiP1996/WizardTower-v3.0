@@ -44,6 +44,7 @@ public class CandlePuzzle : InteractionParent
         }
         else
         {
+            Debug.Log("interact");
             gameObject.layer = 3;                           // otherwise reset layer mask
             if (interactionTarget.itemIDs.Contains(-1))
             {

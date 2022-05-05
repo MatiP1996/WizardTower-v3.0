@@ -13,7 +13,7 @@ public class TorchPuzzle : InteractionParent
 
     public GameObject correctFlame;         // the correct flame to reference
 
-    public GameObject puzzleMaster;         // target master script to communicate with
+    GameObject puzzleMaster;         // target master script to communicate with
     BottomFloorPuzzle targetScript;
 
 
@@ -36,7 +36,7 @@ public class TorchPuzzle : InteractionParent
 
         correctFlame.SetActive(false);              // set the correct flame inactive
 
-
+        puzzleMaster = GameObject.Find("GameMaster");
         targetScript = puzzleMaster.GetComponent<BottomFloorPuzzle>();      // reference the puzzle master script
 
 
