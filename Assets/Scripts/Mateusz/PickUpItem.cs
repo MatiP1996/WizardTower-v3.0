@@ -18,7 +18,6 @@ public class PickUpItem : InteractionParent
 
     private void Update()
     {
-        Debug.Log(player);
         if (timeActivate != -1)
         {
             float currentTime = Time.time;
