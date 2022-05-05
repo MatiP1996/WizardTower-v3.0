@@ -20,7 +20,7 @@ public class CamToTele : MonoBehaviour
     void Start()
     {
         starCamGo = GameObject.FindGameObjectWithTag("StarCam");
-      //  starCam = starCamGo.GetComponent<Camera>();    
+        starCam = starCamGo.GetComponent<Camera>();    
         player = GameObject.FindGameObjectWithTag("Player");
         playerCam = player.transform.GetChild(1).GetComponent<Camera>();
     }
@@ -59,6 +59,7 @@ public class CamToTele : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(inTele);
         if (inTele)
         {
             if (Input.GetKeyDown(KeyCode.F))

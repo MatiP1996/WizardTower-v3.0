@@ -71,7 +71,7 @@ public class PenTools : MonoBehaviour
         //worldMouseLocation = Camera.main.ScreenToWorldPoint(mousePos);
         if (Input.GetKeyDown(KeyCode.F))
         {
-            LeaveScene();
+            //LeaveScene();
         }
         if (Input.GetMouseButton(1))
         {

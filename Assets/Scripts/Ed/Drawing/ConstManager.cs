@@ -63,7 +63,7 @@ public class ConstManager : MonoBehaviour
     {
         bool pointsInOrder = true;
 
-        if (array.Length - 1 == pointsPressed.Count)
+        if (array.Length -1 == pointsPressed.Count)
         {
             for (int i = 0; i < pointsPressed.Count; i++)
             {
@@ -89,11 +89,11 @@ public class ConstManager : MonoBehaviour
 
         if (camTele.inTele)
         {
-            if (array.Length - 1 == pointsPressed.Count)
+            if (array.Length -1  == pointsPressed.Count)
             {
                 completed = CheckOrder();
             }
-            if (array.Length - 1 == pointsPressed.Count)
+            if (array.Length -1  == pointsPressed.Count)
             {
                 completed = CheckOrder();
                 Debug.Log(completed);

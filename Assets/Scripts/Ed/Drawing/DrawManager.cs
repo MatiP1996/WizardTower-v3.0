@@ -12,26 +12,40 @@ public class DrawManager : MonoBehaviour
     {
 
     }
+    private bool puzzleCompleted()
+    {
+        foreach (GameObject i in constellations)
+        {
+            ConstManager cm = i.GetComponent<ConstManager>();
+            Debug.Log("constmanagaer: "+cm.completed);
+            if (cm.completed)
+            {   
+                return true;
+            }
+
+            return false;
+        }
+        return false;
+
+
+    }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        if(puzzleFinished)
+        Debug.Log( "ConstLENGYTH: "+constellations.Length);
+        
+
+
+
+
+        puzzleFinished = puzzleCompleted();
+        if (puzzleFinished)
         {
             Debug.Log("Stars Completed !!!!");
         }
-        foreach (GameObject i in constellations)
-        {
-            if (i.GetComponent<ConstManager>().completed)
-            {
-                puzzleFinished = true;
-            }
-            else 
-            {
-                puzzleFinished = false;
-            }
-            
-        }
-       
+
+        Debug.Log("Puzz finished: " + puzzleFinished);
+
     }
 }

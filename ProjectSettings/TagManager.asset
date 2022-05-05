@@ -16,7 +16,7 @@ TagManager:
   - TeleScope
   - StarCam
   - DrawManager
-  - dez
+  - Hint
   layers:
   - Default
   - TransparentFX

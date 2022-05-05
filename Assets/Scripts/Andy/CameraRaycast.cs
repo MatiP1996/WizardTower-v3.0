@@ -47,7 +47,7 @@ public class CameraRaycast : MonoBehaviour
 
                 paintingScript = selectedGameObject.GetComponent<Painting>();
                 Debug.Log(paintingScript);
-                
+
                 paintingScript.InteractPainting();
             }
             else if (selectedGameObject.tag == "TeleScope")
@@ -59,6 +59,10 @@ public class CameraRaycast : MonoBehaviour
                 //freeCam.eulerAngles = new Vector3(freeCam.eulerAngles.x, freeCam.eulerAngles.y + 180, freeCam.eulerAngles.z);
                 camTele.GoToTele();
 
+            }
+            else if (selectedGameObject.tag == "Hint")
+            {
+                selectedGameObject.gameObject.GetComponent<NotePickup>().InspectNote();
             }
         }
 

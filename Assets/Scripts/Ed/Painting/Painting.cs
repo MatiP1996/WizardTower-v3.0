@@ -50,6 +50,7 @@ public class Painting : MonoBehaviour
     float selectedBoxRot;
 
     public HintUI hintUI;
+    public GameObject hintCanv;
 
     public Vector2 mouseLimit;
     float borderThickness = 10f;
@@ -135,10 +136,11 @@ public class Painting : MonoBehaviour
         mousePos = Input.mousePosition;
         mousePos = selectedBox.transform.position;
 
-        hintUI.hintText.enabled = true;
+        //hintCanv.GetComponent<Canvas>().enabled = true;
+        hintCanv.SetActive(true);
         
-        StartCoroutine(WaitThenNull(5));
-        ///sort dis
+        //StartCoroutine(WaitThenNull(5));
+
 
     }
 
@@ -418,6 +420,6 @@ public class Painting : MonoBehaviour
         yield return new WaitForSeconds(time);
         Debug.Log("Time dun true");
 
-        hintUI.hintText.enabled = false;
+        hintCanv.SetActive(false); 
     }
 }
