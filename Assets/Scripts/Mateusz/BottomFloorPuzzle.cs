@@ -21,6 +21,7 @@ public class BottomFloorPuzzle : MonoBehaviour
     public GameObject jasperFlame;
 
     List<GameObject> tempFlames = new List<GameObject>();       // list of all temporary flames
+
  //   public List<GameObject> torches;
 
 
@@ -32,6 +33,13 @@ public class BottomFloorPuzzle : MonoBehaviour
     public List<GameObject> torchLocations;
     public List<GameObject> candleLocations;
 
+    public AudioClip puzzleComplete;
+    public AudioClip success;
+    public AudioClip fail;
+
+    AudioSource playerAudioSource;
+    public List<GameObject> setGameObjectsInactive;
+    InteractionManager targetManager;
 
     // Update is called once per frame
 
@@ -52,6 +60,9 @@ public class BottomFloorPuzzle : MonoBehaviour
 
         targetLadder = GameObject.Find("ladder_1").GetComponent<LadderClimb>();
 
+        playerAudioSource = GameObject.Find("FirstPersonPlayer").GetComponent<AudioSource>();
+        targetManager = GameObject.Find("Main Camera").GetComponent<InteractionManager>();
+
     }
 
     public void SubmitFlame(GameObject temporaryFlame)          
@@ -68,6 +79,12 @@ public class BottomFloorPuzzle : MonoBehaviour
             if (counter == 6)                       // final increment  >>  puzzle successful
             {
                 targetLadder.dropDown = true;
+                playerAudioSource.PlayOneShot(puzzleComplete);
+                FinalizePuzzle();
+            }
+            else
+            {
+                playerAudioSource.PlayOneShot(success);
             }
         }
 
@@ -77,6 +94,13 @@ public class BottomFloorPuzzle : MonoBehaviour
             {
                 torchLocations[i].GetComponent<TorchPuzzle>().ResetTorch();   // reset all torches         
             }
+            if(counter != 0)
+            {
+                FullReset();
+                playerAudioSource.PlayOneShot(fail);
+
+            }
+
             counter = 0;            // reset the puzzle  >>  set the stage to start
         }
     }
@@ -169,5 +193,22 @@ public class BottomFloorPuzzle : MonoBehaviour
                 finalString += "\n";                    // finalise the line of the string
             }
         }
+    }
+
+    public void FullReset()
+    {
+        ShuffleTorchLocations(torchLocations);
+        ShuffleCandleLocations(candleLocations);
+        RandomizeRiddle(riddleSentences, gemsOrder);
+    }
+
+    public void FinalizePuzzle()
+    {
+        for (int i = 0; i < setGameObjectsInactive.Count; i++)
+        {
+            setGameObjectsInactive[i].SetActive(false);
+        }
+        targetManager.itemIDs = new List<int>();
+
     }
 }

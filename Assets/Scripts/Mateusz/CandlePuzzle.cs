@@ -18,8 +18,8 @@ public class CandlePuzzle : InteractionParent
     public BottomFloorPuzzle puzzleScript;     // puzzle master script to reference  
     public GameObject temporaryFlame;           // flame for player to reference after activation
 
-    public AudioClip initial;
-    public AudioClip secondary;
+    public AudioClip alternateClip;
+
 
    // AudioSource source;
 
@@ -74,6 +74,8 @@ public class CandlePuzzle : InteractionParent
             setFlameInactive5.SetActive(false);
 
             targetPlayerScript.itemIDs.Add(itemId);                            // add a new flame
+
+            source.PlayOneShot(alternateClip);
 
         }
         else

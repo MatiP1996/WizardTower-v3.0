@@ -11,7 +11,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main Scene.unity
     guid: fd8b71950daa04c4b92f038588f1a668
-  - enabled: 1
-    path: Assets/Scenes/Mateusz.unity
-    guid: 8ace04ad6e5848a4695fd04f0e7a3052
   m_configObjects: {}

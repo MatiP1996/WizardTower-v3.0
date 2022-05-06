@@ -76,24 +76,29 @@ public class PlayerMove : MonoBehaviour
                     }
                 }
 
-            
 
-                    if (Input.GetButtonDown("Jump") && isGrounded) // if player is grounded and jumps, change the players vertical velocity
-                    {
-                        velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                    }
 
-                    if (LadderClimb.onLadder == false && VineClimb.onVine == false)  // set vertical velocity
-                    {
-                        velocity.y += gravity * Time.deltaTime;
-                    }
-                    else
-                    {
-                        velocity.y = -2;
-                    }
-
-                    controller.Move(velocity * Time.deltaTime); //moves on vertical axis
+                if (Input.GetButtonDown("Jump") && isGrounded) // if player is grounded and jumps, change the players vertical velocity
+                {
+                    velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 }
+
+                if (LadderClimb.onLadder == false && VineClimb.onVine == false)  // set vertical velocity
+                {
+                    velocity.y += gravity * Time.deltaTime;
+                }
+                else
+                {
+                    velocity.y = -2;
+                }
+
+                controller.Move(velocity * Time.deltaTime); //moves on vertical axis
             }
         }
     }
+
+    public void PlayerClip(AudioClip clip)
+    {
+        source.PlayOneShot(clip);
+    }
+}

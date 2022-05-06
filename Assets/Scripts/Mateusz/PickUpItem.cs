@@ -10,6 +10,7 @@ public class PickUpItem : InteractionParent
     InteractionManager player;
     // Start is called before the first frame update
 
+
     private void Start()
     {
         source = GetComponent<AudioSource>();

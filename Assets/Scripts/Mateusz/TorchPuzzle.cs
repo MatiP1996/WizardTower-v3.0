@@ -6,7 +6,7 @@ public class TorchPuzzle : InteractionParent
 {
     public int requiredItemId;   // player candle needed               
 
-    public float distanceAbove = 0.4f;      // position of the flame about the torch
+    public float distanceAbove = 0.7f;      // position of the flame about the torch
     public float distanceFront = 0.07f;
 
     public GameObject correctFlame;         // the correct flame to reference
@@ -28,7 +28,10 @@ public class TorchPuzzle : InteractionParent
     public AudioClip alternateClip;
     public AudioClip resetClip;
     public AudioClip goOutClip;
-    public AudioClip success;
+
+    public Transform flamePosition;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -111,10 +114,11 @@ public class TorchPuzzle : InteractionParent
             if (items.Contains(requiredItemId))    // if player contains the correct flame...
             {
                 correctFlame.transform.SetParent(this.gameObject.transform);
-                Vector3 current = transform.position;           // calculate the flame position
-                current.y += distanceAbove;
-                current.z += distanceFront;
-                correctFlame.transform.position = current;
+                //           // calculate the flame position
+                //    current.y += distanceAbove;
+                //    current.z += distanceFront;
+                correctFlame.transform.localPosition = flamePosition.localPosition;
+
 
                 correctFlame.SetActive(true);
                 communicateWithMaster = true;
@@ -122,13 +126,16 @@ public class TorchPuzzle : InteractionParent
             }
             else                                                    // otherwise...
             {
-            //    tempFlame.transform.SetParent(this.gameObject.transform);
-                timeInitiated = Time.time;                      // timer
-                Vector3 current = transform.position;           // calculate the flame position
-                current.y += distanceAbove;
                 tempFlame = targetScript.currentSelectedFlame;       // reference the temporary flame
-                tempFlame.transform.position = current;                         // place at coordinates
-                tempFlame.SetActive(true);                                      // make visible          
+                tempFlame.transform.SetParent(this.gameObject.transform);
+                tempFlame.transform.localPosition = flamePosition.localPosition;          // place at coordinates
+                tempFlame.SetActive(true);                                      // make visible
+                Debug.Log(tempFlame);
+                
+                timeInitiated = Time.time;                      // timer
+              //  Vector3 current = transform.localPosition;           // calculate the flame position
+              //  current.y += distanceAbove;
+                   
             }
         }
         else
