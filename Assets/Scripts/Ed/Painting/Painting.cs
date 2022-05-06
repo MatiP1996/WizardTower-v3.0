@@ -85,8 +85,6 @@ public class Painting : MonoBehaviour
         //get child of painting rendereer should be optimised
         string matName = obj.GetComponentInChildren<Renderer>().material.name;
 
-   //     Debug.Log(matName);
-
 
         paintingWidth= gameObject.GetComponent<BoxCollider>().size.x;
         paintingHeight = gameObject.GetComponent<BoxCollider>().size.y;
@@ -136,6 +134,8 @@ public class Painting : MonoBehaviour
         mousePos = Input.mousePosition;
         mousePos = selectedBox.transform.position;
 
+        player.transform.GetChild(3).gameObject.SetActive(false);
+
         //hintCanv.GetComponent<Canvas>().enabled = true;
         hintCanv.SetActive(true);
         
@@ -163,9 +163,10 @@ public class Painting : MonoBehaviour
 
         freeCam.enabled = false;
         paintingInUse = false;
-
+        player.transform.GetChild(3).gameObject.SetActive(true);
         player.GetComponent<PlayerMove>().inputAllowed = true;
         //cc.enabled = true;
+        hintCanv.SetActive(false);
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
