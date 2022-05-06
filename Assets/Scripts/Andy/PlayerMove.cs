@@ -16,7 +16,9 @@ public class PlayerMove : MonoBehaviour
     public bool inputAllowed = true;
 
     public AudioSource source;
-    public AudioClip footsteps;
+    public List<AudioClip> footsteps;
+    int previousTrack = -1;
+
 
     private void Start()
     {
@@ -43,39 +45,55 @@ public class PlayerMove : MonoBehaviour
                 controller.Move(move * speed * Time.deltaTime); //moves the player on horizontal plane using the above move vector
 
 
-                if(x != 0 || z != 0)            // footsteps
+                if (x != 0 || z != 0)            // footsteps
                 {
                     if (isGrounded)
                     {
                         int num = Random.Range(0, 250);
-                        if(num == 0)
+                        if (!source.isPlaying)
                         {
-                            if (!source.isPlaying)
+                            if (num == 0 && previousTrack != 0)
                             {
-                                source.PlayOneShot(footsteps);
+                                previousTrack = 0;
+                                source.PlayOneShot(footsteps[0]);
                             }
-                                
+                            else if (num == 1 && previousTrack != 1)
+                            {
+                                previousTrack = 1;
+                                source.PlayOneShot(footsteps[1]);
+                            }
+                            else if (num == 2 && previousTrack != 2)
+                            {
+                                previousTrack = 2;
+                                source.PlayOneShot(footsteps[2]);
+                            }
+                            else if (num == 3 && previousTrack != 3)
+                            {
+                                previousTrack = 3;
+                                source.PlayOneShot(footsteps[3]);
+                            }
                         }
                     }
                 }
 
+            
 
-                if (Input.GetButtonDown("Jump") && isGrounded) // if player is grounded and jumps, change the players vertical velocity
-                {
-                    velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                }
+                    if (Input.GetButtonDown("Jump") && isGrounded) // if player is grounded and jumps, change the players vertical velocity
+                    {
+                        velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                    }
 
-                if (LadderClimb.onLadder == false && VineClimb.onVine == false)  // set vertical velocity
-                {
-                    velocity.y += gravity * Time.deltaTime;
-                }
-                else
-                {
-                    velocity.y = -2;
-                }
+                    if (LadderClimb.onLadder == false && VineClimb.onVine == false)  // set vertical velocity
+                    {
+                        velocity.y += gravity * Time.deltaTime;
+                    }
+                    else
+                    {
+                        velocity.y = -2;
+                    }
 
-                controller.Move(velocity * Time.deltaTime); //moves on vertical axis
+                    controller.Move(velocity * Time.deltaTime); //moves on vertical axis
+                }
             }
         }
     }
-}

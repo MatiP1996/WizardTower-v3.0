@@ -22,10 +22,18 @@ public class TorchPuzzle : InteractionParent
     bool communicateWithMaster;
     GameObject tempFlame;
 
+    public GameObject targetGemRotate;
+    Transform targetTransform;
+
+    public AudioClip alternateClip;
+    public AudioClip resetClip;
+    public AudioClip goOutClip;
+    public AudioClip success;
 
     // Start is called before the first frame update
     void Start()
     {
+        source = gameObject.GetComponent<AudioSource>();
         targetPlayerScript = GameObject.Find("Main Camera").GetComponent<InteractionManager>();
 
         firstMessage = "E - Interact";              // set the messages
@@ -37,13 +45,17 @@ public class TorchPuzzle : InteractionParent
         puzzleMaster = GameObject.Find("GameMaster");
         targetScript = puzzleMaster.GetComponent<BottomFloorPuzzle>();      // reference the puzzle master script
 
-
+        targetTransform = targetGemRotate.transform;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+        Vector3 rotationToAdd = new Vector3(0, 0.5f, 0);          // rotate the gem
+        targetTransform.transform.Rotate(rotationToAdd);
+
         if (targetPlayerScript.flameActive)              // once player candle is available...
         {                                                           // alter messages
             firstMessage = "E - Light the torch";
@@ -73,6 +85,7 @@ public class TorchPuzzle : InteractionParent
                     {
                         tempFlame.SetActive(false);
                         torchActive = false;
+                        source.PlayOneShot(goOutClip);
                     }
                 }
             }
@@ -89,9 +102,15 @@ public class TorchPuzzle : InteractionParent
             timeInitiated = Time.time;
             torchInitiated = true;
 
+            if (!source.isPlaying)
+            {
+                source.PlayOneShot(alternateClip);
+
+            }
+
             if (items.Contains(requiredItemId))    // if player contains the correct flame...
             {
-
+                correctFlame.transform.SetParent(this.gameObject.transform);
                 Vector3 current = transform.position;           // calculate the flame position
                 current.y += distanceAbove;
                 current.z += distanceFront;
@@ -99,10 +118,11 @@ public class TorchPuzzle : InteractionParent
 
                 correctFlame.SetActive(true);
                 communicateWithMaster = true;
-       
+
             }
             else                                                    // otherwise...
             {
+            //    tempFlame.transform.SetParent(this.gameObject.transform);
                 timeInitiated = Time.time;                      // timer
                 Vector3 current = transform.position;           // calculate the flame position
                 current.y += distanceAbove;
@@ -114,7 +134,16 @@ public class TorchPuzzle : InteractionParent
         else
         {                               // when no flames in inventory
             defaultMessage = alternateMessage;     // set the UI message
+
+
+            if (!source.isPlaying)
+            {
+                source.PlayOneShot(defaultClip);
+            }
+
+            defaultMessage = alternateMessage;
         }
+
 
         return pauseTime;
     }
@@ -123,5 +152,6 @@ public class TorchPuzzle : InteractionParent
     {
         torchActive = false;
         correctFlame.SetActive(false);
+        source.PlayOneShot(resetClip);
     }
 }
